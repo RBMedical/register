@@ -1,6 +1,6 @@
 const client_Id = '168121174551-ij5g6b5l20kjk89n69kk4h7i518vvqrb.apps.googleusercontent.com';
 const client_secret = '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';
-const access_token = 'const access_token ='https://oauth2.googleapis.com/token';
+const access_token = 'https://oauth2.googleapis.com/token';
 const apiKey = 'AIzaSyAacPAesETbnRTARngdDeEffxrqBxVmGcg';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 const rangesheet1 = 'data!A2:ZZ'; 
