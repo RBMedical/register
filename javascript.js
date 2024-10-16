@@ -694,7 +694,7 @@ function addRegistData() {
             specimen = "พบแพทย์";
             break;
         case '12':
-            specimen = "เจาะเลือด";
+            specimen = "EDTA";
             break;
         case '13':
             specimen = "ปัสสาวะ";
@@ -705,6 +705,12 @@ function addRegistData() {
         case '15':
             specimen = "EKG";
             break;
+        case '20':
+            specimen = "naf";
+            break;
+        case '21':
+            specimen = "Clot";
+            break;    
         case '16':
             specimen = "Audiogram";
             break;
@@ -754,58 +760,178 @@ function addRegistData() {
         console.log("Success:", data);
         loadAllCount(); // เรียกฟังก์ชันเพื่อโหลดข้อมูลใหม่
         clearSpecimen(); // ล้างค่าใน input bar
+
+        // หลังจากเพิ่มข้อมูลเสร็จแล้ว เรียกฟังก์ชัน updateSheet เพื่อตรวจสอบ barinputmethod และอัปเดตข้อมูลในชีต 'data'
+        updateDataSheet(barcodenewid, barinputmethod);
     })
     .catch(error => {
         console.error('Error:', error);
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
 }
-function updateSheet(sheetName, column, data) {
-    const range = `${sheetName}!${String.fromCharCode(64 + column)}2`; // ใช้คอลัมน์ที่ระบุ
+
+// ฟังก์ชันที่อัปเดตข้อมูลใน sheet 'data'
+function updateDataSheet(barcodenewid, barinputmethod) {
+    // ระบุคอลัมน์ที่จะอัปเดตตามเงื่อนไขของ barinputmethod
+    let columnToUpdate;
+    switch (barinputmethod) {
+        case '11':
+            columnToUpdate = 7;  // คอลัมน์ [7]
+            break;
+        case '12':
+            columnToUpdate = 8;  // คอลัมน์ [8]
+            break;
+        case '13':
+            columnToUpdate = 11; // คอลัมน์ [11]
+            break;
+        case '14':
+            columnToUpdate = 12; // คอลัมน์ [12]
+            break;
+        case '15':
+            columnToUpdate = 13; // คอลัมน์ [13]
+            break;
+        case '16':
+            columnToUpdate = 14; // คอลัมน์ [14]
+            break;
+        case '17':
+            columnToUpdate = 15; // คอลัมน์ [15]
+            break;
+        case '18':
+            columnToUpdate = 16; // คอลัมน์ [16]
+            break;
+        case '19':
+            columnToUpdate = 17; // คอลัมน์ [17]
+            break;
+        case '20':
+            columnToUpdate = 9;  // คอลัมน์ [9]
+            break;
+        case '21':
+            columnToUpdate = 10; // คอลัมน์ [10]
+            break;
+        default:
+            console.log('ไม่พบ method ที่ต้องการอัปเดต');
+            return; // ออกจากฟังก์ชันหากไม่มีค่าใน switch
+    }
+
+    // สร้าง object เพื่ออัปเดตค่าในคอลัมน์ที่กำหนด
+    var dataToUpdate = {
+        values: [["x"]]
+    };
+
+    // URL สำหรับอัปเดตข้อมูลในชีต 'data' ตาม barcodenewid และคอลัมน์ที่ระบุ
+    const range = `data!${String.fromCharCode(64 + columnToUpdate)}${barcodenewid}`;
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
+    // ส่งคำขอไปยัง Google Sheets เพื่ออัปเดตข้อมูล
     fetch(url, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            "Authorization": `Bearer ${access_token}` // ต้องใช้ OAuth token ใน header
+            "Authorization": `Bearer ${access_token}`, // ใช้ OAuth token ใน header
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(dataToUpdate)
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error updating data: ' + response.statusText);
+            throw new Error('Network response was not ok: ' + response.statusText);
         }
         return response.json();
     })
-    .then(result => {
-        console.log('Data updated:', result);
+    .then(data => {
+        console.log('Data updated successfully in sheet "data"', data);
     })
     .catch(error => {
-        console.error('Error updating data:', error);
-        alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล!");
+        console.error('Error updating data in sheet "data":', error);
     });
 }
 
+
 function loadAllCount() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
-checkAndRefreshToken();
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+ checkAndRefreshToken();
+
     fetch(url)
         .then(response => {
             if (!response.ok) {
-                throw new Error("Network response was not ok: " + response.statusText);
+                throw new Error("Network response was not ok");
             }
             return response.json();
         })
         .then(data => {
-            const count = data.values ? data.values.length : 0; // นับจำนวนแถวข้อมูล หรือ 0 หากไม่มีข้อมูล
-            document.getElementById('dataCount').textContent = `จำนวนข้อมูลทั้งหมด: ${count}`;
+            // ตรวจสอบว่ามีข้อมูลใน data.values หรือไม่
+            if (!data.values || data.values.length === 0) {
+                console.error('No data found.');
+                return;
+            }
+
+            // ประกาศตัวนับนอกลูป
+            let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0;
+
+            data.values.forEach(row => {
+                const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
+
+                // นับจำนวนการเกิดของแต่ละ `barcodemethod`
+                switch (barcodemethod) {
+                    case "11":
+                        a++; 
+                        break;
+                    case "12":
+                        b++; 
+                        break;
+                    case "13":
+                        c++; 
+                        break;
+                    case "14":
+                        d++; 
+                        break;
+                    case "15":
+                        e++; 
+                        break;
+                    case "16":
+                        f++; 
+                        break;
+                    case "17":
+                        g++; 
+                        break;
+                    case "18":
+                        h++; 
+                        break;
+                    case "19":
+                        i++; 
+                        break;
+                    case "20":
+                        j++; 
+                        break;
+                    case "21":
+                        k++; 
+                        break;
+                    default:
+                        console.log("Unrecognized barcode method:", barcodemethod);
+                        break;
+                }
+            });
+
+            // อัปเดตค่าใน HTML หลังจากประมวลผลเสร็จสิ้น
+            document.getElementById('PE').textContent = a;      // พบแพทย์
+            document.getElementById('EDTA').textContent = b;    // เจาะเลือด
+            document.getElementById('urine').textContent = c;   // ปัสสาวะ
+            document.getElementById('xray').textContent = d;    // X Ray
+            document.getElementById('ekg').textContent = e;     // EKG
+            document.getElementById('ear').textContent = f;     // Audiogram
+            document.getElementById('lung').textContent = g;    // เป่าปอด
+            document.getElementById('eye').textContent = h;     // ตา(ชีวอนามัย)
+            document.getElementById('muscle').textContent = i;  // กล้ามเนื้อ
+            document.getElementById('naf').textContent = j;     // NAF
+            document.getElementById('clot').textContent = k;    // Clot
         })
         .catch(error => {
-            console.error("Error fetching count:", error);
-            alert('เกิดข้อผิดพลาดในการโหลดจำนวนข้อมูล');
+            console.error('Error fetching data:', error);
         });
+
+    loadRegister(); 
+    clearSpecimen();  
 }
+
 function loadRegister() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
 
