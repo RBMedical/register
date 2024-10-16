@@ -799,7 +799,7 @@ checkAndRefreshToken();
         })
         .then(data => {
             const count = data.values ? data.values.length : 0; // นับจำนวนแถวข้อมูล หรือ 0 หากไม่มีข้อมูล
-            document.getElementById('dataCount').innerText = `จำนวนข้อมูลทั้งหมด: ${count}`;
+            document.getElementById('dataCount').textContent = `จำนวนข้อมูลทั้งหมด: ${count}`;
         })
         .catch(error => {
             console.error("Error fetching count:", error);
