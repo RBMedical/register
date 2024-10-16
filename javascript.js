@@ -478,7 +478,8 @@ function printResult() {
 
 function loadAllData() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-checkAndRefreshToken();
+    checkAndRefreshToken();
+    
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -496,20 +497,22 @@ checkAndRefreshToken();
                 return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
             }
 
+            // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
+            const sortedData = data.values.sort((a, b) => {
+                const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
+                const valueB = parseInt(b[0], 10);
+                return valueB - valueA; // เรียงจากมากไปน้อย
+            });
+
             // แสดงข้อมูลใน resultDiv1
-            data.values.forEach(row => {
-                // ตรวจสอบความยาวของ row ก่อนเข้าถึง
-                if (row.length >= 5) { // ปรับเปลี่ยนจำนวนนี้ตามจำนวนคอลัมน์ที่คาดหวัง
-                    resultDiv1.innerHTML += 
-                      `<tr>
-                        <th scope="row" class="text-center">${row[0]}</th>
-                        <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
-                        <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
-                        <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
-                      </tr>`;
-                } else {
-                    console.warn("Row does not have enough columns:", row);
-                }
+            sortedData.forEach(row => {
+                resultDiv1.innerHTML += 
+                  `<tr>
+                    <th scope="row" class="text-center">${row[0]}</th>
+                    <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
+                    <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
+                    <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
+                  </tr>`;
             });
 
             // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
@@ -520,6 +523,7 @@ checkAndRefreshToken();
             alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
         });
 }
+
 
 
 
