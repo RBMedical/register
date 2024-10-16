@@ -1,22 +1,22 @@
-// ฟังก์ชันที่เรียกเมื่อโหลดหน้า
 window.onload = function() {
-    // ตัวอย่างการดึงค่า auth code จาก URL
+    // ดึงค่าของ auth code จาก URL
     const urlParams = new URLSearchParams(window.location.search);
-    const authCode = urlParams.get('code'); // ดึงค่าจาก query string
+    const authCode = urlParams.get('code'); // ดึงค่า 'code' จาก URL query parameters
     
+    // ตรวจสอบว่า authCode ถูกกำหนดค่า
     if (authCode) {
-        // ถ้ามี auth code จะเรียกฟังก์ชันแลก access token
-        exchangeAuthCodeForAccessToken(authCode);
+        console.log("Authorization code:", authCode); // แสดงค่า auth code ใน console
+        exchangeAuthCodeForAccessToken(authCode); // เรียกฟังก์ชันเพื่อแลก auth code เป็น access token
     } else {
-        console.error('Authorization code not found in URL');
+        console.error('Authorization code not found in URL'); // แจ้งว่าไม่พบ auth code
     }
-}
+};
 
 // ฟังก์ชันที่แลกเปลี่ยน auth code เป็น access token
 function exchangeAuthCodeForAccessToken(authCode) {
     const clientId = '168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com'; // แทนที่ด้วย client ID ของคุณ
     const clientSecret = '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'; // แทนที่ด้วย client secret ของคุณ
-    const redirectUri = 'https://rbmedical.github.io/register/'; // แทนที่ด้วย redirect URI ของคุณ
+    const redirectUri = 'https://rbmedical.github.io/register'; // แทนที่ด้วย redirect URI ของคุณ
 
     const body = new URLSearchParams();
     body.append('code', authCode);
@@ -39,7 +39,7 @@ function exchangeAuthCodeForAccessToken(authCode) {
         return response.json();
     })
     .then(data => {
-        // ทำการจัดเก็บ access token และ refresh token ที่นี่
+        // เก็บ access token และ refresh token
         storeTokens(data.access_token, data.refresh_token);
     })
     .catch(error => {
@@ -54,7 +54,6 @@ function storeTokens(accessToken, refreshToken) {
     console.log('Tokens stored in session storage.');
 }
 
-    
 
 ///const client_Id = '168121174551-ij5g6b5l20kjk89n69kk4h7i518vvqrb.apps.googleusercontent.com';
 ///const client_secret = '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';
