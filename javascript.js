@@ -1,51 +1,45 @@
-window.onload = function() {
-    // Authorization code ที่ได้รับจาก Google OAuth 2.0
-    const code = '4/0AVG7fiRbJb4KRRAMn7ZkpZ8CE5oGcSu5YNsjN_aKYZIyJNPkM50OrJgISzg4hwm40cP-iQ';
-
-    if (code) {
-        // เรียกฟังก์ชันเพื่อแลกเปลี่ยนเป็น access token
-        exchangeCodeForToken(code);
-    } else {
-        console.log("Authorization code not found in URL");
-    }
-};
-
-async function exchangeCodeForToken(code) {
-    const client_id = '168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com';
-    const client_secret = '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';
-    const redirect_uri = 'https://rbmedical.github.io/register';
-    const tokenEndpoint = 'https://oauth2.googleapis.com/token';
-
+function exchangeAuthorizationCode(authCode) {
+    const clientId = '168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com'; // ใส่ Client ID ของคุณ
+    const clientSecret = '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'; // ใส่ Client Secret ของคุณ
+    const redirectUri = 'https://rbmedical.github.io/register'; // ใส่ Redirect URI ของคุณ
+  
+    const url = 'https://oauth2.googleapis.com/token';
     const params = new URLSearchParams();
-    params.append('code', code);
-    params.append('client_id', client_id);
-    params.append('client_secret', client_secret);
-    params.append('redirect_uri', redirect_uri);
+    params.append('code', authCode);
+    params.append('client_id', clientId);
+    params.append('client_secret', clientSecret);
+    params.append('redirect_uri', redirectUri);
     params.append('grant_type', 'authorization_code');
 
-    try {
-        const response = await fetch(tokenEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: params.toString()
-        });
-
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString()
+    })
+    .then(response => {
         if (!response.ok) {
-            throw new Error(`Error: ${response.statusText}`);
+            throw new Error('Network response was not ok');
         }
-
-        const data = await response.json();
+        return response.json();
+    })
+    .then(data => {
+        // เก็บ Access Token และ Refresh Token ใน session storage
+        sessionStorage.setItem('access_token', data.access_token);
+        sessionStorage.setItem('refresh_token', data.refresh_token);
         console.log('Access Token:', data.access_token);
-        // ทำการจัดเก็บ access token หรือใช้งานตามความต้องการ
-    } catch (error) {
-        console.error('Error exchanging code for token:', error);
-    }
+        console.log('Refresh Token:', data.refresh_token);
+    })
+    .catch(error => {
+        console.error('Error exchanging authorization code:', error);
+    });
 }
 
-
-
+window.onload = function(){
+    exchangeAuthorizationCode(authCode)
+}
+    
 
 ///const client_Id = '168121174551-ij5g6b5l20kjk89n69kk4h7i518vvqrb.apps.googleusercontent.com';
 ///const client_secret = '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';
