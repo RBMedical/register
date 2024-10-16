@@ -260,10 +260,10 @@ setInterval(updateDateTime, 1000);
 
 
 window.onload = function(){
-    loadAllRecords();
-    displayNextNumber();
+//    loadAllRecords();
+//    displayNextNumber();
     updateDateTime();
-    loadAllData();
+//    loadAllData();
 }
     
 
