@@ -14,9 +14,9 @@ window.onload = function() {
 
 // ฟังก์ชันที่แลกเปลี่ยน auth code เป็น access token
 function exchangeAuthCodeForAccessToken(authCode) {
-    const clientId = 'YOUR_CLIENT_ID'; // แทนที่ด้วย client ID ของคุณ
-    const clientSecret = 'YOUR_CLIENT_SECRET'; // แทนที่ด้วย client secret ของคุณ
-    const redirectUri = 'YOUR_REDIRECT_URI'; // แทนที่ด้วย redirect URI ของคุณ
+    const clientId = '168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com'; // แทนที่ด้วย client ID ของคุณ
+    const clientSecret = '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'; // แทนที่ด้วย client secret ของคุณ
+    const redirectUri = 'https://rbmedical.github.io/register/'; // แทนที่ด้วย redirect URI ของคุณ
 
     const body = new URLSearchParams();
     body.append('code', authCode);
