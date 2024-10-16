@@ -1,3 +1,59 @@
+window.onload = function() {
+    // ตรวจสอบว่ามี authorization code ใน URL หรือไม่
+    const urlParams = new URLSearchParams(window.location.search);
+    const authCode = urlParams.get('code');
+
+    if (authCode) {
+        console.log('Authorization code found:', authCode);
+        exchangeAuthCodeForAccessToken(authCode);
+    } else {
+        console.error('Authorization code not found in URL');
+    }
+};
+
+function exchangeAuthCodeForAccessToken(authCode) {
+    const clientId = '168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com'; // client ID ของคุณ
+    const clientSecret = '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'; // client secret ของคุณ
+    const redirectUri = 'https://rbmedical.github.io/register'; // redirect URI ของคุณ
+
+    const body = new URLSearchParams();
+    body.append('code', authCode);
+    body.append('client_id', clientId);
+    body.append('client_secret', clientSecret);
+    body.append('redirect_uri', redirectUri);
+    body.append('grant_type', 'authorization_code');
+
+    fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => {
+                throw new Error('Network response was not ok: ' + response.statusText + ' - ' + JSON.stringify(err));
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Access Token:', data.access_token);
+        console.log('Refresh Token:', data.refresh_token);
+        storeTokens(data.access_token, data.refresh_token); // ฟังก์ชันสำหรับเก็บ token
+    })
+    .catch(error => {
+        console.error('Error exchanging auth code for access token:', error);
+    });
+}
+
+// ฟังก์ชันสำหรับเก็บ tokens ใน session storage
+function storeTokens(accessToken, refreshToken) {
+    sessionStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem('refreshToken', refreshToken);
+    console.log('Tokens stored in session storage');
+}
 
 ///const client_Id = '168121174551-ij5g6b5l20kjk89n69kk4h7i518vvqrb.apps.googleusercontent.com';
 ///const client_secret = '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';
