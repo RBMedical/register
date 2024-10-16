@@ -6,7 +6,10 @@
 }
 
   
-  
+#numb{
+  min-width: 0.5cm;
+  max-width: 0.5cm;
+}
 
 .container-md{
     display: flex;
