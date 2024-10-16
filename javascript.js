@@ -956,6 +956,11 @@ function loadRegister() {
         });
 }
 
+function clearSpecimen(){
+    var barcode = document.getElementById('inputbar');
+    barcode.value = '';
+}
+
 function getCurrentDateTime() {
     const now = new Date();
     return now.toLocaleString(); // Date and time format
