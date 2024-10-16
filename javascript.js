@@ -1,5 +1,5 @@
 // ข้อมูล Client
-const apiKey = 'AIzaSyAacPAesETbnRTARngdDeEffxrqBxVmGcg';
+const apiKey = 'AIzaSyDvWPO5V4Iin8OpQoq0otZNmcicWayo-6E';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 const rangesheet1 = 'data!A2:ZZ'; 
 const rangesheet2 = 'program!A2:ZZ';
@@ -287,7 +287,13 @@ function updateDateTime() {
 // เรียกใช้ updateDateTime ทุก 1 วินาที
 setInterval(updateDateTime, 1000);
 
-
+window.onload = function(){
+    loadAllRecords();
+    displayNextNumber();
+    updateDateTime();
+    loadAllData();
+}
+    
 
 
 
