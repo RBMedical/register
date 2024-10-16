@@ -2,10 +2,12 @@ window.onload = function() {
     // ดึงค่าของ auth code จาก URL
     const urlParams = new URLSearchParams(window.location.search);
     const authCode = urlParams.get('code'); // ดึงค่า 'code' จาก URL query parameters
-    
+
+    // แสดงค่า authCode ใน console
+    console.log("Authorization code:", authCode);
+
     // ตรวจสอบว่า authCode ถูกกำหนดค่า
     if (authCode) {
-        console.log("Authorization code:", authCode); // แสดงค่า auth code ใน console
         exchangeAuthCodeForAccessToken(authCode); // เรียกฟังก์ชันเพื่อแลก auth code เป็น access token
     } else {
         console.error('Authorization code not found in URL'); // แจ้งว่าไม่พบ auth code
