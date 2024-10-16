@@ -10,81 +10,10 @@ const rangesheet3 = 'register!A2:ZZ';
 const rangesheet4 = 'register!A:A';
 const rangesheet5 = 'sticker!A2:ZZ';
 const rangesheet6 = 'specimencount!A2:ZZ';
-let access_token; 
+const access_token =''; 
 
-function initialize() {
-    console.log(client_Id);
-    console.log(apiKey);
-}
 
-function useAccessToken(token) {
-    access_token = token; // ตั้งค่า access_token ที่ได้รับ
-    console.log(access_token); // แสดงค่า access_token
-}
 
-window.onload = function() {
-    initialize();
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-
-    if (code) {
-        exchangeCodeForToken(code);
-    } else {
-        requestAccessToken();
-    }
-}
-
-function requestAccessToken() {
-    // ขั้นตอนที่ 1: ขอ Authorization Code
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
-        `client_id=${client_Id}&` + // แก้ไขจาก clientId เป็น client_Id
-        `redirect_uri=${redirectUri}&` +
-        `response_type=code&` +
-        `scope=${encodeURIComponent(scope)}`;
-
-    // ส่งผู้ใช้ไปยังหน้าการรับรอง
-    window.location.href = authUrl;
-}
-
-function exchangeCodeForToken(code) {
-    // ขั้นตอนที่ 2: แลกเปลี่ยน Authorization Code เป็น Access Token
-    const tokenUrl = 'https://oauth2.googleapis.com/token';
-    
-    const data = new URLSearchParams();
-    data.append('code', code);
-    data.append('client_id', client_Id); // แก้ไขจาก clientId เป็น client_Id
-    data.append('client_secret', client_secret); // ใช้ client_secret ที่ประกาศไว้
-    data.append('redirect_uri', redirectUri);
-    data.append('grant_type', 'authorization_code');
-
-    fetch(tokenUrl, {
-        method: 'POST',
-        body: data,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data); // แสดงผลลัพธ์ใน console
-        if (data.access_token) {
-            useAccessToken(data.access_token);
-            loadData(); // เรียกใช้ฟังก์ชันเพื่อโหลดข้อมูลหลังจากได้ access token
-        } else {
-            console.error('Failed to get access token:', data);
-        }
-    })
-    .catch(error => console.error('Error fetching access token:', error));
-}
-
-function loadData() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?access_token=${access_token}`;
-    
-    fetch(url)
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Error accessing Google Sheets API:', error));
-}
 
 function searchData() {
     const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
