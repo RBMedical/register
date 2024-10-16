@@ -1,24 +1,21 @@
 window.onload = function() {
-    // ดึงค่าของ auth code จาก URL
     const urlParams = new URLSearchParams(window.location.search);
-    const authCode = urlParams.get('code'); // ดึงค่า 'code' จาก URL query parameters
+    const authCode = urlParams.get('code');
 
-    // แสดงค่า authCode ใน console
     console.log("Authorization code:", authCode);
 
-    // ตรวจสอบว่า authCode ถูกกำหนดค่า
     if (authCode) {
-        exchangeAuthCodeForAccessToken(authCode); // เรียกฟังก์ชันเพื่อแลก auth code เป็น access token
+        exchangeAuthCodeForAccessToken(authCode);
     } else {
-        console.error('Authorization code not found in URL'); // แจ้งว่าไม่พบ auth code
+        console.error('Authorization code not found in URL');
+        alert('Authorization code not found in URL. Please check your redirect URI and ensure that the code parameter is present in the URL.');
     }
 };
 
-// ฟังก์ชันที่แลกเปลี่ยน auth code เป็น access token
 function exchangeAuthCodeForAccessToken(authCode) {
     const clientId = '168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com'; // แทนที่ด้วย client ID ของคุณ
     const clientSecret = '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'; // แทนที่ด้วย client secret ของคุณ
-    const redirectUri = 'https://rbmedical.github.io/register'; // แทนที่ด้วย redirect URI ของคุณ
+    const redirectUri = 'https://rbmedical.github.io/register/'; // แทนที่ด้วย redirect URI ของคุณ
 
     const body = new URLSearchParams();
     body.append('code', authCode);
@@ -41,20 +38,24 @@ function exchangeAuthCodeForAccessToken(authCode) {
         return response.json();
     })
     .then(data => {
-        // เก็บ access token และ refresh token
         storeTokens(data.access_token, data.refresh_token);
     })
     .catch(error => {
         console.error('Error exchanging auth code for access token:', error);
+        if (error.response) {
+            error.response.json().then(errData => {
+                console.error('Error details:', errData);
+            });
+        }
     });
 }
 
-// ฟังก์ชันสำหรับเก็บ tokens
 function storeTokens(accessToken, refreshToken) {
     sessionStorage.setItem('access_token', accessToken);
     sessionStorage.setItem('refresh_token', refreshToken);
     console.log('Tokens stored in session storage.');
 }
+
 
 
 ///const client_Id = '168121174551-ij5g6b5l20kjk89n69kk4h7i518vvqrb.apps.googleusercontent.com';
