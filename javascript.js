@@ -264,6 +264,7 @@ function formatDateTime() {
           title: 'Oops...',
           text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
         });
+          loadAllData();
       });
     }
     
