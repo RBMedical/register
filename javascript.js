@@ -133,8 +133,9 @@ function searchData() {
                             "program": row[5]
                         };
 
-                        // เรียกใช้งานฟังก์ชันอื่นพร้อมส่งข้อมูล
+                     setTimeout(() => {   
                         searchProgram();
+                         }, 5000);
                         searchPrint();
                     }
                 });
