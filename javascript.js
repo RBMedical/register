@@ -165,7 +165,7 @@ function searchProgram() {
         })
         .then(data => {
             const programdetail = document.getElementById('programdetail');
-            const programname =  document.getElementById('program').textContent;
+            const programName =  document.getElementById('program').textContent;
             programdetail.textContent = ""; // ล้างข้อมูลก่อนหน้า
 
             let found = false; // กำหนดค่า found เป็น false เริ่มต้น
