@@ -11,11 +11,11 @@ window.onload = function() {
     }
 };
 
-function exchangeAuthCodeForAccessToken(authCode) {
+function exchangeAuthCodeForAccessToken() {
     const clientId = '168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com'; // client ID ของคุณ
     const clientSecret = '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'; // client secret ของคุณ
     const redirectUri = 'https://rbmedical.github.io/register'; // redirect URI ของคุณ
-
+    const authCode = '4/0AVG7fiRtBGNinIcypDq34OFJLObkkhg_w4gMB-BlrekfkwtO1zOLeVb6lSDDUQ73HFZfGw'
     const body = new URLSearchParams();
     body.append('code', authCode);
     body.append('client_id', clientId);
