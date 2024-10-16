@@ -1,3 +1,80 @@
+// ข้อมูล Client
+const apiKey = 'AIzaSyAacPAesETbnRTARngdDeEffxrqBxVmGcg';
+const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
+const rangesheet1 = 'data!A2:ZZ'; 
+const rangesheet2 = 'program!A2:ZZ';
+const rangesheet3 = 'register!A2:ZZ';
+const rangesheet4 = 'register!A:A';
+const rangesheet5 = 'sticker!A2:zz';
+const rangesheet6 = 'specimencount!A2:zz';
+
+const clientId = "168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com";
+const clientSecret = "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";
+const redirectUri = "https://rbmedical.github.io/register";
+
+// ข้อมูล Token (ที่คุณให้มา)
+const tokenData = {
+    access_token: "ya29.a0AcM612zUy-IOhLhuQcXCfQN0-uv89Is0a4ZqiRKw8UtsK7F2_KCtlCWRMASi6B94U5Iv8pGmLQvb3sgOUytYzqV9ogkYcnYAjJ7aTjTPPQA7S1kz3mRhOho45jOibtp2iAVaB0BqzRuhg9ow1vMVHT7VhKDBFg0Vo6_QvfaxaCgYKAbUSARESFQHGX2Mi_hQtl_Xk8pxh3zePOimZbg0175",
+    expires_in: 3599,
+    refresh_token: "1//05NVsEHUGIgFnCgYIARAAGAUSNwF-L9Irbtd0caSfh03jfuqH1ydgufcYl69gawRKI1fcBYPm5ku3mLGEBP0BUL1JQXBKv2Q6JUE",
+    scope: "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets",
+    token_type: "Bearer"
+};
+
+// ฟังก์ชันที่เรียกเมื่อหน้าโหลด
+window.onload = function() {
+    // เก็บ access token และ refresh token ใน sessionStorage
+    sessionStorage.setItem("access_token", tokenData.access_token);
+    sessionStorage.setItem("refresh_token", tokenData.refresh_token);
+    console.log("Access token:", tokenData.access_token);
+    console.log("Refresh token:", tokenData.refresh_token);
+
+    // ตรวจสอบว่า access token หมดอายุหรือไม่
+    setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000); // รีเฟรชก่อนหมดอายุ 1 นาที
+};
+
+// ฟังก์ชันสำหรับรีเฟรช access token
+function refreshAccessToken() {
+    const refreshToken = sessionStorage.getItem("refresh_token");
+
+    const url = "https://oauth2.googleapis.com/token";
+
+    const params = new URLSearchParams();
+    params.append("grant_type", "refresh_token");
+    params.append("client_id", clientId);
+    params.append("client_secret", clientSecret);
+    params.append("refresh_token", refreshToken);
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to refresh access token');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // เก็บ access token ใหม่
+        sessionStorage.setItem("access_token", data.access_token);
+        console.log("Access token refreshed:", data.access_token);
+    })
+    .catch(error => {
+        console.error('Error refreshing access token:', error);
+    });
+}
+
+// ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อจำเป็น
+function checkAndRefreshToken() {
+    const accessToken = sessionStorage.getItem("access_token");
+
+    console.log("Checking if access token needs refresh...");
+    refreshAccessToken(); // เรียกฟังก์ชันรีเฟรชทุกครั้ง (สามารถปรับให้ตรวจสอบได้)
+}
 
 
 
@@ -219,6 +296,7 @@ setInterval(updateDateTime, 1000);
 
 
      function addRegistrationData() {
+         
       // ดึงข้อมูลจาก HTML elements
       var numb = document.getElementById('numb').textContent.trim();
       var regisid = document.getElementById('registernumber').textContent.trim();
@@ -234,7 +312,7 @@ setInterval(updateDateTime, 1000);
         values: [[numb, regisid, name, idcard, sexage, birth, prog, date]]
       };
     
-     
+      checkAndRefreshToken();
       var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
     
       // ส่งข้อมูลไปยัง Google Sheets
@@ -551,6 +629,7 @@ function loadAllData() {
 
 
 function addNewData(access_token) {
+    
     var newid = document.getElementById('newid').value.trim();
     var newname = document.getElementById('newname').value.trim();
     var newidcard = document.getElementById('newidcard').value.trim();
@@ -559,6 +638,7 @@ function addNewData(access_token) {
     var newprogram = document.getElementById('newprogram').value.trim();
 
     var newRow = [newid, newname, newidcard, birthdate, newage, newprogram];
+    checkAndRefreshToken();
 
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
@@ -747,6 +827,7 @@ function addRegistData() {
     var data = {
         values: [[barcodenewid, barcodename, barinputmethod, specimen]]
     };
+    checkAndRefreshToken();
 
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
 
