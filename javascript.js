@@ -262,8 +262,8 @@ setInterval(updateDateTime, 1000);
 
 
 window.onload = function(){
-  loadAllRecords();
-//    displayNextNumber();
+   loadAllRecords();
+    displayNextNumber();
     updateDateTime();
     loadAllData();
 }
@@ -685,6 +685,46 @@ function sendBarcode(event) {
         });
 }
 
+
+
+function getNextNumber() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
+    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+
+    return fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok " + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const values = data.values;
+            if (values && values.length > 0) {
+                const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
+                return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
+            } else {
+                return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
+        });
+}
+
+function displayNextNumber() {
+    getNextNumber()
+        .then(nextNumber => {
+            // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
+            document.getElementById('numb').textContent = nextNumber;
+        })
+        .catch(error => {
+            console.error('Error displaying next number:', error);
+            // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
+            document.getElementById('numb').textContent = 'Error fetching number';
+        });
+}
 
 function addRegistData() {
     var barinput = document.getElementById('inputbar').value.trim();
