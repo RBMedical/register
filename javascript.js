@@ -134,7 +134,7 @@ function searchData() {
                         };
 
                         // เรียกใช้งานฟังก์ชันอื่นพร้อมส่งข้อมูล
-                        searchProgram(row[5]);
+                        searchProgram();
                         searchPrint();
                     }
                 });
@@ -151,7 +151,7 @@ function searchData() {
         });
 }
 
-function searchProgram(programName) {
+function searchProgram() {
     const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
     const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?access_token=${accessToken}`;
 
@@ -164,6 +164,7 @@ function searchProgram(programName) {
         })
         .then(data => {
             const programdetail = document.getElementById('programdetail');
+            const programname =  document.getElementById('program').textContent;
             programdetail.textContent = ""; // ล้างข้อมูลก่อนหน้า
 
             let found = false; // กำหนดค่า found เป็น false เริ่มต้น
