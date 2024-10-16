@@ -1,7 +1,8 @@
 const client_Id = '168121174551-ij5g6b5l20kjk89n69kk4h7i518vvqrb.apps.googleusercontent.com';
 const client_secret = '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';
-const access_token = 'ya29.a0AcM612zZdPsqHkeqtuxC0-h7u_RO28HBLJkYXAlleV9Tzw778YPLo2AKZguE3Jn9u4UpYITODd9huybu5hjLBeKPkki7_Ljc1yaYP9VjeXswbdbg0QlQhRDGrxNAWyE7lx6Vej-m9pQbAJSr9ISguLyU24pn1BIu-FNaRPvZaCgYKARcSARESFQHGX2Miw7W1_Vc_zNBBhO5aStZHtw0175';
 const apiKey = 'AIzaSyAacPAesETbnRTARngdDeEffxrqBxVmGcg';
+const redirectUri = 'https://rbmedical.github.io/register/';
+const scope = 'https://www.googleapis.com/auth/spreadsheets';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 const rangesheet1 = 'data!A2:ZZ'; 
 const rangesheet2 = 'program!A2:ZZ';
@@ -9,7 +10,21 @@ const rangesheet3 = 'register!A2:ZZ';
 const rangesheet4 = 'register!A:A';
 const rangesheet5 = 'sticker!A2:ZZ';
 const rangesheet6 = 'specimencount!A2:ZZ';
+let access_token; 
 
+function initialize() {
+   
+    console.log(client_Id);
+    console.log(apiKey);
+  
+
+function useAccessToken(token) {
+    access_token = token; // ตั้งค่า access_token ที่ได้รับ
+    console.log(access_token); // แสดงค่า access_token
+   
+
+
+initialize();
 
 window.onload = function(){
     loadAllRecords();
@@ -18,7 +33,71 @@ window.onload = function(){
     loadAllData();
 }
 
+function requestAccessToken() {
+    // ขั้นตอนที่ 1: ขอ Authorization Code
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+        `client_id=${clientId}&` +
+        `redirect_uri=${redirectUri}&` +
+        `response_type=code&` +
+        `scope=${encodeURIComponent(scope)}`;
 
+    // ส่งผู้ใช้ไปยังหน้าการรับรอง
+    window.location.href = authUrl;
+}
+
+function exchangeCodeForToken(code) {
+    // ขั้นตอนที่ 2: แลกเปลี่ยน Authorization Code เป็น Access Token
+    const tokenUrl = 'https://oauth2.googleapis.com/token';
+    
+    const data = new URLSearchParams();
+    data.append('code', code);
+    data.append('client_id', clientId);
+    data.append('client_secret', 'YOUR_CLIENT_SECRET'); // ใส่ Client Secret
+    data.append('redirect_uri', redirectUri);
+    data.append('grant_type', 'authorization_code');
+
+    fetch(tokenUrl, {
+        method: 'POST',
+        body: data,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // แสดงผลลัพธ์ใน console
+        if (data.access_token) {
+           
+            useAccessToken(data.access_token);
+        } else {
+            console.error('Failed to get access token:', data);
+        }
+    })
+    .catch(error => console.error('Error fetching access token:', error));
+}
+
+function useAccessToken(accessToken) {
+  
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/YOUR_SPREADSHEET_ID/values/YOUR_RANGE?access_token=${accessToken}`;
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error accessing Google Sheets API:', error));
+}
+
+
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    
+    if (code) {
+        exchangeCodeForToken(code);
+    } else {
+      
+        requestAccessToken();
+    }
+};
 
 function searchData() {
     const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
