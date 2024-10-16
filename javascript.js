@@ -192,6 +192,7 @@ function searchProgram(programName) {
 
 
 function loadAllRecords() {
+    checkAndRefreshToken();
     const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?access_token=${accessToken}`;
 
@@ -260,10 +261,10 @@ setInterval(updateDateTime, 1000);
 
 
 window.onload = function(){
-//    loadAllRecords();
+  loadAllRecords();
 //    displayNextNumber();
     updateDateTime();
-//    loadAllData();
+    loadAllData();
 }
     
 
@@ -477,7 +478,7 @@ function printResult() {
 
 function loadAllData() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-
+checkAndRefreshToken();
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -788,7 +789,7 @@ function updateSheet(sheetName, column, data) {
 
 function loadAllCount() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
-
+checkAndRefreshToken();
     fetch(url)
         .then(response => {
             if (!response.ok) {
