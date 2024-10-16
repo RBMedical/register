@@ -81,7 +81,8 @@ function checkAndRefreshToken() {
 
 function searchData() {
     const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
+    const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?access_token=${accessToken}`;
 
     fetch(url)
         .then(response => {
@@ -151,7 +152,8 @@ function searchData() {
 }
 
 function searchProgram(programName) {
-    const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?key=${apiKey}`;
+    const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
+    const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?access_token=${accessToken}`;
 
     fetch(url1)
         .then(response => {
@@ -188,41 +190,10 @@ function searchProgram(programName) {
         });
 }
 
-function getNextNumber() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
-
-    return fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const values = data.values;
-            if (values && values.length > 0) {
-                const lastNumber = values[values.length - 1][0];
-                return parseInt(lastNumber) + 1; // Next number
-            } else {
-                return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-}
-
-function displayNextNumber() {
-    getNextNumber().then(nextNumber => {
-        // แสดงค่าใน element ที่มี id เป็น numb
-        document.getElementById('numb').textContent = nextNumber;
-    }).catch(error => {
-        console.error('Error displaying next number:', error);
-    });
-}
 
 function loadAllRecords() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+    const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?access_token=${accessToken}`;
 
     fetch(url)
         .then(response => {
@@ -273,7 +244,7 @@ function formatDateTime() {
     // รวมเป็นรูปแบบที่ต้องการ: dd/mm/yy, hh:mm
     return `${day}/${month}/${year}, ${hours}:${minutes}`;
 }
-  
+
 // แสดงวันที่และเวลาปัจจุบัน
 console.log(formatDateTime());
 
@@ -286,6 +257,7 @@ function updateDateTime() {
 
 // เรียกใช้ updateDateTime ทุก 1 วินาที
 setInterval(updateDateTime, 1000);
+
 
 window.onload = function(){
     loadAllRecords();
@@ -302,60 +274,63 @@ window.onload = function(){
 
 
      function addRegistrationData() {
-         
-      // ดึงข้อมูลจาก HTML elements
-      var numb = document.getElementById('numb').textContent.trim();
-      var regisid = document.getElementById('registernumber').textContent.trim();
-      var name = document.getElementById('name').textContent.trim();
-      var idcard = document.getElementById('idcard').textContent.trim();
-      var sexage = document.getElementById('age').textContent.trim();
-      var birth = document.getElementById('birthday').textContent.trim();
-      var prog = document.getElementById('program').textContent.trim();
-      var date = document.getElementById('datetime').textContent.trim();
+    // ดึงข้อมูลจาก HTML elements
+    var numb = document.getElementById('numb').textContent.trim();
+    var regisid = document.getElementById('registernumber').textContent.trim();
+    var name = document.getElementById('name').textContent.trim();
+    var idcard = document.getElementById('idcard').textContent.trim();
+    var sexage = document.getElementById('age').textContent.trim();
+    var birth = document.getElementById('birthday').textContent.trim();
+    var prog = document.getElementById('program').textContent.trim();
+    var date = document.getElementById('datetime').textContent.trim();
     
-      // สร้าง object ที่จะส่งไปยัง Google Sheets
-      var data = {
+    // สร้าง object ที่จะส่งไปยัง Google Sheets
+    var data = {
         values: [[numb, regisid, name, idcard, sexage, birth, prog, date]]
-      };
+    };
     
-      checkAndRefreshToken();
-      var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
+    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
     
-      // ส่งข้อมูลไปยัง Google Sheets
-      fetch(url, {
+    // รอให้ access_token ถูกอัปเดตใน sessionStorage ก่อนทำการเพิ่มข้อมูล
+    const accessToken = sessionStorage.getItem("access_token");
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
+
+    // ส่งข้อมูลไปยัง Google Sheets
+    fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + access_token
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + accessToken // ใช้ access_token ที่ดึงจาก sessionStorage
         },
         body: JSON.stringify(data)
-      })
-      .then(response => {
+    })
+    .then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok: ' + response.statusText);
+            throw new Error('Network response was not ok: ' + response.statusText);
         }
         return response.json();
-      })
-      .then(data => {
-        loadAllData(); // เรียกใช้ฟังก์ชันเพื่อโหลดข้อมูลใหม่
+    })
+    .then(data => {
+        loadAllRecords(); // เรียกใช้ฟังก์ชันเพื่อโหลดข้อมูลใหม่
         Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "ลงทะเบียนสำเร็จ",
-          showConfirmButton: false,
-          timer: 1500
+            position: "center",
+            icon: "success",
+            title: "ลงทะเบียนสำเร็จ",
+            showConfirmButton: false,
+            timer: 1500
         });
-      })
-      .catch(error => {
+    })
+    .catch(error => {
         console.error('Error:', error);
         Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
+            icon: 'error',
+            title: 'Oops...',
+            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
         });
-          loadAllData();
-      });
-    }
+        loadAllRecords(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
+    });
+}
+
     
 
 
@@ -381,26 +356,35 @@ function searchPrint() {
         })
         .then(data => {
             const sticker = document.getElementById('sticker');
-            const number = document.getElementById('numb').textContent;
+            const number = document.getElementById('numb').textContent.trim(); // ใช้ trim() เพื่อหลีกเลี่ยงช่องว่าง
             const searchKey = document.getElementById('registernumber').textContent.trim();
             sticker.innerHTML = ''; // เคลียร์ก่อนแสดงใหม่
 
             let found = false; // ตัวแปรเพื่อตรวจสอบว่าพบข้อมูลหรือไม่
 
-            data.values.forEach(row => {
+            // ค้นหาข้อมูลที่ตรงกับ searchKey
+            data.values.forEach((row, index) => {
                 if (row[0] === searchKey) {
                     found = true; // เปลี่ยนค่า found เป็น true
+
+                    // สร้าง ID ที่ไม่ซ้ำกันสำหรับแต่ละสติ๊กเกอร์
+                    const uniqueId = `barcode-${index}`;
 
                     sticker.innerHTML += `
                     <div class="sticker mb-2">
                         <div class="sticker-id mx-2 my-2"><span>${row[0]}</span></div>
                         <div class="sticker-right">
-                            <div class="barcode-container mt-1"> <span><svg id="barcode"></svg></span></div>
+                            <div class="barcode-container mt-1">
+                                <span><svg id="${uniqueId}"></svg></span>
+                            </div>
                             <div class="sticker-inner">
                                 <div class="sticker-id"><span>${number}</span></div>
                                 <div class="sticker-right">
                                     <div class="sticker-name">${row[3]}</div>
-                                    <div class="sticker-name"><div class="sticker-method">${row[5]}</div><div class="sticker-date">${updateDate()}</div></div>
+                                    <div class="sticker-name">
+                                        <div class="sticker-method">${row[5]}</div>
+                                        <div class="sticker-date">${updateDate()}</div>
+                                    </div>
                                     <div class="sticker-name" style="font-size: 0.5rem">${row[4]}</div>
                                 </div>
                             </div>
@@ -412,7 +396,7 @@ function searchPrint() {
                     console.log(barcodeValue);
 
                     // สร้างบาร์โค้ด
-                    JsBarcode("#barcode", barcodeValue, {
+                    JsBarcode(`#${uniqueId}`, barcodeValue, {
                         format: "CODE39",
                         margin: 0,
                         padding: 0,
@@ -433,6 +417,8 @@ function searchPrint() {
             alert("เกิดข้อผิดพลาดในการดึงข้อมูลสติ๊กเกอร์");
         });
 }
+
+
 
 function printSticker() {
     closeAlert();
@@ -485,113 +471,6 @@ function printResult() {
 
  }
 
-function searchPrint() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet5}?key=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const sticker = document.getElementById('sticker');
-            const number = document.getElementById('numb').textContent;
-            const searchKey = document.getElementById('registernumber').textContent.trim();
-            sticker.innerHTML = ''; // เคลียร์ก่อนแสดงใหม่
-
-            let found = false; // ตัวแปรเพื่อตรวจสอบว่าพบข้อมูลหรือไม่
-
-            data.values.forEach((row, index) => {
-                if (row[0] === searchKey) {
-                    found = true; // เปลี่ยนค่า found เป็น true
-
-                    // สร้าง ID ที่ไม่ซ้ำกันสำหรับแต่ละสติ๊กเกอร์
-                    const uniqueId = `barcode-${index}`;
-
-                    sticker.innerHTML += `
-                    <div class="sticker mb-2">
-                        <div class="sticker-id mx-2 my-2"><span>${row[0]}</span></div>
-                        <div class="sticker-right">
-                            <div class="barcode-container mt-1"> <span><svg id="${uniqueId}"></svg></span></div>
-                            <div class="sticker-inner">
-                                <div class="sticker-id"><span>${number}</span></div>
-                                <div class="sticker-right">
-                                    <div class="sticker-name">${row[3]}</div>
-                                    <div class="sticker-name">
-                                        <div class="sticker-method">${row[5]}</div>
-                                        <div class="sticker-date">${updateDate()}</div>
-                                    </div>
-                                    <div class="sticker-name" style="font-size: 0.5rem">${row[4]}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-
-                    const barcodeValue = row[1];
-                    console.log(barcodeValue);
-
-                    // สร้างบาร์โค้ด
-                    JsBarcode(`#${uniqueId}`, barcodeValue, {
-                        format: "CODE39",
-                        margin: 0,
-                        padding: 0,
-                        width: 1,
-                        height: 40,
-                        displayValue: false
-                    });
-                }
-            });
-
-            // ถ้าไม่พบข้อมูลที่ค้นหา
-            if (!found) {
-                sticker.innerHTML = `<p>ไม่พบข้อมูลที่ต้องการ</p>`;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching sticker data:', error);
-            alert("เกิดข้อผิดพลาดในการดึงข้อมูลสติ๊กเกอร์");
-        });
-}
-
-function printSticker() {
-    closeAlert();
-    const sticker = document.getElementById('sticker');
-    if (sticker) {
-        sticker.style.display = 'block';
-    } else {
-        alert("ไม่พบสติ๊กเกอร์ที่จะแสดง");
-    }
-}
-
-function closeModal() {
-    const sticker = document.getElementById('sticker');
-    if (sticker) {
-        sticker.style.display = 'none';
-    }
-}
-
-function printSpecimen() {
-    printResult();
-    closeModal();
-    clearPage();
-}
-
-function printResult() {
-    const modalContent = document.querySelector('#sticker').innerHTML; 
-    const originalContent = document.body.innerHTML;
-
-    // แสดงเฉพาะเนื้อหาที่ต้องการพิมพ์
-    document.body.innerHTML = modalContent;
-    window.print();
-    document.body.innerHTML = originalContent;
-}
-
-
-
-
 
 
 
@@ -616,15 +495,23 @@ function loadAllData() {
                 return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
             }
 
+            // แสดงข้อมูลใน resultDiv1
             data.values.forEach(row => {
-                resultDiv1.innerHTML += 
-                  `<tr>
-                    <th scope="col" class="text-center">${row[0]}</th>
-                    <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1]}</td>
-                    <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2]}</td>
-                    <td scope="col" class="text-center" style="font-family: sarabun;">${row[4]}</td>
-                  </tr>`;
+                // ตรวจสอบความยาวของ row ก่อนเข้าถึง
+                if (row.length >= 5) { // ปรับเปลี่ยนจำนวนนี้ตามจำนวนคอลัมน์ที่คาดหวัง
+                    resultDiv1.innerHTML += 
+                      `<tr>
+                        <th scope="row" class="text-center">${row[0]}</th>
+                        <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
+                        <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
+                        <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
+                      </tr>`;
+                } else {
+                    console.warn("Row does not have enough columns:", row);
+                }
             });
+
+            // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
             loadAllCount();
         })
         .catch(error => {
@@ -634,17 +521,24 @@ function loadAllData() {
 }
 
 
+
 function addNewData(access_token) {
-    
+    // ดึงข้อมูลจาก input elements
     var newid = document.getElementById('newid').value.trim();
     var newname = document.getElementById('newname').value.trim();
     var newidcard = document.getElementById('newidcard').value.trim();
     var birthdate = document.getElementById('birthdate').value.trim();
-    var newage = document.getElementById('newage').textContent.trim();
+    var newage = document.getElementById('newage').textContent.trim(); // ใช้ innerText หรือ textContent ให้เหมาะสมกับ HTML
     var newprogram = document.getElementById('newprogram').value.trim();
 
+    // ตรวจสอบว่าข้อมูลทั้งหมดถูกกรอก
+    if (!newid || !newname || !newidcard || !birthdate || !newage || !newprogram) {
+        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+        return; // ออกจากฟังก์ชันถ้ามีข้อมูลไม่ครบ
+    }
+
     var newRow = [newid, newname, newidcard, birthdate, newage, newprogram];
-    checkAndRefreshToken();
+    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช OAuth token
 
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
@@ -669,14 +563,26 @@ function addNewData(access_token) {
     })
     .then(data => {
         console.log("Data added successfully", data);
-        closeNewRegister();
+        closeNewRegister(); // ปิด modal หรือ form ที่เพิ่มข้อมูล
         loadAllData(); // โหลดข้อมูลใหม่หลังจากเพิ่มข้อมูล
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'เพิ่มข้อมูลสำเร็จ',
+            showConfirmButton: false,
+            timer: 1500
+        });
     })
     .catch(error => {
         console.error("Error adding data:", error);
-        alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: 'ไม่สามารถเพิ่มข้อมูลได้!'
+        });
     });
 }
+
 
     
 
@@ -730,11 +636,11 @@ function runFunction() {
 function sendBarcode(event) {
     event.preventDefault(); // ป้องกันการรีโหลดหน้าเว็บ
 
-    var barcode = document.getElementById('inputbar').value;
+    var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 8); // เอา 8 ตัวแรกของบาร์โค้ดมา
 
     // URL สำหรับ Google Sheets API
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
 
     // ส่งคำขอ GET เพื่อตรวจสอบข้อมูลใน Google Sheets
     fetch(url)
@@ -746,32 +652,23 @@ function sendBarcode(event) {
         })
         .then(data => {
             var records = data.values || []; // ดึงข้อมูลจาก response
-            var foundRecord = null;
-
-            // ค้นหาข้อมูลที่ตรงกับ barcodeid
-            records.forEach(function(record) {
-                if (record[0] === barcodeid) { // สมมติว่า barid อยู่ในคอลัมน์แรก
-                    foundRecord = {
-                        barid: record[0], // barid
-                        barname: record[1] // barname
-                    };
-                }
-            });
+            var foundRecord = records.find(record => record[0] === barcodeid); // ค้นหาข้อมูลที่ตรงกับ barcodeid
 
             var baridElement = document.getElementById('barregisterid');
             var barnameElement = document.getElementById('barname');
 
+            // เคลียร์ค่าจาก elements
             baridElement.textContent = '';
             barnameElement.textContent = '';
 
             if (foundRecord) {
-                baridElement.textContent = foundRecord.barid;
-                barnameElement.textContent = foundRecord.barname;
+                baridElement.textContent = foundRecord[0]; // barid
+                barnameElement.textContent = foundRecord[1]; // barname
 
                 var id = baridElement.textContent;
                 var name = barnameElement.textContent;
                 console.log(id, name);
-                addRegistData();
+                addRegistData(); // ฟังก์ชันที่ใช้เพิ่มข้อมูล
             } else {
                 alert('ไม่พบ ID นี้ในระบบ');
             }
@@ -835,7 +732,7 @@ function addRegistData() {
     };
     checkAndRefreshToken();
 
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     // ส่งข้อมูลไปยัง Google Sheets
     fetch(url, {
@@ -862,17 +759,15 @@ function addRegistData() {
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
 }
-
-
-
 function updateSheet(sheetName, column, data) {
     const range = `${sheetName}!${String.fromCharCode(64 + column)}2`; // ใช้คอลัมน์ที่ระบุ
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     fetch(url, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${access_token}` // ต้องใช้ OAuth token ใน header
         },
         body: JSON.stringify(data)
     })
@@ -887,6 +782,7 @@ function updateSheet(sheetName, column, data) {
     })
     .catch(error => {
         console.error('Error updating data:', error);
+        alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล!");
     });
 }
 
@@ -896,12 +792,12 @@ function loadAllCount() {
     fetch(url)
         .then(response => {
             if (!response.ok) {
-                throw new Error("Network response was not ok " + response.statusText);
+                throw new Error("Network response was not ok: " + response.statusText);
             }
             return response.json();
         })
         .then(data => {
-            const count = data.values.length; // นับจำนวนแถวข้อมูล
+            const count = data.values ? data.values.length : 0; // นับจำนวนแถวข้อมูล หรือ 0 หากไม่มีข้อมูล
             document.getElementById('dataCount').innerText = `จำนวนข้อมูลทั้งหมด: ${count}`;
         })
         .catch(error => {
@@ -909,7 +805,6 @@ function loadAllCount() {
             alert('เกิดข้อผิดพลาดในการโหลดจำนวนข้อมูล');
         });
 }
-
 function loadRegister() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
 
@@ -921,14 +816,12 @@ function loadRegister() {
             return response.json();
         })
         .then(data => {
-            if (data.values && data.values.length > 0) {
-                document.getElementById('register').textContent = data.values.length; // นับจำนวนแถว
-            } else {
-                console.error('No data found');
-            }
+            const registerCount = (data.values && data.values.length > 0) ? data.values.length : 0; // ตรวจสอบจำนวนข้อมูล
+            document.getElementById('register').textContent = registerCount; // นับจำนวนแถว
         })
         .catch(error => {
             console.error('Error fetching data:', error);
+            alert('เกิดข้อผิดพลาดในการโหลดจำนวนทะเบียน');
         });
 }
 
