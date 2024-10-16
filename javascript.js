@@ -21,11 +21,16 @@ window.onload = function(){
 
 
 function searchData() {
-    const searchKey = document.getElementById('searchKey').value;
+    const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
 
     fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
 
             const numb = document.getElementById("numb");
@@ -36,7 +41,15 @@ function searchData() {
             const birthday = document.getElementById("birthday");
             const program = document.getElementById("program");
 
-            // Clear previous results
+            // ล้างผลลัพธ์ก่อนหน้า
+            regisid.innerHTML = "";
+            name.innerHTML = "";
+            idcard.innerHTML = "";
+            age.innerHTML = "";
+            birthday.innerHTML = "";
+            program.innerHTML = "";
+
+            let found = false; // ประกาศตัวแปร found เพื่อตรวจสอบว่าพบข้อมูลหรือไม่
 
             // ค้นหาและเก็บข้อมูลในตัวแปร searchResult
             data.values.forEach(row => {
@@ -48,7 +61,7 @@ function searchData() {
                     age.innerHTML = row[3];
                     birthday.innerHTML = row[4];
                     program.innerHTML = row[5];
-                    found = true;
+                    found = true; // เปลี่ยนค่า found เป็น true
 
                     // เก็บค่าผลลัพธ์ในตัวแปร searchResult
                     searchResult = {
@@ -66,14 +79,17 @@ function searchData() {
                 }
             });
 
+            // ถ้าไม่พบข้อมูลที่ค้นหา
             if (!found) {
-                program.innerHTML = '<p>ไม่พบ ID นี้</p>';
+                alert("ไม่พบข้อมูลที่ต้องการ");
             }
         })
         .catch(error => {
             console.error('Error:', error);
+            alert("เกิดข้อผิดพลาดในการค้นหาข้อมูล");
         });
 }
+
 
 
 
@@ -82,29 +98,40 @@ function searchProgram(programName) {
     const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?key=${apiKey}`;
 
     fetch(url1)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             const programdetail = document.getElementById('programdetail');
-            programdetail.innerHTML = ""; // Clear previous data
+            programdetail.innerHTML = ""; // ล้างข้อมูลก่อนหน้า
 
-            let found = false;
+            let found = false; // กำหนดค่า found เป็น false เริ่มต้น
 
-            // Search for matching program
-            data.values.forEach(row => {
-                if (row[0] === programName) {
-                    programdetail.innerHTML += `<p>-${row[1]}</p>`; // Show program detail
-                    found = true;
-                }
-            });
+            // ค้นหาโปรแกรมที่ตรงกับชื่อที่ให้มา
+            if (data.values && data.values.length > 0) { // ตรวจสอบว่ามีข้อมูลใน data.values
+                data.values.forEach(row => {
+                    if (row[0] === programName) {
+                        programdetail.innerHTML += `<p>- ${row[1]}</p>`; // แสดงรายละเอียดโปรแกรม
+                        found = true; // เปลี่ยนค่า found เป็น true ถ้าพบโปรแกรม
+                    }
+                });
+            }
 
+            // หากไม่พบโปรแกรมที่ค้นหา
             if (!found) {
-                programdetail.innerHTML = '<p>ไม่พบข้อมูลโปรแกรม</p>'; // Show message if no data found
+                programdetail.innerHTML = `<p>ไม่พบโปรแกรมที่ต้องการ</p>`;
             }
         })
         .catch(error => {
             console.error('Error:', error);
+            const programdetail = document.getElementById('programdetail');
+            programdetail.innerHTML = `<p>เกิดข้อผิดพลาดในการดึงข้อมูล</p>`;
         });
 }
+
 
 
 
