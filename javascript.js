@@ -735,6 +735,7 @@ function displayNextNumber() {
 
 
 function addRegistData() {
+     checkAndRefreshToken();
     var barinput = document.getElementById('inputbar').value.trim();
     var barcodenewid = document.getElementById('barregisterid').textContent.trim();
     var barcodename = document.getElementById('barname').textContent.trim();
@@ -790,7 +791,7 @@ function addRegistData() {
     var data = {
         values: [[barcodenewid, barcodename, barinputmethod, specimen]]
     };
-    checkAndRefreshToken();
+   
 
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
