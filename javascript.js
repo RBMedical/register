@@ -841,9 +841,9 @@ function addRegistData() {
     var data = {
         values: [[number, barcodenewid, barcodename, barinputmethod, specimen]]
     };
-
+console.log(data);
     const accessToken = sessionStorage.getItem("access_token");
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+    var url =  `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     fetch(url, {
         method: 'POST',
