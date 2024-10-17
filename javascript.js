@@ -1015,7 +1015,7 @@ function loadRegister() {
             const registerCount = (data.values && data.values.length > 0) ? data.values.length : 0; // ตรวจสอบจำนวนข้อมูล
             document.getElementById('register').textContent = registerCount; // นับจำนวนแถว
         })
-        console.log(registercount);
+        
         .catch(error => {
             console.error('Error fetching data:', error);
             alert('เกิดข้อผิดพลาดในการโหลดจำนวนทะเบียน');
