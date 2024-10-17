@@ -868,7 +868,7 @@ console.log(data);
                        loadAllCount();
                          }, 5000);
        
-        
+        displayNextSpecimenNumber();
         clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
     })
     .catch(error => {
@@ -1012,7 +1012,7 @@ function loadRegister() {
             return response.json();
         })
         .then(data => {
-            const registerCount = (data.values && data.values.length > 0) ? data.values.length : 0; // ตรวจสอบจำนวนข้อมูล
+            const registerCount = (data.values && data.values.length > 0) ? data.values.length : -1; // ตรวจสอบจำนวนข้อมูล
             document.getElementById('register').textContent = registerCount; // นับจำนวนแถว
         })
         .catch(error => {
