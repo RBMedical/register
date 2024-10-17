@@ -37,11 +37,12 @@ window.onload = function() {
 
     // ตรวจสอบว่า access token หมดอายุหรือไม่
     setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000); // รีเฟรชก่อนหมดอายุ 1 นาที
-     loadAllRecords();
-    displayNextNumber();
-    displayNextSpecimenNumber();
-    updateDateTime();
-    loadAllData();
+     setTimeout(() => {    
+          loadAllRecords();
+          displayNextNumber();
+           displayNextSpecimenNumber();
+            updateDateTime();
+              loadAllData();  }, 10000);
 };
 
 // ฟังก์ชันสำหรับรีเฟรช access token
