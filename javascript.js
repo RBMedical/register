@@ -865,10 +865,10 @@ console.log(data);
     .then(data => {
         console.log("Success:", data);
          setTimeout(() => {   
-                       loadAllCount();
+              displayNextSpecimenNumber();          
                          }, 5000);
+       loadAllData();
        
-        displayNextSpecimenNumber();
         clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
     })
     .catch(error => {
