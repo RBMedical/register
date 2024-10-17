@@ -787,7 +787,8 @@ function displayNextNumber() {
 
 function addRegistData() {
     checkAndRefreshToken();
-    var number = getNextSpecimenNumber();
+   
+    var number = document.getElementById('specimenque').textContent.trim();
     var barinput = document.getElementById('inputbar').value.trim();
     var barcodenewid = document.getElementById('barregisterid').textContent.trim();
     var barcodename = document.getElementById('barname').textContent.trim();
