@@ -938,7 +938,7 @@ function loadAllCount() {
             }
 
             // ประกาศตัวนับนอกลูป
-            let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0;
+            let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l = 0;
 
             data.values.forEach(row => {
                 const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
@@ -949,7 +949,10 @@ function loadAllCount() {
                         a++; 
                         break;
                     case "12":
-                        b++; 
+                        b++;
+                        break;
+                    case "10":
+                        l++;
                         break;
                     case "13":
                         c++; 
@@ -996,35 +999,16 @@ function loadAllCount() {
             document.getElementById('muscle').textContent = i;  // กล้ามเนื้อ
             document.getElementById('naf').textContent = j;     // NAF
             document.getElementById('clot').textContent = k;    // Clot
+             document.getElementById('register').textContent = l;
         })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
 
-    loadRegister(); 
+   
     clearSpecimen();  
 }
 
-function loadRegister() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const registerCount = (data.values && data.values.length > 0) ? data.values.length : 0; // ตรวจสอบจำนวนข้อมูล
-            document.getElementById('register').textContent = registerCount; // นับจำนวนแถว
-        })
-        
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            alert('เกิดข้อผิดพลาดในการโหลดจำนวนทะเบียน');
-        });
-}
 
 function clearSpecimen(){
     var barcode = document.getElementById('inputbar');
