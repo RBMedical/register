@@ -4,7 +4,7 @@ const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 const rangesheet1 = 'data!A2:ZZ'; 
 const rangesheet2 = 'program!A2:ZZ';
 const rangesheet3 = 'register!A2:ZZ';
-const rangesheet4 = 'register!A:A';
+const rangesheet4 = 'register!A2:A';
 const rangesheet5 = 'sticker!A2:ZZ';
 const rangesheet6 = 'specimencount!A2:ZZ';
 const rangesheet7 = 'specimencount!A:A';
@@ -1012,9 +1012,10 @@ function loadRegister() {
             return response.json();
         })
         .then(data => {
-            const registerCount = (data.values && data.values.length > 0) ? data.values.length : -1; // ตรวจสอบจำนวนข้อมูล
+            const registerCount = (data.values && data.values.length > 0) ? data.values.length : 0; // ตรวจสอบจำนวนข้อมูล
             document.getElementById('register').textContent = registerCount; // นับจำนวนแถว
         })
+        console.log(registercount);
         .catch(error => {
             console.error('Error fetching data:', error);
             alert('เกิดข้อผิดพลาดในการโหลดจำนวนทะเบียน');
