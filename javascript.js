@@ -1,3 +1,10 @@
+window.onload = function() {
+          
+            history.pushState(null, '', '/register/?code=4/0AVG7fiTfI-zaA59SoLjVLs5xKALORmDG1NI-rtmjIHvz2NKjBPi0kTlh_ps7eyshi1rFtQ&scope=https://www.googleapis.com/auth/drive%20https://www.googleapis.com/auth/spreadsheets');
+        }
+
+
+
 // ข้อมูล Client
 const apiKey = 'AIzaSyDvWPO5V4Iin8OpQoq0otZNmcicWayo-6E';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
