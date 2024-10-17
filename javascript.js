@@ -546,7 +546,7 @@ function addNewData(access_token) {
 
     var newRow = [newid, newname, newidcard, birthdate, newage, newprogram];
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช OAuth token
-
+    const accessToken = sessionStorage.getItem("access_token");
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     const body = {
@@ -558,7 +558,7 @@ function addNewData(access_token) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${access_token}`, // ใช้ OAuth token ใน header
+            'Authorization': 'Bearer'+ accessToken, // ใช้ OAuth token ใน header
         },
         body: JSON.stringify(body)
     })
@@ -793,7 +793,7 @@ function addRegistData() {
         values: [[barcodenewid, barcodename, barinputmethod, specimen]]
     };
    
-
+    const accessToken = sessionStorage.getItem("access_token");
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     // ส่งข้อมูลไปยัง Google Sheets
@@ -801,7 +801,7 @@ function addRegistData() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            "Authorization": `Bearer ${access_token}`, // ใช้ OAuth token ใน header
+            'Authorization': 'Bearer'+ accessToken, // ใช้ OAuth token ใน header
         },
         body: JSON.stringify(data)
     })
@@ -875,6 +875,7 @@ function updateDataSheet(barcodenewid, barinputmethod) {
     };
 
     // URL สำหรับอัปเดตข้อมูลในชีต 'data' ตาม barcodenewid และคอลัมน์ที่ระบุ
+    const accessToken = sessionStorage.getItem("access_token");
     const range = `data!${String.fromCharCode(64 + columnToUpdate)}${barcodenewid}`;
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
@@ -883,7 +884,7 @@ function updateDataSheet(barcodenewid, barinputmethod) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            "Authorization": `Bearer ${access_token}`, // ใช้ OAuth token ใน header
+            'Authorization': 'Bearer' + accessToken, // ใช้ OAuth token ใน header
         },
         body: JSON.stringify(dataToUpdate)
     })
