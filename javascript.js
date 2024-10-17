@@ -644,7 +644,7 @@ function runFunction() {
 
 
 function sendBarcode(event) {
-    event.preventDefault(); // ป้องกันการรีโหลดหน้าเว็บ
+  
 
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 8); // เอา 8 ตัวแรกของบาร์โค้ดมา
