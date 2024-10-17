@@ -7,7 +7,7 @@ const rangesheet3 = 'register!A2:ZZ';
 const rangesheet4 = 'register!A:A';
 const rangesheet5 = 'sticker!A2:ZZ';
 const rangesheet6 = 'specimencount!A2:ZZ';
-
+const rangesheet7 = 'specimencount!A:A';
 const clientId = "168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com";
 const clientSecret = "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";
 const redirectUri = "https://rbmedical.github.io/register";
@@ -338,14 +338,14 @@ window.onload = function(){
 
  function addRegistrationDataInner() {
     // ดึงข้อมูลจาก HTML elements
-    var numb = document.getElementById('numb').textContent.trim();
+    var numb1 = getNextSpecimenNumber()
     var regisid = document.getElementById('registernumber').textContent.trim();
     var name = document.getElementById('name').textContent.trim();
     const type = "ลงทะเบียน";
     
     // สร้าง object ที่จะส่งไปยัง Google Sheets
     var data = {
-        values: [[numb, regisid, name, type]]
+        values: [[numb1, regisid, name, type]]
     };
     
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
@@ -787,6 +787,7 @@ function displayNextNumber() {
 
 function addRegistData() {
     checkAndRefreshToken();
+    var number = getNextSpecimenNumber();
     var barinput = document.getElementById('inputbar').value.trim();
     var barcodenewid = document.getElementById('barregisterid').textContent.trim();
     var barcodename = document.getElementById('barname').textContent.trim();
@@ -838,7 +839,7 @@ function addRegistData() {
     }
 
     var data = {
-        values: [[barcodenewid, barcodename, barinputmethod, specimen]]
+        values: [[number, barcodenewid, barcodename, barinputmethod, specimen]]
     };
 
     const accessToken = sessionStorage.getItem("access_token");
@@ -870,7 +871,31 @@ function addRegistData() {
     });
 }
 
+function getNextSpecimenNumber() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
+    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
 
+    return fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok " + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const values = data.values;
+            if (values && values.length > 0) {
+                const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
+                return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
+            } else {
+                return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
+        });
+}
 
 
 function loadAllCount() {
