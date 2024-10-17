@@ -696,7 +696,7 @@ function runFunction() {
 
 
 function sendBarcode() {
-  
+  loadAllData();
 
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 8); // เอา 8 ตัวแรกของบาร์โค้ดมา
