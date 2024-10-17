@@ -1,7 +1,3 @@
-window.onload = function() {
-  
-    window.location.href = "https://rbmedical.github.io/register/?code=4/0AVG7fiTfI-zaA59SoLjVLs5xKALORmDG1NI-rtmjIHvz2NKjBPi0kTlh_ps7eyshi1rFtQ&scope=https://www.googleapis.com/auth/drive%20https://www.googleapis.com/auth/spreadsheets";
-};
 
 
 
@@ -29,11 +25,11 @@ const tokenData = {
     token_type: "Bearer"
 };
 
- setTimeout(() => {   
+
                        
                         
 window.onload = function() {
-    // เก็บ access token และ refresh token ใน sessionStorage
+    window.location.href = "https://rbmedical.github.io/register/?code=4/0AVG7fiTfI-zaA59SoLjVLs5xKALORmDG1NI-rtmjIHvz2NKjBPi0kTlh_ps7eyshi1rFtQ&scope=https://www.googleapis.com/auth/drive%20https://www.googleapis.com/auth/spreadsheets";
     sessionStorage.setItem("access_token", tokenData.access_token);
     sessionStorage.setItem("refresh_token", tokenData.refresh_token);
     console.log("Access token:", tokenData.access_token);
@@ -41,6 +37,11 @@ window.onload = function() {
 
     // ตรวจสอบว่า access token หมดอายุหรือไม่
     setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000); // รีเฟรชก่อนหมดอายุ 1 นาที
+     loadAllRecords();
+    displayNextNumber();
+    displayNextSpecimenNumber();
+    updateDateTime();
+    loadAllData();
 };
 
 // ฟังก์ชันสำหรับรีเฟรช access token
@@ -77,7 +78,7 @@ function refreshAccessToken() {
         console.error('Error refreshing access token:', error);
     });
 }
- }, 3000);
+
 
 // ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อจำเป็น
 function checkAndRefreshToken() {
@@ -272,23 +273,9 @@ function updateDateTime() {
 // เรียกใช้ updateDateTime ทุก 1 วินาที
 setInterval(updateDateTime, 1000);
 
- setTimeout(() => { 
-window.onload = function(){
-   loadAllRecords();
-    displayNextNumber();
-    displayNextSpecimenNumber();
-    updateDateTime();
-    loadAllData();
-} }, 5000);
-    
 
 
-
-
-
-
-
-  function addRegistrationData() {
+ function addRegistrationData() {
     // ดึงข้อมูลจาก HTML elements
     var numb = document.getElementById('numb').textContent.trim();
     var regisid = document.getElementById('registernumber').textContent.trim();
