@@ -904,7 +904,7 @@ function displayNextSpecimenNumber() {
     getNextSpecimenNumber()
         .then(nextNumber => {
             // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
-            document.getElementById('numb').textContent = nextNumber;
+            document.getElementById('specimenque').textContent = nextNumber;
         })
         .catch(error => {
             console.error('Error displaying next number:', error);
