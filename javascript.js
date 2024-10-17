@@ -277,7 +277,7 @@ window.onload = function(){
 
 
 
-     function addRegistrationData() {
+  function addRegistrationData() {
     // ดึงข้อมูลจาก HTML elements
     var numb = document.getElementById('numb').textContent.trim();
     var regisid = document.getElementById('registernumber').textContent.trim();
@@ -325,6 +325,52 @@ window.onload = function(){
             timer: 1500
         });
     })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
+        });
+       addRegistrationDataInner(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
+    });
+}
+
+ function addRegistrationDataInner() {
+    // ดึงข้อมูลจาก HTML elements
+    var numb = document.getElementById('numb').textContent.trim();
+    var regisid = document.getElementById('registernumber').textContent.trim();
+    var name = document.getElementById('name').textContent.trim();
+    const type = "ลงทะเบียน";
+    
+    // สร้าง object ที่จะส่งไปยัง Google Sheets
+    var data = {
+        values: [[numb, regisid, name, type]]
+    };
+    
+    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
+    
+    // รอให้ access_token ถูกอัปเดตใน sessionStorage ก่อนทำการเพิ่มข้อมูล
+    const accessToken = sessionStorage.getItem("access_token");
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
+
+    // ส่งข้อมูลไปยัง Google Sheets
+    fetch(url, {
+        method: 'POST',
+       headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
+},
+
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.json();
+    })
+   
     .catch(error => {
         console.error('Error:', error);
         Swal.fire({
