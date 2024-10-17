@@ -5,8 +5,8 @@ const rangesheet1 = 'data!A2:ZZ';
 const rangesheet2 = 'program!A2:ZZ';
 const rangesheet3 = 'register!A2:ZZ';
 const rangesheet4 = 'register!A:A';
-const rangesheet5 = 'sticker!A2:zz';
-const rangesheet6 = 'specimencount!A2:zz';
+const rangesheet5 = 'sticker!A2:ZZ';
+const rangesheet6 = 'specimencount!A2:ZZ';
 
 const clientId = "168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com";
 const clientSecret = "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";
@@ -647,7 +647,7 @@ function sendBarcode(event) {
     var barcodeid = barcode.substring(0, 8); // เอา 8 ตัวแรกของบาร์โค้ดมา
 
     // URL สำหรับ Google Sheets API
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
     // ส่งคำขอ GET เพื่อตรวจสอบข้อมูลใน Google Sheets
     fetch(url)
