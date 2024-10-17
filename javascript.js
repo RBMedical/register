@@ -637,7 +637,9 @@ function checkInputLength() {
 }
 
 function runFunction() {
-        sendBarcode(event);
+        setTimeout(() => {   
+                        sendbarcode(event)();
+                         }, 5000);
     }
 
 
