@@ -875,9 +875,8 @@ function updateDataSheet(barcodenewid, barinputmethod) {
         return;
     }
 
-    const spreadsheetId = "your_spreadsheet_id";  // แทนที่ด้วย ID ของ Google Sheet ของคุณ
-    const apiKey = "your_api_key";  // แทนที่ด้วย API Key ของคุณ
-
+   
+   
     // สร้าง object เพื่ออัปเดตค่าในคอลัมน์ที่กำหนด
     var dataToUpdate = {
         values: [["x"]]
