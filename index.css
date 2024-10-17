@@ -10,6 +10,10 @@
   min-width: 2cm;
   max-width: 2cm;
 }
+#registernumber{
+  min-width: 3cm;
+  ax-width: 3cm;
+}
 
 .container-md{
     display: flex;
