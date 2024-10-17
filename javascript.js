@@ -637,58 +637,70 @@ function checkInputLength() {
 }
 
 function runFunction() {
-    sendBarcode(event);
-}
+        sendBarcode(event);
+    }
 
 
     
-    var barcode = document.getElementById('inputbar').value.trim();
+   document.addEventListener('DOMContentLoaded', function() {
+    var barcodeInput = document.getElementById('inputbar');
+    if (!barcodeInput) {
+        console.error('Element with id "inputbar" not found.');
+        return;
+    }
+
+    function runFunction() {
+        sendBarcode(event);
+    }
+
+    var barcode = barcodeInput.value.trim();
     var barcodeid = barcode.substring(0, 8); // เอา 8 ตัวแรกของบาร์โค้ดมา
     var barinputmethod = barcode.slice(-2);
-function sendBarcode(event) {
-    event.preventDefault(); // ป้องกันการรีโหลดหน้าเว็บ
 
-   
- 
-    // URL สำหรับ Google Sheets API
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+    function sendBarcode(event) {
+        event.preventDefault(); // ป้องกันการรีโหลดหน้าเว็บ
 
-    // ส่งคำขอ GET เพื่อตรวจสอบข้อมูลใน Google Sheets
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            var records = data.values || []; // ดึงข้อมูลจาก response
-            var foundRecord = records.find(record => record[1] === barcodeid); // ค้นหาข้อมูลที่ตรงกับ barcodeid
+        // URL สำหรับ Google Sheets API
+        var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
-            var baridElement = document.getElementById('barregisterid');
-            var barnameElement = document.getElementById('barname');
+        // ส่งคำขอ GET เพื่อตรวจสอบข้อมูลใน Google Sheets
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                var records = data.values || []; // ดึงข้อมูลจาก response
+                var foundRecord = records.find(record => record[1] === barcodeid); // ค้นหาข้อมูลที่ตรงกับ barcodeid
 
-            // เคลียร์ค่าจาก elements
-            baridElement.textContent = '';
-            barnameElement.textContent = '';
+                var baridElement = document.getElementById('barregisterid');
+                var barnameElement = document.getElementById('barname');
 
-            if (foundRecord) {
-                baridElement.textContent = foundRecord[1]; // barid
-                barnameElement.textContent = foundRecord[2]; // barname
+                // เคลียร์ค่าจาก elements
+                baridElement.textContent = '';
+                barnameElement.textContent = '';
 
-                var id = baridElement.textContent;
-                var name = barnameElement.textContent;
-                console.log(id, name);
-                addRegistData(); // ฟังก์ชันที่ใช้เพิ่มข้อมูล
-            } else {
-                alert('ไม่พบ ID นี้ในระบบ');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
-        });
-}
+                if (foundRecord) {
+                    baridElement.textContent = foundRecord[1]; // barid
+                    barnameElement.textContent = foundRecord[2]; // barname
+
+                    var id = baridElement.textContent;
+                    var name = barnameElement.textContent;
+                    console.log(id, name);
+                    addRegistData(); // ฟังก์ชันที่ใช้เพิ่มข้อมูล
+                } else {
+                    alert('ไม่พบ ID นี้ในระบบ');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
+            });
+    }
+});
+
 
 
 
