@@ -344,10 +344,11 @@ window.onload = function(){
     var regisid = document.getElementById('registernumber').textContent.trim();
     var name = document.getElementById('name').textContent.trim();
     const type = "ลงทะเบียน";
+    const group = "10";
     
     // สร้าง object ที่จะส่งไปยัง Google Sheets
     var data = {
-        values: [[numb1, regisid, name, type]]
+        values: [[numb1, regisid, name, group, type]]
     };
     
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
@@ -381,7 +382,9 @@ window.onload = function(){
             text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
         });
         loadAllRecords(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
-        displayNextSpecimenNumber();
+        setTimeout(() => {   
+                       displayNextSpecimenNumber();
+                         }, 5000); 
     });
 }
 
