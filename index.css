@@ -17,7 +17,7 @@
 #specimenque{
   min-width: 3cm;
   max-width: 3cm;
-
+}
 .container-md{
     display: flex;
     flex-direction: row;
