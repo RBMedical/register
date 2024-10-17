@@ -1,7 +1,3 @@
-
-
-
-
 // ข้อมูล Client
 const apiKey = 'AIzaSyDvWPO5V4Iin8OpQoq0otZNmcicWayo-6E';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
@@ -25,33 +21,19 @@ const tokenData = {
     token_type: "Bearer"
 };
 
+// ฟังก์ชันที่เรียกเมื่อหน้าโหลด
 window.onload = function() {
+    // เก็บ access token และ refresh token ใน sessionStorage
     sessionStorage.setItem("access_token", tokenData.access_token);
-       sessionStorage.setItem("refresh_token", tokenData.refresh_token);
-       console.log("Access token:", tokenData.access_token);
-       console.log("Refresh token:", tokenData.refresh_token);
-       setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000);
-}              
+    sessionStorage.setItem("refresh_token", tokenData.refresh_token);
+    console.log("Access token:", tokenData.access_token);
+    console.log("Refresh token:", tokenData.refresh_token);
 
+    // ตรวจสอบว่า access token หมดอายุหรือไม่
+    setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000); // รีเฟรชก่อนหมดอายุ 1 นาที
+};
 
- window.onload = function() {
-             setTimeout(() => {
-                 loadAllRecords();
-                  displayNextNumber();
-                   displayNextSpecimenNumber();
-                    updateDateTime();
-                      loadAllData();   }, 5000);
-                       closeStart();
-       
- }
-    
- 
-  
-                
-     
-
-
-
+// ฟังก์ชันสำหรับรีเฟรช access token
 function refreshAccessToken() {
     const refreshToken = sessionStorage.getItem("refresh_token");
 
@@ -281,8 +263,22 @@ function updateDateTime() {
 setInterval(updateDateTime, 1000);
 
 
+window.onload = function(){
+   loadAllRecords();
+    displayNextNumber();
+    displayNextSpecimenNumber();
+    updateDateTime();
+    loadAllData();
+}
+    
 
- function addRegistrationData() {
+
+
+
+
+
+
+  function addRegistrationData() {
     // ดึงข้อมูลจาก HTML elements
     var numb = document.getElementById('numb').textContent.trim();
     var regisid = document.getElementById('registernumber').textContent.trim();
@@ -348,11 +344,10 @@ setInterval(updateDateTime, 1000);
     var regisid = document.getElementById('registernumber').textContent.trim();
     var name = document.getElementById('name').textContent.trim();
     const type = "ลงทะเบียน";
-    const group = "10";
     
     // สร้าง object ที่จะส่งไปยัง Google Sheets
     var data = {
-        values: [[numb1, regisid, name, group, type]]
+        values: [[numb1, regisid, name, type]]
     };
     
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
@@ -386,9 +381,7 @@ setInterval(updateDateTime, 1000);
             text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
         });
         loadAllRecords(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
-        setTimeout(() => {   
-                       displayNextSpecimenNumber();
-                         }, 5000); 
+        displayNextSpecimenNumber();
     });
 }
 
@@ -686,9 +679,7 @@ function openSpecimen() {
 function closeSpecimen() {
     $('.modalspecimen').css('display', 'none');
 }
-function closeStart() {
-    $('#start').css('display', 'none');
-}
+
 function checkInputLength() {
     const input = document.getElementById('inputbar').value;
 
@@ -944,7 +935,7 @@ function loadAllCount() {
             }
 
             // ประกาศตัวนับนอกลูป
-            let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l = 0;
+            let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0;
 
             data.values.forEach(row => {
                 const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
@@ -955,10 +946,7 @@ function loadAllCount() {
                         a++; 
                         break;
                     case "12":
-                        b++;
-                        break;
-                    case "10":
-                        l++;
+                        b++; 
                         break;
                     case "13":
                         c++; 
@@ -1005,16 +993,35 @@ function loadAllCount() {
             document.getElementById('muscle').textContent = i;  // กล้ามเนื้อ
             document.getElementById('naf').textContent = j;     // NAF
             document.getElementById('clot').textContent = k;    // Clot
-             document.getElementById('register').textContent = l;
         })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
 
-   
+    loadRegister(); 
     clearSpecimen();  
 }
 
+function loadRegister() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const registerCount = (data.values && data.values.length > 0) ? data.values.length : 0; // ตรวจสอบจำนวนข้อมูล
+            document.getElementById('register').textContent = registerCount; // นับจำนวนแถว
+        })
+        
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            alert('เกิดข้อผิดพลาดในการโหลดจำนวนทะเบียน');
+        });
+}
 
 function clearSpecimen(){
     var barcode = document.getElementById('inputbar');
@@ -1051,5 +1058,4 @@ function openSearch() {
 function closeSearch() {
     $(".modalsearch").css('display', 'none');
 }
-
 
