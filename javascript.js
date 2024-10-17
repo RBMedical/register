@@ -266,6 +266,7 @@ setInterval(updateDateTime, 1000);
 window.onload = function(){
    loadAllRecords();
     displayNextNumber();
+    displayNextSpecimenNumber();
     updateDateTime();
     loadAllData();
 }
@@ -379,6 +380,7 @@ window.onload = function(){
             text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
         });
         loadAllRecords(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
+        displayNextSpecimenNumber();
     });
 }
 
@@ -898,7 +900,18 @@ function getNextSpecimenNumber() {
         });
 }
 
-
+function displayNextSpecimenNumber() {
+    getNextSpecimenNumber()
+        .then(nextNumber => {
+            // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
+            document.getElementById('numb').textContent = nextNumber;
+        })
+        .catch(error => {
+            console.error('Error displaying next number:', error);
+            // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
+            document.getElementById('specimenque').textContent = 'Error fetching number';
+        });
+}
 function loadAllCount() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
  checkAndRefreshToken();
