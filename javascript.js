@@ -68,6 +68,7 @@ function refreshAccessToken() {
     });
 }
 
+
 // ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อจำเป็น
 function checkAndRefreshToken() {
     const accessToken = sessionStorage.getItem("access_token");
@@ -301,10 +302,11 @@ window.onload = function(){
     // ส่งข้อมูลไปยัง Google Sheets
     fetch(url, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken // ใช้ access_token ที่ดึงจาก sessionStorage
-        },
+       headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
+},
+
         body: JSON.stringify(data)
     })
     .then(response => {
@@ -556,10 +558,12 @@ function addNewData(access_token) {
     // ส่งข้อมูลไปที่ Google Sheets API ด้วย OAuth Token
     fetch(url, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer'+ accessToken, // ใช้ OAuth token ใน header
-        },
+      headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
+},
+
+
         body: JSON.stringify(body)
     })
     .then(response => {
@@ -736,14 +740,13 @@ function displayNextNumber() {
 
 
 function addRegistData() {
-     checkAndRefreshToken();
+    checkAndRefreshToken();
     var barinput = document.getElementById('inputbar').value.trim();
     var barcodenewid = document.getElementById('barregisterid').textContent.trim();
     var barcodename = document.getElementById('barname').textContent.trim();
-    var barinputmethod = barinput.slice(-2); // ดึง 2 ตัวสุดท้าย
-    var specimen; // ประกาศตัวแปร specimen
+    var barinputmethod = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด
+    var specimen;
 
-    // ตรวจสอบค่า barcodemethod แล้วกำหนดค่าให้ specimen
     switch (barinputmethod) {
         case '11':
             specimen = "พบแพทย์";
@@ -765,7 +768,7 @@ function addRegistData() {
             break;
         case '21':
             specimen = "Clot";
-            break;    
+            break;
         case '16':
             specimen = "Audiogram";
             break;
@@ -783,25 +786,23 @@ function addRegistData() {
             break;
     }
 
-    if (!barcodenewid || !barcodename || !barinputmethod || !specimen) {
-        alert("ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบอีกครั้ง");
+    if (!barcodenewid || !barcodename || !barinputmethod || specimen === "ไม่พบข้อมูล") {
+        alert("ข้อมูลไม่ครบถ้วน หรือไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง");
         return;
     }
 
-    // สร้าง object ที่จะส่งไปยัง Google Sheets
     var data = {
         values: [[barcodenewid, barcodename, barinputmethod, specimen]]
     };
-   
+
     const accessToken = sessionStorage.getItem("access_token");
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
-    // ส่งข้อมูลไปยัง Google Sheets
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer'+ accessToken, // ใช้ OAuth token ใน header
+            'Authorization': 'Bearer ' + accessToken, // แก้ไขช่องว่างระหว่าง Bearer กับ token
         },
         body: JSON.stringify(data)
     })
@@ -813,18 +814,16 @@ function addRegistData() {
     })
     .then(data => {
         console.log("Success:", data);
-        checkAndRefreshToken();
-        loadAllCount(); // เรียกฟังก์ชันเพื่อโหลดข้อมูลใหม่
-        clearSpecimen(); // ล้างค่าใน input bar
-
-        // หลังจากเพิ่มข้อมูลเสร็จแล้ว เรียกฟังก์ชัน updateSheet เพื่อตรวจสอบ barinputmethod และอัปเดตข้อมูลในชีต 'data'
-        updateDataSheet(barcodenewid, barinputmethod);
+        loadAllCount(); // โหลดข้อมูลใหม่หลังจากเพิ่มข้อมูลเสร็จ
+        updateDataSheet(barcodenewid, barinputmethod); // อัปเดตชีตที่เกี่ยวข้อง
+        clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
     })
     .catch(error => {
         console.error('Error:', error);
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
 }
+
 
 // ฟังก์ชันที่อัปเดตข้อมูลใน sheet 'data'
 function updateDataSheet(barcodenewid, barinputmethod) {
@@ -882,10 +881,10 @@ function updateDataSheet(barcodenewid, barinputmethod) {
     // ส่งคำขอไปยัง Google Sheets เพื่ออัปเดตข้อมูล
     fetch(url, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer' + accessToken, // ใช้ OAuth token ใน header
-        },
+       headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
+},
         body: JSON.stringify(dataToUpdate)
     })
     .then(response => {
