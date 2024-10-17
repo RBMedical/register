@@ -29,7 +29,9 @@ const tokenData = {
     token_type: "Bearer"
 };
 
-// ฟังก์ชันที่เรียกเมื่อหน้าโหลด
+ setTimeout(() => {   
+                       
+                        
 window.onload = function() {
     // เก็บ access token และ refresh token ใน sessionStorage
     sessionStorage.setItem("access_token", tokenData.access_token);
@@ -75,7 +77,7 @@ function refreshAccessToken() {
         console.error('Error refreshing access token:', error);
     });
 }
-
+ }, 3000);
 
 // ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อจำเป็น
 function checkAndRefreshToken() {
@@ -270,14 +272,14 @@ function updateDateTime() {
 // เรียกใช้ updateDateTime ทุก 1 วินาที
 setInterval(updateDateTime, 1000);
 
-
+ setTimeout(() => { 
 window.onload = function(){
    loadAllRecords();
     displayNextNumber();
     displayNextSpecimenNumber();
     updateDateTime();
     loadAllData();
-}
+} }, 5000);
     
 
 
