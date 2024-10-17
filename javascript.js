@@ -44,8 +44,8 @@ function startProgram(){
               displayNextSpecimenNumber();
                updateDateTime();
                 loadAllData();   }, 5000);
-     
-}
+                 closeStart();
+     }
 
 function goNextPage(){
   window.location.href = "https://rbmedical.github.io/register/?code=4/0AVG7fiTfI-zaA59SoLjVLs5xKALORmDG1NI-rtmjIHvz2NKjBPi0kTlh_ps7eyshi1rFtQ&scope=https://www.googleapis.com/auth/drive%20https://www.googleapis.com/auth/spreadsheets";
@@ -685,7 +685,9 @@ function openSpecimen() {
 function closeSpecimen() {
     $('.modalspecimen').css('display', 'none');
 }
-
+function closeStart() {
+    $('#start').css('display', 'none');
+}
 function checkInputLength() {
     const input = document.getElementById('inputbar').value;
 
