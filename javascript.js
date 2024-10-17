@@ -650,7 +650,7 @@ function sendBarcode(event) {
     var barcodeid = barcode.substring(0, 8); // เอา 8 ตัวแรกของบาร์โค้ดมา
 
     // URL สำหรับ Google Sheets API
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
     // ส่งคำขอ GET เพื่อตรวจสอบข้อมูลใน Google Sheets
     fetch(url)
@@ -662,7 +662,7 @@ function sendBarcode(event) {
         })
         .then(data => {
             var records = data.values || []; // ดึงข้อมูลจาก response
-            var foundRecord = records.find(record => record[0] === barcodeid); // ค้นหาข้อมูลที่ตรงกับ barcodeid
+            var foundRecord = records.find(record => record[1] === barcodeid); // ค้นหาข้อมูลที่ตรงกับ barcodeid
 
             var baridElement = document.getElementById('barregisterid');
             var barnameElement = document.getElementById('barname');
@@ -672,8 +672,8 @@ function sendBarcode(event) {
             barnameElement.textContent = '';
 
             if (foundRecord) {
-                baridElement.textContent = foundRecord[0]; // barid
-                barnameElement.textContent = foundRecord[1]; // barname
+                baridElement.textContent = foundRecord[1]; // barid
+                barnameElement.textContent = foundRecord[2]; // barname
 
                 var id = baridElement.textContent;
                 var name = barnameElement.textContent;
