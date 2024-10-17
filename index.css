@@ -14,6 +14,9 @@
   min-width: 3cm;
   ax-width: 3cm;
 }
+#specimenque{
+  min-width: 3cm;
+  max-width: 3cm;
 
 .container-md{
     display: flex;
