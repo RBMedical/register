@@ -861,7 +861,7 @@ function addRegistData() {
     .then(data => {
         console.log("Success:", data);
         loadAllCount(); // โหลดข้อมูลใหม่หลังจากเพิ่มข้อมูลเสร็จ
-        updateDataSheet(barcodenewid, barinputmethod); // อัปเดตชีตที่เกี่ยวข้อง
+        
         clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
     })
     .catch(error => {
