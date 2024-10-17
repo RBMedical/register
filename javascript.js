@@ -659,7 +659,7 @@ function sendBarcode(event) {
         })
         .then(data => {
             var records = data.values || []; // ดึงข้อมูลจาก response
-            var foundRecord = records.find(record => record[0] === barcodeid); // ค้นหาข้อมูลที่ตรงกับ barcodeid
+            var foundRecord = records.find(record => record[1] === barcodeid); // ค้นหาข้อมูลที่ตรงกับ barcodeid
 
             var baridElement = document.getElementById('barregisterid');
             var barnameElement = document.getElementById('barname');
