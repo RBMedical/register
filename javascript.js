@@ -26,12 +26,15 @@ const tokenData = {
 };
 
 window.onload = function() {
-    goNextPage(); 
-};
-                       
+    sessionStorage.setItem("access_token", tokenData.access_token);
+       sessionStorage.setItem("refresh_token", tokenData.refresh_token);
+       console.log("Access token:", tokenData.access_token);
+       console.log("Refresh token:", tokenData.refresh_token);
+       setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000);
+}              
 
-async function startProgram(){
-    await runFunctionsInOrder();
+
+ window.onload = function() {
              setTimeout(() => {
                  loadAllRecords();
                   displayNextNumber();
@@ -39,24 +42,15 @@ async function startProgram(){
                     updateDateTime();
                       loadAllData();   }, 5000);
                        closeStart();
-       }
-
-
+       
+ }
     
-   function runFunctionsInOrder(){           
-       sessionStorage.setItem("access_token", tokenData.access_token);
-       sessionStorage.setItem("refresh_token", tokenData.refresh_token);
-       console.log("Access token:", tokenData.access_token);
-       console.log("Refresh token:", tokenData.refresh_token);
-       setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000);
-   }
+ 
   
                 
      
 
-function goNextPage(){
-  window.location.href = "https://rbmedical.github.io/register/?code=4/0AVG7fiTfI-zaA59SoLjVLs5xKALORmDG1NI-rtmjIHvz2NKjBPi0kTlh_ps7eyshi1rFtQ&scope=https://www.googleapis.com/auth/drive%20https://www.googleapis.com/auth/spreadsheets";
-}
+
 
 function refreshAccessToken() {
     const refreshToken = sessionStorage.getItem("refresh_token");
