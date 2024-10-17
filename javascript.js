@@ -733,6 +733,7 @@ function addRegistData() {
     var barcodename = document.getElementById('barname').textContent.trim();
     var barinputmethod = barinput.slice(-2); // ดึง 2 ตัวสุดท้าย
     var specimen; // ประกาศตัวแปร specimen
+     checkAndRefreshToken();
 
     // ตรวจสอบค่า barcodemethod แล้วกำหนดค่าให้ specimen
     switch (barinputmethod) {
@@ -783,7 +784,7 @@ function addRegistData() {
     var data = {
         values: [[barcodenewid, barcodename, barinputmethod, specimen]]
     };
-    checkAndRefreshToken();
+   
 
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
@@ -863,7 +864,7 @@ function updateDataSheet(barcodenewid, barinputmethod) {
     var dataToUpdate = {
         values: [["x"]]
     };
-
+ checkAndRefreshToken();
     // URL สำหรับอัปเดตข้อมูลในชีต 'data' ตาม barcodenewid และคอลัมน์ที่ระบุ
     const range = `data!${String.fromCharCode(64 + columnToUpdate)}${barcodenewid}`;
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=USER_ENTERED&key=${apiKey}`;
