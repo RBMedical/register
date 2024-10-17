@@ -638,12 +638,12 @@ function checkInputLength() {
 
 function runFunction() {
         setTimeout(() => {   
-                        sendBarcode(event)();
+                        sendBarcode();
                          }, 1000);
     }
 
 
-function sendBarcode(event) {
+function sendBarcode() {
   
 
     var barcode = document.getElementById('inputbar').value.trim();
