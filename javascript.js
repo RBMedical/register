@@ -640,11 +640,15 @@ function runFunction() {
     sendBarcode(event);
 }
 
+
+    
+    var barcode = document.getElementById('inputbar').value.trim();
+    var barcodeid = barcode.substring(0, 8); // เอา 8 ตัวแรกของบาร์โค้ดมา
+    var barinputmethod = barcode.slice(-2);
 function sendBarcode(event) {
     event.preventDefault(); // ป้องกันการรีโหลดหน้าเว็บ
 
-    var barcode = document.getElementById('inputbar').value.trim();
-    var barcodeid = barcode.substring(0, 8); // เอา 8 ตัวแรกของบาร์โค้ดมา
+   
  
     // URL สำหรับ Google Sheets API
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
@@ -727,11 +731,12 @@ function displayNextNumber() {
         });
 }
 
+
 function addRegistData() {
     var barinput = document.getElementById('inputbar').value.trim();
     var barcodenewid = document.getElementById('barregisterid').textContent.trim();
     var barcodename = document.getElementById('barname').textContent.trim();
-    var barinputmethod = barinput.slice(-2); // ดึง 2 ตัวสุดท้าย
+   
     var specimen; // ประกาศตัวแปร specimen
      checkAndRefreshToken();
 
@@ -806,10 +811,10 @@ function addRegistData() {
     .then(data => {
         console.log("Success:", data);
         loadAllCount(); // เรียกฟังก์ชันเพื่อโหลดข้อมูลใหม่
-        clearSpecimen(); // ล้างค่าใน input bar
+     
 
-        // หลังจากเพิ่มข้อมูลเสร็จแล้ว เรียกฟังก์ชัน updateSheet เพื่อตรวจสอบ barinputmethod และอัปเดตข้อมูลในชีต 'data'
-        updateDataSheet(barcodenewid, barinputmethod);
+       
+        updateDataSheet();
     })
     .catch(error => {
         console.error('Error:', error);
@@ -817,67 +822,71 @@ function addRegistData() {
     });
 }
 
-// ฟังก์ชันที่อัปเดตข้อมูลใน sheet 'data'
-function updateDataSheet(barcodenewid, barinputmethod) {
-    // ระบุคอลัมน์ที่จะอัปเดตตามเงื่อนไขของ barinputmethod
-    let columnToUpdate;
-    switch (barinputmethod) {
-        case '11':
-            columnToUpdate = 7;  // คอลัมน์ [7]
-            break;
-        case '12':
-            columnToUpdate = 8;  // คอลัมน์ [8]
-            break;
-        case '13':
-            columnToUpdate = 11; // คอลัมน์ [11]
-            break;
-        case '14':
-            columnToUpdate = 12; // คอลัมน์ [12]
-            break;
-        case '15':
-            columnToUpdate = 13; // คอลัมน์ [13]
-            break;
-        case '16':
-            columnToUpdate = 14; // คอลัมน์ [14]
-            break;
-        case '17':
-            columnToUpdate = 15; // คอลัมน์ [15]
-            break;
-        case '18':
-            columnToUpdate = 16; // คอลัมน์ [16]
-            break;
-        case '19':
-            columnToUpdate = 17; // คอลัมน์ [17]
-            break;
-        case '20':
-            columnToUpdate = 9;  // คอลัมน์ [9]
-            break;
-        case '21':
-            columnToUpdate = 10; // คอลัมน์ [10]
-            break;
-        default:
-            console.log('ไม่พบ method ที่ต้องการอัปเดต');
-            return; // ออกจากฟังก์ชันหากไม่มีค่าใน switch
-    }
 
-    // สร้าง object เพื่ออัปเดตค่าในคอลัมน์ที่กำหนด
-    var dataToUpdate = {
-        values: [["x"]]
-    };
+
+function updateDataSheet() {
  checkAndRefreshToken();
-    // URL สำหรับอัปเดตข้อมูลในชีต 'data' ตาม barcodenewid และคอลัมน์ที่ระบุ
-    const range = `data!${String.fromCharCode(64 + columnToUpdate)}${barcodenewid}`;
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=USER_ENTERED&key=${apiKey}`;
+    
+     switch (barinputmethod){
+         case '11':
+            var rang2 = 'data!H:H';
+                 break;
+         case '12':
+           var rang2 = 'data!I:I';
+            break;
+         case '20':
+             var rang2 = 'data!J:J';
+             break;
+         case '21':
+             var rang2 = 'data!J:J';
+             break;
+         case '13':
+             var rang2 = 'data!K:K';
+             break;
+         case '14':
+             var rang2 = 'data!L:L';
+             break;
+         case '15':
+             var rang2 = 'data!M:M';
+             break;
+         case '16':
+             var rang2 = 'data!N:N';
+             break;
+         case '17':
+             var rang2 = 'data!O:O';
+             break;
+         case '18':
+             var rang = 'data!P:P';
+         case '19':
+             var rang = 'data!Q:Q';
+             break;
+        };
 
-    // ส่งคำขอไปยัง Google Sheets เพื่ออัปเดตข้อมูล
-    fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            "Authorization": `Bearer ${access_token}`, // ใช้ OAuth token ใน header
-        },
-        body: JSON.stringify(dataToUpdate)
-    })
+ 
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
+     fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const barcideid = document.getElementById('barregisterid').textContent.trim();
+            const valueinput = "X";
+           if (data.values) {
+                data.values.forEach(row => {
+                    if (row[0] === barcideid) {
+                            const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range2}?access_token=${accessToken}`;      
+
+                  fetch(url1, {
+                           method: 'POST',
+                           headers: {
+                           'Content-Type': 'application/json',
+                          "Authorization": `Bearer ${access_token}`, // ใช้ OAuth token ใน header
+                                                                                                 },
+                           body: valueinput
+                                                      })
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok: ' + response.statusText);
@@ -885,11 +894,12 @@ function updateDataSheet(barcodenewid, barinputmethod) {
         return response.json();
     })
     .then(data => {
-        console.log('Data updated successfully in sheet "data"', data);
-    })
-    .catch(error => {
-        console.error('Error updating data in sheet "data":', error);
-    });
+        console.log("Success:", data);
+                        
+                    } 
+                });
+                           
+            
 }
 
 
