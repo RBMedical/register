@@ -831,60 +831,72 @@ function updateDataSheet(barcodenewid, barinputmethod) {
     let columnToUpdate;
     switch (barinputmethod) {
         case '11':
-            columnToUpdate = 7;  // คอลัมน์ [7]
+            columnToUpdate = 7;  // คอลัมน์ G
             break;
         case '12':
-            columnToUpdate = 8;  // คอลัมน์ [8]
+            columnToUpdate = 8;  // คอลัมน์ H
             break;
         case '13':
-            columnToUpdate = 11; // คอลัมน์ [11]
+            columnToUpdate = 11; // คอลัมน์ K
             break;
         case '14':
-            columnToUpdate = 12; // คอลัมน์ [12]
+            columnToUpdate = 12; // คอลัมน์ L
             break;
         case '15':
-            columnToUpdate = 13; // คอลัมน์ [13]
+            columnToUpdate = 13; // คอลัมน์ M
             break;
         case '16':
-            columnToUpdate = 14; // คอลัมน์ [14]
+            columnToUpdate = 14; // คอลัมน์ N
             break;
         case '17':
-            columnToUpdate = 15; // คอลัมน์ [15]
+            columnToUpdate = 15; // คอลัมน์ O
             break;
         case '18':
-            columnToUpdate = 16; // คอลัมน์ [16]
+            columnToUpdate = 16; // คอลัมน์ P
             break;
         case '19':
-            columnToUpdate = 17; // คอลัมน์ [17]
+            columnToUpdate = 17; // คอลัมน์ Q
             break;
         case '20':
-            columnToUpdate = 9;  // คอลัมน์ [9]
+            columnToUpdate = 9;  // คอลัมน์ I
             break;
         case '21':
-            columnToUpdate = 10; // คอลัมน์ [10]
+            columnToUpdate = 10; // คอลัมน์ J
             break;
         default:
             console.log('ไม่พบ method ที่ต้องการอัปเดต');
             return; // ออกจากฟังก์ชันหากไม่มีค่าใน switch
     }
 
+    // ตรวจสอบว่าคุณมี Access Token และค่า spreadsheetId, apiKey ถูกต้อง
+    const accessToken = sessionStorage.getItem("access_token");
+    if (!accessToken) {
+        console.error("Access token not found. Please authenticate again.");
+        return;
+    }
+
+    const spreadsheetId = "your_spreadsheet_id";  // แทนที่ด้วย ID ของ Google Sheet ของคุณ
+    const apiKey = "your_api_key";  // แทนที่ด้วย API Key ของคุณ
+
     // สร้าง object เพื่ออัปเดตค่าในคอลัมน์ที่กำหนด
     var dataToUpdate = {
         values: [["x"]]
     };
 
-    // URL สำหรับอัปเดตข้อมูลในชีต 'data' ตาม barcodenewid และคอลัมน์ที่ระบุ
-    const accessToken = sessionStorage.getItem("access_token");
-    const range = `data!${String.fromCharCode(64 + columnToUpdate)}${barcodenewid}`;
+    // ใช้ String.fromCharCode เพื่อกำหนดคอลัมน์
+    let columnLetter = String.fromCharCode(64 + columnToUpdate);
+    const range = `data!${columnLetter}${barcodenewid}`;
+    
+    // URL สำหรับอัปเดตข้อมูลในชีต 'data'
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     // ส่งคำขอไปยัง Google Sheets เพื่ออัปเดตข้อมูล
     fetch(url, {
         method: 'PUT',
-       headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
-},
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + accessToken,
+        },
         body: JSON.stringify(dataToUpdate)
     })
     .then(response => {
@@ -900,6 +912,7 @@ function updateDataSheet(barcodenewid, barinputmethod) {
         console.error('Error updating data in sheet "data":', error);
     });
 }
+
 
 
 function loadAllCount() {
