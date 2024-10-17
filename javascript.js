@@ -325,6 +325,7 @@ window.onload = function(){
             showConfirmButton: false,
             timer: 1500
         });
+         addRegistrationDataInner(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
     })
     .catch(error => {
         console.error('Error:', error);
@@ -333,13 +334,13 @@ window.onload = function(){
             title: 'Oops...',
             text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
         });
-       addRegistrationDataInner(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
+      
     });
 }
 
  function addRegistrationDataInner() {
     // ดึงข้อมูลจาก HTML elements
-    var numb1 = getNextSpecimenNumber()
+    var numb1 = document.getElementById('specimenque').textContent.trim();
     var regisid = document.getElementById('registernumber').textContent.trim();
     var name = document.getElementById('name').textContent.trim();
     const type = "ลงทะเบียน";
