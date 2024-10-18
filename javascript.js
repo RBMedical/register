@@ -80,7 +80,7 @@ function checkAndRefreshTokenOnClick() {
 
 function searchData() {
     const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
-    const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
+    
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
 
     fetch(url)
