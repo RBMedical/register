@@ -46,7 +46,7 @@
     
 
       // ฟังก์ชันสำหรับรีเฟรช access token เมื่อมีการคลิก
-function refreshAccessTokenOnClick() {
+function refreshAccessToken() {
    
 
     if (!refreshToken) {
@@ -86,7 +86,7 @@ function refreshAccessTokenOnClick() {
 }
 
 // ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อคลิก
-function checkAndRefreshTokenOnClick() {
+function checkAndRefreshToken() {
     const accessToken = sessionStorage.getItem("access_token");
 
     if (!accessToken) {
