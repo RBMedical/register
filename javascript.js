@@ -1,3 +1,15 @@
+window.onload = function() {
+   
+    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiTfI-zaA59SoLjVLs5xKALORmDG1NI-rtmjIHvz2NKjBPi0kTlh_ps7eyshi1rFtQ") +
+                 "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets");
+
+  
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+
+
+
 // ข้อมูล Client
 const apiKey = 'AIzaSyDvWPO5V4Iin8OpQoq0otZNmcicWayo-6E';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
