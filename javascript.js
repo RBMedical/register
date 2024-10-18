@@ -9,7 +9,13 @@ const rangesheet5 = 'sticker!A2:ZZ';
 const rangesheet6 = 'specimencount!A2:ZZ';
 const rangesheet7 = 'specimencount!A:A';
 
-
+  const clientId = "168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com";
+  const clientSecret = "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";
+  const redirectUri = "https://rbmedical.github.io/register";     
+  const access_token ='ya29.a0AcM612zUy-IOhLhuQcXCfQN0-uv89Is0a4ZqiRKw8UtsK7F2_KCtlCWRMASi6B94U5Iv8pGmLQvb3sgOUytYzqV9ogkYcnYAjJ7aTjTPPQA7S1kz3mRhOho45jOibtp2iAVaB0BqzRuhg9ow1vMVHT7VhKDBFg0Vo6_QvfaxaCgYKAbUSARESFQHGX2Mi_hQtl_Xk8pxh3zePOimZbg0175';
+  const refreshToken =  '1//05NVsEHUGIgFnCgYIARAAGAUSNwF-L9Irbtd0caSfh03jfuqH1ydgufcYl69gawRKI1fcBYPm5ku3mLGEBP0BUL1JQXBKv2Q6JUE';
+  const scope = 'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets';
+    
 
       // ฟังก์ชันสำหรับรีเฟรช access token เมื่อมีการคลิก
 function refreshAccessToken() {
