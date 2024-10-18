@@ -21,7 +21,7 @@ const tokenData = {
 };
 
 
- window.onload = function() {
+
    
     sessionStorage.setItem("access_token", tokenData.access_token);
     sessionStorage.setItem("refresh_token", tokenData.refresh_token);
@@ -30,7 +30,7 @@ const tokenData = {
 
      ตรวจสอบว่า access token หมดอายุหรือไม่
     setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000); // รีเฟรชก่อนหมดอายุ 1 นาที/ };
- }
+
  ฟังก์ชันสำหรับรีเฟรช access token
 function refreshAccessToken() {
     const refreshToken = sessionStorage.getItem("refresh_token");
