@@ -589,7 +589,7 @@ function addNewData(access_token) {
         return; // ออกจากฟังก์ชันถ้ามีข้อมูลไม่ครบ
     }
 
-    var newRow = [newid, newname, newidcard, birthdate, newage, newprogram];
+    var newRow = [newid, newname, newidcard, newage, birthdate, newprogram];
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช OAuth token
     const accessToken = sessionStorage.getItem("access_token");
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
