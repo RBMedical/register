@@ -59,9 +59,8 @@ function refreshAccessToken() {
 
 // ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อคลิก
 function checkAndRefreshToken() {
-    const accessToken = sessionStorage.getItem("access_token");
-
-    if (!accessToken) {
+    
+    if (!access_token) {
         console.error("No access token found.");
         return;
     }
@@ -150,7 +149,7 @@ function searchData() {
 }
 
 function searchProgram() {
-    const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
+    
     const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?key=${apiKey}`;
     fetch(url1)
         .then(response => {
@@ -191,7 +190,7 @@ function searchProgram() {
 
 function loadAllRecords() {
    
-    const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
+    
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
     fetch(url)
@@ -526,7 +525,7 @@ function printResult() {
 
 function loadAllData() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-    checkAndRefreshToken();
+
     
     fetch(url)
         .then(response => {
