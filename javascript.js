@@ -23,24 +23,21 @@ const tokenData = {
 
 
    
-    sessionStorage.setItem("access_token", tokenData.access_token);
-    sessionStorage.setItem("refresh_token", tokenData.refresh_token);
-    console.log("Access token:", tokenData.access_token);
-    console.log("Refresh token:", tokenData.refresh_token);
-
-     ตรวจสอบว่า access token หมดอายุหรือไม่
-    setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000); // รีเฟรชก่อนหมดอายุ 1 นาที/ };
-
- ฟังก์ชันสำหรับรีเฟรช access token
-function refreshAccessToken() {
+   // ฟังก์ชันสำหรับรีเฟรช access token เมื่อมีการคลิก
+function refreshAccessTokenOnClick() {
     const refreshToken = sessionStorage.getItem("refresh_token");
+
+    if (!refreshToken) {
+        console.error("No refresh token found.");
+        return;
+    }
 
     const url = "https://oauth2.googleapis.com/token";
 
     const params = new URLSearchParams();
     params.append("grant_type", "refresh_token");
-    params.append("client_id", clientId);
-    params.append("client_secret", clientSecret);
+    params.append("client_id", clientId);  // ใส่ clientId ของคุณที่นี่
+    params.append("client_secret", clientSecret);  // ใส่ clientSecret ของคุณที่นี่
     params.append("refresh_token", refreshToken);
 
     fetch(url, {
@@ -66,15 +63,18 @@ function refreshAccessToken() {
     });
 }
 
-
-// ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อจำเป็น
-function checkAndRefreshToken() {
+// ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อคลิก
+function checkAndRefreshTokenOnClick() {
     const accessToken = sessionStorage.getItem("access_token");
 
-    console.log("Checking if access token needs refresh...");
-    refreshAccessToken(); // เรียกฟังก์ชันรีเฟรชทุกครั้ง (สามารถปรับให้ตรวจสอบได้)
-}
+    if (!accessToken) {
+        console.error("No access token found.");
+        return;
+    }
 
+    console.log("Checking if access token needs refresh...");
+    refreshAccessTokenOnClick();  // เรียกฟังก์ชันรีเฟรชเมื่อคลิก
+}
 
 
 
