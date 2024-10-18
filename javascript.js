@@ -996,6 +996,30 @@ function loadAllCount() {
     clearSpecimen();  
 }
 
+function calculateAge() {
+    var birthdate = document.getElementById('birthdate').value;
+    
+    if (birthdate) {
+      // แปลงวันที่เป็น Date object
+      var birthDateObj = new Date(birthdate);
+      var today = new Date(); // วันที่ปัจจุบัน
+      var age = today.getFullYear() - birthDateObj.getFullYear(); // คำนวณอายุคร่าว ๆ
+
+      // ตรวจสอบเดือนและวัน เพื่อให้แน่ใจว่าคำนวณอายุถูกต้อง (เผื่อยังไม่ถึงวันเกิดปีนี้)
+      var monthDiff = today.getMonth() - birthDateObj.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDateObj.getDate())) {
+        age--; // ถ้าเดือนนี้ยังไม่ถึงวันเกิด ให้ลบอายุออก 1 ปี
+      }
+      
+      // แสดงผลใน <span> ที่มี id="newage"
+      document.getElementById('newage').textContent = age;
+    } else {
+      // ถ้าไม่มีวันเดือนปีเกิด ให้ล้างค่าใน <span>
+      document.getElementById('newage').textContent = '';
+    }
+  }
+
+
 function loadRegister() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
 
