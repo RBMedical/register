@@ -81,7 +81,7 @@ function checkAndRefreshTokenOnClick() {
 function searchData() {
     const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
     const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?access_token=${accessToken}`;
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
 
     fetch(url)
         .then(response => {
@@ -153,8 +153,7 @@ function searchData() {
 
 function searchProgram() {
     const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
-    const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?access_token=${accessToken}`;
-
+    const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?key=${apiKey}`;
     fetch(url1)
         .then(response => {
             if (!response.ok) {
@@ -193,9 +192,9 @@ function searchProgram() {
 
 
 function loadAllRecords() {
-    checkAndRefreshToken();
+   
     const accessToken = sessionStorage.getItem("access_token"); // ดึง access token จาก sessionStorage
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?access_token=${accessToken}`;
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
     fetch(url)
         .then(response => {
