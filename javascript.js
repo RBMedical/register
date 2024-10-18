@@ -8,9 +8,7 @@ const rangesheet4 = 'register!A2:A';
 const rangesheet5 = 'sticker!A2:ZZ';
 const rangesheet6 = 'specimencount!A2:ZZ';
 const rangesheet7 = 'specimencount!A:A';
-const clientId = "168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com";
-const clientSecret = "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";
-const redirectUri = "https://rbmedical.github.io/register";
+
 
 
 
