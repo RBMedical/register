@@ -22,8 +22,8 @@ const tokenData = {
 };
 
 // ฟังก์ชันที่เรียกเมื่อหน้าโหลด
-window.onload = function() {
-    // เก็บ access token และ refresh token ใน sessionStorage
+// window.onload = function() {
+   
     sessionStorage.setItem("access_token", tokenData.access_token);
     sessionStorage.setItem("refresh_token", tokenData.refresh_token);
     console.log("Access token:", tokenData.access_token);
@@ -263,7 +263,7 @@ function updateDateTime() {
 setInterval(updateDateTime, 1000);
 
 
-window.onload = function(){
+// window.onload = function(){
    loadAllRecords();
     displayNextNumber();
     displayNextSpecimenNumber();
