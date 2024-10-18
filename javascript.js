@@ -21,18 +21,17 @@ const tokenData = {
 };
 
 
-// window.onload = function() {
+ window.onload = function() {
    
-//    sessionStorage.setItem("access_token", tokenData.access_token);
-//    sessionStorage.setItem("refresh_token", tokenData.refresh_token);
-//    console.log("Access token:", tokenData.access_token);
-//    console.log("Refresh token:", tokenData.refresh_token);
+    sessionStorage.setItem("access_token", tokenData.access_token);
+    sessionStorage.setItem("refresh_token", tokenData.refresh_token);
+    console.log("Access token:", tokenData.access_token);
+    console.log("Refresh token:", tokenData.refresh_token);
 
-    // ตรวจสอบว่า access token หมดอายุหรือไม่
-//    setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000); // รีเฟรชก่อนหมดอายุ 1 นาที
-// };
-
-// ฟังก์ชันสำหรับรีเฟรช access token
+     ตรวจสอบว่า access token หมดอายุหรือไม่
+    setInterval(checkAndRefreshToken, (tokenData.expires_in - 60) * 1000); // รีเฟรชก่อนหมดอายุ 1 นาที/ };
+ }
+ ฟังก์ชันสำหรับรีเฟรช access token
 function refreshAccessToken() {
     const refreshToken = sessionStorage.getItem("refresh_token");
 
@@ -263,12 +262,12 @@ setInterval(updateDateTime, 1000);
 
 
  window.onload = function(){
-//   loadAllRecords();
-//    displayNextNumber();
-//    displayNextSpecimenNumber();
-//    updateDateTime();
-//    loadAllData();
-// }
+  loadAllRecords();
+    displayNextNumber();
+    displayNextSpecimenNumber();
+    updateDateTime();
+    loadAllData();
+ }
     
 
 
