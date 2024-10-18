@@ -28,55 +28,7 @@ scope: "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/sp
 token_type: "Bearer"
 };
 
-// ฟังก์ชันที่เรียกเมื่อหน้าโหลด
-function refreshAccessToken() {
-    const refreshToken = sessionStorage.getItem("refresh_token");
 
-    const url = "https://oauth2.googleapis.com/token";
-
-    const params = new URLSearchParams();
-    params.append("grant_type", "refresh_token");
-    params.append("client_id", clientId);
-    params.append("client_secret", clientSecret);
-    params.append("refresh_token", refreshToken);
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to refresh access token');
-        }
-        return response.json();
-    })
-    .then(data => {
-        // เก็บ access token ใหม่
-        sessionStorage.setItem("access_token", data.access_token);
-        console.log("Access token refreshed:", data.access_token);
-    })
-    .catch(error => {
-        console.error('Error refreshing access token:', error);
-    });
-    loadingIcon();
-    Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Token refreshed , API Ready.",
-        showConfirmButton: false,
-        timer: 1500
-    });
-    apiDisabled();
-    anabledLoading()
-}
-
-// เพิ่มการคลิกปุ่มเพื่อรีเฟรช token
-document.getElementById("apiSyng").addEventListener("click", function() {
-    refreshAccessToken(); // เรียกใช้ฟังก์ชันเมื่อคลิกปุ่ม
-});
 
 
 
@@ -1101,29 +1053,3 @@ function closeStart(){
     $("#loading").css('display', 'none');  
 }
 
-function apiDisabled(){
-    $("#apiSyng").Disabled = true ;
-}
-
-function apiAnabled(){
-    $("#apiSyng").Disabled = false ;
-}
-
-
-function disabledLoading(){
-    $("#loadigData").Disabled = true ; 
-}
-function anabledLoading(){
-    $("#loadigData").Disabled = false ; 
-}
-
-function anabledStart(){
-    $("#closeAndStart").Disabled = false ; 
-
-}
-
-function closeStartModal(){
-    $("#start").css('display', 'none');  
-
-
-}
