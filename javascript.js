@@ -1136,7 +1136,7 @@ function buildSticker() {
                         searchResults.push([regisid,  barcodesticker,  stickerid, name, custom, method ]);
 
                         // เก็บ Method ที่ดึงมาแล้วลงใน processedMethods เพื่อป้องกันการซ้ำ
-                        processedMethods.push(Method);
+                        processedMethods.push(prog);
                     }
                 });
             }
