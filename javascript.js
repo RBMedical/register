@@ -650,7 +650,7 @@ function addNewData(access_token) {
         });
     });
    buildSticker();
- closeNewRegister(); // ปิด modal หรือ form ที่เพิ่มข้อมูล
+  // ปิด modal หรือ form ที่เพิ่มข้อมูล
 }
 
 
