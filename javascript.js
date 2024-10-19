@@ -1114,10 +1114,10 @@ function buildSticker() {
             // ค้นหาและเก็บข้อมูลลง searchResults
             if (data.values) {
                 data.values.forEach(row => {
-                    const Method = row[0]; 
+                    const prog = row[0]; 
 
                     // ตรวจสอบว่า Method ซ้ำกับที่เคยดึงมาแล้วหรือไม่
-                    if (Method === searchKey && !processedMethods.includes(Method)) {
+                    if (Method === searchKey && !processedMethods.includes(prog)) {
                         // ถ้า Method ไม่ซ้ำ ให้ดำเนินการต่อ
 
                         // เก็บค่า row[3] และ row[4] ลงในตัวแปร method และ methodid
