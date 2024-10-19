@@ -1093,8 +1093,8 @@ function closeSearch() {
 }
 
 function buildSticker() {
-     const program = document.getElementById('newprogram').value.trim();
-     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
+    const program = document.getElementById('newprogram').value.trim();
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
     fetch(url)
         .then(response => {
@@ -1103,56 +1103,61 @@ function buildSticker() {
             }
             return response.json();
         })
-          .then(data => {
-              if (data.values){
-                  data.values.forEach(row => {
-                      if (row[0] === program) {
-                          const prog = row[0]; 
-                         console.log(prog);
-                         console.log(program)
-                        const method = row[2]; // เก็บค่า row[3] ในตัวแปร method
-                        const methodid = row[3]; // เก็บค่า row[4] ในตัวแปร methodid
-                        const custom = row[4];
+        .then(data => {
+            if (data.values) {
+                data.values.forEach(row => {
+                    if (row[0] === program) {
+                        const prog = row[0]; 
+                        console.log(prog);
+                        console.log(program);
+
+                        const method = row[2]; // เก็บค่า row[2] ในตัวแปร method
+                        const methodid = row[3]; // เก็บค่า row[3] ในตัวแปร methodid
+                        const custom = row[4]; // เก็บค่า row[4] ในตัวแปร custom
                         const regisid = document.getElementById("newid").textContent;
                         const name = document.getElementById("newname").textContent;
-                        
-                        const barcodesticker = string(regisid) + string(methodid);
-                        const stickerid = string(registerid) + program
+
+                        const barcodesticker = String(regisid) + String(methodid);
+                        const stickerid = String(regisid) + program;
 
                         var data = {
-                        values: [[regisid,  barcodesticker,  stickerid, name, custom, method ]]
-    
-                      }
-                     
-                  })
-              }
-          })
-        checkAndRefreshToken();
-        const accessToken = sessionStorage.getItem("access_token");
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;  
+                            values: [[regisid, barcodesticker, stickerid, name, custom, method]]
+                        };
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken,
-        },
-        body: JSON.stringify(data)
-    })
-     .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(result => {
-       
-    })
-    .catch(error => {
-        console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
-        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-    });
-   
+                        // ตรวจสอบ token ก่อนทำการส่งข้อมูล
+                        checkAndRefreshToken();
+                        const accessToken = sessionStorage.getItem("access_token");
+
+                        const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+
+                        fetch(appendUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + accessToken,
+                            },
+                            body: JSON.stringify(data)
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(result => {
+                            console.log('Data saved successfully:', result);
+                        })
+                        .catch(error => {
+                            console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
+                            alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                        });
+                    }
+                });
+            }
+        })
+        .catch(error => {
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+        });
 }
 
 
