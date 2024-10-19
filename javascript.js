@@ -1087,28 +1087,13 @@ function closeSearch() {
 }
 
 function buildSticker() {
-    const m1 =  document.getElementById('registernumber');
-    const m2 =  document.getElementById('name');
-    const m3 =  document.getElementById('idcard');
-    const m4 =  document.getElementById('age');
-    const m5 =  document.getElementById('birthday');
-    const m6 =  document.getElementById('program');
+ 
+    const m6 =  document.getElementById('searchKey');
+    const n6 =  document.getElementById('newidcard').value;
 
-    const n1 =  document.getElementById('newid').value;
-    const n2 =  document.getElementById('newname').value;
-    const n3 =  document.getElementById('newidcard').value;
-    const n4 =  document.getElementById('birthdate').value;
-    const n5 =  document.getElementById('newage').textContent;
-    const n6 =  document.getElementById('newprogram').value;
-
-        m1.innerText = n1;
-        m2.innerText = n2;
-        m3.innerText = n3;
-        m4.innerText = n5;
-        m5.innerText = n4;
-        m6.innerText = n6;
-
-   
+        m6.innerHTML = n6;
+      
+       
     const program = document.getElementById('newprogram').value.trim();
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
@@ -1198,4 +1183,61 @@ function buildSticker() {
             timer: 1500
         });
    closeNewRegister();
+   searchData();
 }
+
+function printSticker() {
+  closeAlert();
+  $('#sticker').css('display', 'block')
+
+}
+
+function printSspecimen() {
+   printResult();
+   closeModal();
+    clearPage();
+      closeModal();
+        getLastNumber();
+       
+    
+
+}
+
+function printResult() {
+     var modalContent = document.querySelector('#sticker').innerHTML; 
+      var originalContent = document.body.innerHTML;
+ 
+      
+        document.body.innerHTML = modalContent;
+        window.print();
+         document.body.innerHTML = originalContent;
+       
+
+      
+}
+
+
+ function clearPage() {
+        var searchKey = document.getElementById('searchKey');
+        var regisid = document.getElementById('registernumber');
+        var name = document.getElementById('name');
+        var idcard = document.getElementById('idcard');
+        var age = document.getElementById('age');
+        var birthday = document.getElementById('birthday');
+        var program = document.getElementById('program');
+        var programDetail = document.getElementById('programdetail');
+
+
+        searchKey.innerHTML = '';
+        regisid.textContent = '';
+        name.textContent = '';
+        idcard.textContent = '';
+        age.textContent = '';
+        birthday.textContent = '';
+        program.textContent = '';
+        programDetail.textContent = '';
+
+   }
+
+
+
