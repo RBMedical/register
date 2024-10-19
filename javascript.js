@@ -1012,7 +1012,7 @@ function loadAllCount() {
 }
 
 function calculateAge() {
-    var birthdate = document.getElementById('birthdate').value;
+ var birthdate = document.getElementById('birthdate').value;
     
     if (birthdate) {
       // แปลงวันที่เป็น Date object
@@ -1093,6 +1093,28 @@ function closeSearch() {
 }
 
 function buildSticker() {
+    const m1 =  document.getElementById('registernumber');
+    const m2 =  document.getElementById('name');
+    const m3 =  document.getElementById('idcard');
+    const m4 =  document.getElementById('age');
+    const m5 =  document.getElementById('birthday');
+    const m6 =  document.getElementById('program');
+
+    const n1 =  document.getElementById('newid').value;
+    const n2 =  document.getElementById('newname').value;
+    const n3 =  document.getElementById('newidcard').value;
+    const n4 =  document.getElementById('birthdate').value;
+    const n5 =  document.getElementById('newage').textContent;
+    const n6 =  document.getElementById('newprogram').value;
+
+        m1.innerText = n1;
+        m2.innerText = n2;
+        m3.innerText = n3;
+        m4.innerText = n4;
+        m5.innerText = n5;
+        m6.innerText = n6;
+
+   
     const program = document.getElementById('newprogram').value.trim();
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
