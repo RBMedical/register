@@ -1095,7 +1095,7 @@ function closeSearch() {
 
 
 function buildSticker() {
-    const program = document.getElementById('newprogram').textContent.trim();
+    const program = document.getElementById('newprogram').value.trim();
     
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
@@ -1117,7 +1117,7 @@ function buildSticker() {
                  if (row[0] === program) {                        
                         const prog = row[0]; 
                          console.log(prog);
-                    
+                         console.log(program)
                         const method = row[2]; // เก็บค่า row[3] ในตัวแปร method
                         const methodid = row[3]; // เก็บค่า row[4] ในตัวแปร methodid
                         const custom = row[4];
