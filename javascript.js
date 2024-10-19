@@ -21,7 +21,7 @@ const rangesheet5 = 'sticker!A2:ZZ';
 const rangesheet6 = 'specimencount!A2:ZZ';
 const rangesheet7 = 'specimencount!A:A';
 const rangesheet8 = 'program!A2:ZZ';
-const rangesheet9 = 'sticker'!A2:ZZ';
+const rangesheet9 = 'sticker!A2:ZZ';
 
   const clientId = "168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com";
   const clientSecret = "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";
