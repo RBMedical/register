@@ -1104,8 +1104,8 @@ function buildSticker() {
         m1.innerText = n1;
         m2.innerText = n2;
         m3.innerText = n3;
-        m4.innerText = n4;
-        m5.innerText = n5;
+        m4.innerText = n5;
+        m5.innerText = n4;
         m6.innerText = n6;
 
    
