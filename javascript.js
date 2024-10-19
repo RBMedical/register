@@ -20,6 +20,8 @@ const rangesheet4 = 'register!A2:A';
 const rangesheet5 = 'sticker!A2:ZZ';
 const rangesheet6 = 'specimencount!A2:ZZ';
 const rangesheet7 = 'specimencount!A:A';
+const rangesheet8 = 'program!A2:ZZ';
+const rangesheet9 = 'sticker'!A2:ZZ';
 
   const clientId = "168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com";
   const clientSecret = "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";
@@ -647,6 +649,7 @@ function addNewData(access_token) {
             text: 'ไม่สามารถเพิ่มข้อมูลได้!'
         });
     });
+   buildSticker();
 }
 
 
@@ -1087,5 +1090,99 @@ function openSearch() {
 
 function closeSearch() {
     $(".modalsearch").css('display', 'none');
+}
+
+
+
+function buildSticker() {
+    const searchKey = document.getElementById('newprogram').textContent.trim();
+    
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
+
+    let processedMethods = []; // ตัวแปรสำหรับเก็บค่าที่เคยดึงมาแล้ว
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            let searchResults = []; // ตัวแปรสำหรับเก็บข้อมูลที่พบ
+
+            // ค้นหาและเก็บข้อมูลลง searchResults
+            if (data.values) {
+                data.values.forEach(row => {
+                    const Method = row[0]; 
+
+                    // ตรวจสอบว่า Method ซ้ำกับที่เคยดึงมาแล้วหรือไม่
+                    if (Method === searchKey && !processedMethods.includes(Method)) {
+                        // ถ้า Method ไม่ซ้ำ ให้ดำเนินการต่อ
+
+                        // เก็บค่า row[3] และ row[4] ลงในตัวแปร method และ methodid
+                        const method = row[2]; // เก็บค่า row[3] ในตัวแปร method
+                        const methodid = row[3]; // เก็บค่า row[4] ในตัวแปร methodid
+                        const custom = row[4];
+                        // ดึงค่าจาก element HTML ที่ต้องการ
+                        const regisid = document.getElementById("newid").textContent;
+                        const name = document.getElementById("newname").textContent;
+                      
+                        const program = document.getElementById("newprogram").textContent;
+                        const barcodesticker = string(regisid) + string(methodid);
+                        const stickerid = string(registerid) + program
+
+                        // เก็บข้อมูลที่ดึงจาก element HTML รวมกับ method และ methodid ลงใน searchResults
+                        searchResults.push([regisid,  barcodesticker,  stickerid, name, custom, method ]);
+
+                        // เก็บ Method ที่ดึงมาแล้วลงใน processedMethods เพื่อป้องกันการซ้ำ
+                        processedMethods.push(Method);
+                    }
+                });
+            }
+
+            if (searchResults.length > 0) {
+                // ถ้าพบข้อมูลที่ตรงกับ searchKey ให้นำข้อมูลที่เก็บไว้ใน searchResults ไปบันทึกลง sheet1
+                saveToSheet1(searchResults);
+            } else {
+                alert('ไม่พบข้อมูลที่ค้นหา หรือข้อมูลซ้ำ');
+            }
+        })
+        .catch(error => {
+            console.error('มีข้อผิดพลาดเกิดขึ้น:', error);
+            alert('เกิดข้อผิดพลาดในการดึงข้อมูล');
+        });
+}
+
+// ฟังก์ชันสำหรับบันทึกข้อมูลลงใน sheet1
+function saveToSheet1(data) {
+    const accessToken = sessionStorage.getItem("access_token");
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+    
+    const body = {
+        values: data // ส่งข้อมูลที่ได้จาก searchResults ไปบันทึกใน sheet1
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + accessToken,
+        },
+        body: JSON.stringify(body)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(result => {
+       
+    })
+    .catch(error => {
+        console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
+        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+    });
 }
 
