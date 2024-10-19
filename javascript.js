@@ -631,8 +631,8 @@ function addNewData(access_token) {
     })
     .then(data => {
         console.log("Data added successfully", data);
-        closeNewRegister(); // ปิด modal หรือ form ที่เพิ่มข้อมูล
-        loadAllData(); // โหลดข้อมูลใหม่หลังจากเพิ่มข้อมูล
+       
+       
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -650,6 +650,7 @@ function addNewData(access_token) {
         });
     });
    buildSticker();
+ closeNewRegister(); // ปิด modal หรือ form ที่เพิ่มข้อมูล
 }
 
 
