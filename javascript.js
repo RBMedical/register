@@ -1095,7 +1095,7 @@ function closeSearch() {
 
 
 function buildSticker() {
-    const searchKey = document.getElementById('newprogram').textContent.trim();
+    const program = document.getElementById('newprogram').textContent.trim();
     
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
@@ -1117,7 +1117,7 @@ function buildSticker() {
                     const prog = row[0]; 
 
                     // ตรวจสอบว่า Method ซ้ำกับที่เคยดึงมาแล้วหรือไม่
-                    if (Method === searchKey && !processedMethods.includes(prog)) {
+                    if (prog === program && !processedMethods.includes(prog)) {
                         // ถ้า Method ไม่ซ้ำ ให้ดำเนินการต่อ
 
                         // เก็บค่า row[3] และ row[4] ลงในตัวแปร method และ methodid
@@ -1128,7 +1128,7 @@ function buildSticker() {
                         const regisid = document.getElementById("newid").textContent;
                         const name = document.getElementById("newname").textContent;
                       
-                        const program = document.getElementById("newprogram").textContent;
+                       
                         const barcodesticker = string(regisid) + string(methodid);
                         const stickerid = string(registerid) + program
 
