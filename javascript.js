@@ -1114,7 +1114,7 @@ function buildSticker() {
             // ค้นหาและเก็บข้อมูลลง searchResults
             if (data.values) {
                 data.values.forEach(row => {
-                 if (row[0] === program && !processedMethods.includes(prog)) {                        
+                 if (row[0] === program) {                        
                         const prog = row[0]; 
                          console.log(prog);
                     
