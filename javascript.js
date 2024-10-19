@@ -633,13 +633,7 @@ function addNewData(access_token) {
         console.log("Data added successfully", data);
          buildSticker();
        
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'เพิ่มข้อมูลสำเร็จ',
-            showConfirmButton: false,
-            timer: 1500
-        });
+      
     })
     .catch(error => {
         console.error("Error adding data:", error);
@@ -1196,4 +1190,12 @@ function buildSticker() {
         .catch(error => {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
         });
+     Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'เพิ่มข้อมูลสำเร็จ',
+            showConfirmButton: false,
+            timer: 1500
+        });
+   closeNewRegister();
 }
