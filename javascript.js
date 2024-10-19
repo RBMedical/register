@@ -1114,13 +1114,13 @@ function buildSticker() {
                         const method = row[2]; // เก็บค่า row[2] ในตัวแปร method
                         const methodid = row[3]; // เก็บค่า row[3] ในตัวแปร methodid
                         const custom = row[4]; // เก็บค่า row[4] ในตัวแปร custom
-                        const regisid = document.getElementById("newid").textContent;
-                        const name = document.getElementById("newname").textContent;
+                        const regisid = document.getElementById("newid").value;
+                        const name = document.getElementById("newname").value;
 
                         const barcodesticker = String(regisid) + String(methodid);
                         const stickerid = String(regisid) + program;
 
-                        var data = {
+                        var data += {
                             values: [[regisid, barcodesticker, stickerid, name, custom, method]]
                         };
 
