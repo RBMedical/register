@@ -1092,14 +1092,9 @@ function closeSearch() {
     $(".modalsearch").css('display', 'none');
 }
 
-
-
 function buildSticker() {
-    const program = document.getElementById('newprogram').value.trim();
-    
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
-
-    let processedMethods = []; // ตัวแปรสำหรับเก็บค่าที่เคยดึงมาแล้ว
+     const program = document.getElementById('newprogram').value.trim();
+     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
     fetch(url)
         .then(response => {
@@ -1108,57 +1103,33 @@ function buildSticker() {
             }
             return response.json();
         })
-        .then(data => {
-            let searchResults = []; // ตัวแปรสำหรับเก็บข้อมูลที่พบ
-
-            // ค้นหาและเก็บข้อมูลลง searchResults
-            if (data.values) {
-                data.values.forEach(row => {
-                 if (row[0] === program) {                        
-                        const prog = row[0]; 
+          .then(data => {
+              if (data.values){
+                  data.values.forEach(row => {
+                      if (row[0] === program) {
+                          const prog = row[0]; 
                          console.log(prog);
                          console.log(program)
                         const method = row[2]; // เก็บค่า row[3] ในตัวแปร method
                         const methodid = row[3]; // เก็บค่า row[4] ในตัวแปร methodid
                         const custom = row[4];
-                        // ดึงค่าจาก element HTML ที่ต้องการ
                         const regisid = document.getElementById("newid").textContent;
                         const name = document.getElementById("newname").textContent;
-                      
-                       
+                        
                         const barcodesticker = string(regisid) + string(methodid);
                         const stickerid = string(registerid) + program
 
-                        // เก็บข้อมูลที่ดึงจาก element HTML รวมกับ method และ methodid ลงใน searchResults
-                        searchResults.push([regisid,  barcodesticker,  stickerid, name, custom, method ]);
-
-                        // เก็บ Method ที่ดึงมาแล้วลงใน processedMethods เพื่อป้องกันการซ้ำ
-                        processedMethods.push(prog);
-                    }
-                });
-            }
-
-            if (searchResults.length > 0) {
-                // ถ้าพบข้อมูลที่ตรงกับ searchKey ให้นำข้อมูลที่เก็บไว้ใน searchResults ไปบันทึกลง sheet1
-                saveToSheet1(searchResults);
-            } else {
-                alert('ไม่พบข้อมูลที่ค้นหา หรือข้อมูลซ้ำ');
-            }
-        })
-        .catch(error => {
-            console.error('มีข้อผิดพลาดเกิดขึ้น:', error);
-            alert('เกิดข้อผิดพลาดในการดึงข้อมูล');
-        });
-}
-
-// ฟังก์ชันสำหรับบันทึกข้อมูลลงใน sheet1
-function saveToSheet1(data) {
-    const accessToken = sessionStorage.getItem("access_token");
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+                        var data = {
+                        values: [[regisid,  barcodesticker,  stickerid, name, custom, method ]]
     
-    const body = {
-        values: data // ส่งข้อมูลที่ได้จาก searchResults ไปบันทึกใน sheet1
-    };
+                      }
+                     
+                  })
+              }
+          })
+        checkAndRefreshToken();
+        const accessToken = sessionStorage.getItem("access_token");
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;  
 
     fetch(url, {
         method: 'POST',
@@ -1166,9 +1137,9 @@ function saveToSheet1(data) {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + accessToken,
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(data)
     })
-    .then(response => {
+     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -1181,5 +1152,8 @@ function saveToSheet1(data) {
         console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
         alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
     });
+   
 }
 
+
+   
