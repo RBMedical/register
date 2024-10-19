@@ -1115,7 +1115,7 @@ function buildSticker() {
             if (data.values) {
                 data.values.forEach(row => {
                     const prog = row[0]; 
-
+                 console.log(prog);
                     // ตรวจสอบว่า Method ซ้ำกับที่เคยดึงมาแล้วหรือไม่
                     if (prog === program && !processedMethods.includes(prog)) {
                         // ถ้า Method ไม่ซ้ำ ให้ดำเนินการต่อ
