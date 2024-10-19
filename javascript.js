@@ -1111,20 +1111,36 @@ function buildSticker() {
                         console.log(prog);
                         console.log(program);
 
-                        const method = row[2]; // เก็บค่า row[2] ในตัวแปร method
-                        const methodid = row[3]; // เก็บค่า row[3] ในตัวแปร methodid
-                        const custom = row[4]; // เก็บค่า row[4] ในตัวแปร custom
-                        const regisid = document.getElementById("newid").value;
-                        const name = document.getElementById("newname").value;
+                        const method = row[2]; 
+                        const methodid = row[3]; 
+                        const custom = row[4]; 
+
+                        // ตรวจสอบการดึงค่า newid และ newname
+                        const regisidInput = document.getElementById("newid");
+                        const nameInput = document.getElementById("newname");
+
+                        if (!regisidInput || !nameInput) {
+                            console.error('ไม่พบ element newid หรือ newname');
+                            alert('ไม่พบข้อมูลการลงทะเบียน');
+                            return;
+                        }
+
+                        const regisid = regisidInput.value;
+                        const name = nameInput.value;
+
+                        if (!regisid || !name) {
+                            console.error('ไม่สามารถดึงค่า regisid หรือ name');
+                            alert('กรุณากรอกข้อมูลให้ครบ');
+                            return;
+                        }
 
                         const barcodesticker = String(regisid) + String(methodid);
                         const stickerid = String(regisid) + program;
 
-                        var data += {
+                        var data = {
                             values: [[regisid, barcodesticker, stickerid, name, custom, method]]
                         };
 
-                        // ตรวจสอบ token ก่อนทำการส่งข้อมูล
                         checkAndRefreshToken();
                         const accessToken = sessionStorage.getItem("access_token");
 
@@ -1159,6 +1175,3 @@ function buildSticker() {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
         });
 }
-
-
-   
