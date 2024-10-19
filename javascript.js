@@ -631,7 +631,7 @@ function addNewData(access_token) {
     })
     .then(data => {
         console.log("Data added successfully", data);
-       
+         buildSticker();
        
         Swal.fire({
             position: 'center',
@@ -649,8 +649,7 @@ function addNewData(access_token) {
             text: 'ไม่สามารถเพิ่มข้อมูลได้!'
         });
     });
-   buildSticker();
-  // ปิด modal หรือ form ที่เพิ่มข้อมูล
+  
 }
 
 
