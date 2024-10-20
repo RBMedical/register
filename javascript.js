@@ -1327,3 +1327,4 @@ function printResult() {
         birthday.textContent = '';
         program.textContent = '';
         programDetail.textContent = '';
+ }
