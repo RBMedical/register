@@ -53,20 +53,20 @@
              <form class="d-flex ms-1 p-2 round-2" style="font-size: 0.75rem;" role="search" onsubmit="event.preventDefault(); searchData();">
               <input id="searchKey"  class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit" onclick="searchData" style="cursor: pointer;">Search</button>
-              <a class="btn btn-secondary ms-1" href="https://docs.google.com/spreadsheets/d/1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw/edit?gid=0#gid=0" target="_blank"  style="cursor: pointer;">T</a>
+              <a class="btn btn-secondary ms-1" href="https://docs.google.com/spreadsheets/d/1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw/edit?gid=283433649#gid=283433649" target="_blank"  style="cursor: pointer;">T</a>
                  </form>
           </div>    
-                      <div id="form1" class="bg-secondary-subtle ms-2 mt-2 mb-2 p-2 border border-dark " style="font-family: sarabun;">
+                      <div id="form1" class="bg-secondary-subtle mt-2 mb-2 p-2 border border-dark " style="font-family: sarabun;">
                         <div class="container-fluid">
                           <div class="input-group input-group-sm mb-3 mt-2">
                             <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                               <div class="input-group">
                                  <span class="input-group-text" style="font-size: 0.75rem;">No</span>
                                 <span class="form-control" style="font-size: 0.75rem;" id="numb"></span>
                               </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-8">
                               <div class="input-group">
                                 <span class="input-group-text" style="font-size: 0.75rem;">Register ID</span>
                                 <span class="form-control me-2 fw-bold" id="registernumber"></span>
@@ -87,7 +87,18 @@
                             </div>
                           </div>
                           <div class="input-group input-group-sm mb-3 mt-2">
-                           
+                            <div class="input-group">
+                              <span class="input-group-text" style="font-size: 0.75rem;">เลขบัตร ปชช</span>
+                              <span class="form-control fw-bold" id="card"></span>
+                            </div>
+                          </div>
+                          <div class="input-group input-group-sm mb-3 mt-2">
+                            <div class="input-group">
+                              <span class="input-group-text" style="font-size: 0.75rem;">แผนก</span>
+                              <span class="form-control fw-bold" id="depart"></span>
+                            </div>
+                          </div>
+                          <div class="input-group input-group mb-3 mt-2">
                             <div class="col-6">
                               <div class="input-group">
                                 <span class="input-group-text" style="font-size: 0.75rem;">อายุ</span>
@@ -95,23 +106,15 @@
                                 <span class="input-group-text" style="font-size: 0.75rem;">ปี</span>
                               </div>
                             </div>
-       <style>
-         
-         #age{
-           min-width: 1.5cm;
-           max-width: 1.5cm;
-         }
-                  
-        </style>
                             <div class="col-6">
-                              <div class="input-group">
-                                <span class="input-group-text ms-3" style="font-size: 0.75rem;">ว/ด/ป เกิด</span>
+                              <div class="input-group ms-3">
+                                <span class="input-group-text ms-2" style="font-size: 0.75rem;">วันเกิด</span>
                                 <span class="form-control fw-bold" id="birthday"></span>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="h-100 p-2 rounded-2 border border-info" style="min-height: 7cm;">
+                        <div class="h-100 p-2 rounded-2 border border-dark" style="min-height: 4.5cm;">
                           <div class="row">
                             <div class="col-4" style="font-size: 0.75rem;">โปรแกรมตรวจ</div>
                             <div class="col-8 fw-bold" id="program"></div>
