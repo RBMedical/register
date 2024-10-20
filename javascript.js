@@ -1272,9 +1272,8 @@ function buildSticker() {
             timer: 1500
         });
     setTimeout(() => { 
-   closeNewRegister(); }, 1000);
-   
-   
+   clearRegisterPage(); }, 1000);
+   closeNewRegister();
 }
 
 function printSticker() {
@@ -1327,4 +1326,26 @@ function printResult() {
         birthday.textContent = '';
         program.textContent = '';
         programDetail.textContent = '';
+ }
+
+
+function clearRegisterPage() {
+      
+        var regisid = document.getElementById('newid');
+        var name = document.getElementById('newname');
+        var idcard = document.getElementById('newidcard');
+        var age = document.getElementById('newage');
+        var birthday = document.getElementById('birthdate');
+        var program = document.getElementById('newprogram');
+        var card = document.getElementById('newcard');
+        var depart = document.getElementById('newdepart');
+
+        depart.innerHTML = '';
+        regisid.textContent = '';
+        name.textContent = '';
+        idcard.textContent = '';
+        age.textContent = '';
+        birthday.textContent = '';
+        program.textContent = '';
+        card.textContent = '';
  }
