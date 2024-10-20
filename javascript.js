@@ -767,6 +767,8 @@ function closeNewRegister() {
 }
 
 function openNewRegister() {
+   clearPage();
+   clearRegisterPage();
     $('.modalregister').css('display', 'block');
 }
 
@@ -1319,8 +1321,8 @@ function printResult() {
         var birthday = document.getElementById('birthday');
         var program = document.getElementById('program');
         var programDetail = document.getElementById('programdetail');
-
-
+        var card = document.getElementById('card');
+        var depart = document.getElementById('depart');
         searchKey.innerHTML = '';
         regisid.textContent = '';
         name.textContent = '';
@@ -1329,26 +1331,28 @@ function printResult() {
         birthday.textContent = '';
         program.textContent = '';
         programDetail.textContent = '';
+        card.textContent = '';
+        depart.textContent = '';
  }
 
 
 function clearRegisterPage() {
       
-        var regisid = document.getElementById('newid');
-        var name = document.getElementById('newname');
-        var idcard = document.getElementById('newidcard');
-        var age = document.getElementById('newage');
-        var birthday = document.getElementById('birthdate');
-        var program = document.getElementById('newprogram');
-        var card = document.getElementById('newcard');
-        var depart = document.getElementById('newdepart');
+        var newregisid = document.getElementById('newid');
+        var newname = document.getElementById('newname');
+        var newidcard = document.getElementById('newidcard');
+        var newage = document.getElementById('newage');
+        var newbirthday = document.getElementById('birthdate');
+        var newprogram = document.getElementById('newprogram');
+        var newcard = document.getElementById('newcard');
+        var newdepart = document.getElementById('newdepart');
 
-        depart.innerHTML = '';
-        regisid.textContent = '';
-        name.textContent = '';
-        idcard.textContent = '';
-        age.textContent = '';
-        birthday.textContent = '';
-        program.textContent = '';
-        card.textContent = '';
+        newdepart.innerHTML = '';
+        newregisid.textContent = '';
+        newname.textContent = '';
+        newidcard.textContent = '';
+        newage.textContent = '';
+        newbirthday.textContent = '';
+        newprogram.textContent = '';
+        newcard.textContent = '';
  }
