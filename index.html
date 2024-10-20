@@ -183,20 +183,33 @@
           <span class="input-group-text" id="inputGroup-sizing-sm">รหัสพนักงาน</span>
          <input type="text" class="form-control" style="width: 0.5cm;" id="newidcard">
       </div>
+            div class="input-group input-group-sm mb-3">
+        <span class="input-group-text">เลขบัตร ป.ช.ช.</span>
+       <input type="text" class="form-control" id="newcard">
+    </div>
+     <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm">แผนก</span>
+       <input type="text" class="form-control" style="width: 0.5cm;" id="newdepart">
+    </div>
        <div class="input-group input-group-sm mb-3">
           <span class="input-group-text">วันเกิด</span>
          <input type="date" class="form-control" id="birthdate" onchange="calculateAge()" name="birthdate">
       </div>
+          <div class="row">
+         <div class="col-4">
           <div class="input-group input-group-sm mb-3">
           <span class="input-group-text">อายุ</span>
          <span type="text" class="form-control" id="newage" style="max-width: 2cm;"></span>
          <span class="input-group-text">ปี</span>
       </div>
+         </div>
+         <div class="col-7">
         <div class="input-group input-group-sm mb-3">
           <span class="input-group-text">โปรแกรมตรวจ</span>
          <input type="text" class="form-control"  id="newprogram" style="max-width: 2cm;">
       </div>
-
+    </div>
+</div>
             <button type="button" onclick="addNewData()" class="w-100 btn btn-lg btn-primary px-1 py-1" style="font-size: 0.75rem">เพิ่มรายชื่อ</button>
      </div>     
     </div>
