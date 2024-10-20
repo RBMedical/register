@@ -1110,15 +1110,7 @@ function buildSticker() {
             if (data.values) {
                 data.values.forEach(row => {
                     if (row[0] === program) {
-                         const m6 = document.getElementById('searchKey');
-                         const n6 = document.getElementById('newidcard') ? document.getElementById('newidcard').value : null;
-
-                     if (m6 && n6) {
-               m6.innerText = n6;
-            } else {
-         console.error('ไม่พบ searchKey หรือ newidcard หรือ newidcard ไม่มีค่า');
-    alert('ไม่พบข้อมูลบัตรประชาชนหรือไม่สามารถอัพเดตค่าได้');
-  }
+                        
 
 
                        
@@ -1251,7 +1243,14 @@ function printResult() {
         program.textContent = '';
         programDetail.textContent = '';
 
+   function copyId(){
+ const m6 = document.getElementById('searchKey');
+ const n6 = document.getElementById('newidcard') ? document.getElementById('newidcard').value : null;
+
+                     if (m6 && n6) {
+               m6.innerText = n6;
+            } else {
+         console.error('ไม่พบ searchKey หรือ newidcard หรือ newidcard ไม่มีค่า');
+    alert('ไม่พบข้อมูลบัตรประชาชนหรือไม่สามารถอัพเดตค่าได้');
+  }
    }
-
-
-
