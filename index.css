@@ -13,6 +13,12 @@
     min-width: 1.5cm;
     max-width: 1.5cm;
   }
+#barregisterid{
+    max-width: 6cm;
+}
+#barname{
+    max-width: 6cm;
+}
   #registernumber{
     min-width: 3cm;
     ax-width: 3cm;
