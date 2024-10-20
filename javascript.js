@@ -106,6 +106,8 @@ function searchData() {
             const regisid = document.getElementById("registernumber");
             const name = document.getElementById("name");
             const idcard = document.getElementById("idcard");
+            const card = document.getElementById("card");
+            const depart = document.getElementById("depart");
             const age = document.getElementById("age");
             const birthday = document.getElementById("birthday");
             const program = document.getElementById("program");
@@ -117,6 +119,8 @@ function searchData() {
             age.textContent = "";
             birthday.textContent = "";
             program.textContent = "";
+            card.textContent = "";
+            depart.textContent = "";
 
             let found = false; // ประกาศตัวแปร found เพื่อตรวจสอบว่าพบข้อมูลหรือไม่
 
@@ -128,9 +132,11 @@ function searchData() {
                         regisid.textContent = row[0];
                         name.textContent = row[1];
                         idcard.textContent = row[2];
-                        age.textContent = row[3];
-                        birthday.textContent = row[4];
-                        program.textContent = row[5];
+                        card.textContent = row[3];
+                        depart.textContent = row[4];;
+                        age.textContent = row[5];
+                        birthday.textContent = row[6];
+                        program.textContent = row[7];
                         found = true; // เปลี่ยนค่า found เป็น true
 
                         // เก็บค่าผลลัพธ์ในตัวแปร searchResult
