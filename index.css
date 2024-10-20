@@ -12,6 +12,7 @@
   #numb{
     min-width: 1.5cm;
     max-width: 1.5cm;
+    justify-content: center;
   }
   #registernumber{
     min-width: 3cm;
@@ -87,12 +88,12 @@
         
   } 
   .container-sm{
-      display: flex;
-    
-    
-    
-    
+     display: flex;
+        
   }
+#registernumber{
+    max-width: 4cm;
+}
   .groupbox{
       display: flex;
   }
@@ -146,7 +147,7 @@
       font-family: sarabun;
       font-weight: bold;
       font-size: 0.75rem;
-      width: 8cm;
+      width: 10cm;
      
   }
   
