@@ -600,16 +600,18 @@ function addNewData(access_token) {
     var newname = document.getElementById('newname').value.trim();
     var newidcard = document.getElementById('newidcard').value.trim();
     var birthdate = document.getElementById('birthdate').value.trim();
+    var newcard = document.getElementById('newcard').value.trim();
+    var newdepart = document.getElementById('newdepart').value.trim();
     var newage = document.getElementById('newage').textContent.trim(); // ใช้ innerText หรือ textContent ให้เหมาะสมกับ HTML
     var newprogram = document.getElementById('newprogram').value.trim();
 
     // ตรวจสอบว่าข้อมูลทั้งหมดถูกกรอก
-    if (!newid || !newname || !newidcard || !birthdate || !newage || !newprogram) {
+    if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
         alert('กรุณากรอกข้อมูลให้ครบถ้วน');
         return; // ออกจากฟังก์ชันถ้ามีข้อมูลไม่ครบ
     }
 
-    var newRow = [newid, newname, newidcard, newage, birthdate, newprogram];
+    var newRow = [newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram];
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช OAuth token
     const accessToken = sessionStorage.getItem("access_token");
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
