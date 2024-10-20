@@ -84,6 +84,15 @@ function checkAndRefreshToken() {
 }
 
 
+function searchData(){
+const searchKeyElement = document.getElementById('searchKey');
+
+if (searchKeyElement && searchKeyElement.value === '') {
+     searchDataFromId();
+} else {
+   searchDataKey();
+}
+}
 
 function searchDataFromId() {
     const searchId = document.getElementById('idcard').textContent.trim(); // ดึงค่าจาก input และลบช่องว่าง
@@ -167,7 +176,7 @@ function searchDataFromId() {
 
 
 
-function searchData() {
+function searchDataKey() {
     const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
     
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
@@ -1267,8 +1276,7 @@ function buildSticker() {
     setTimeout(() => { 
    clearRegisterPage(); }, 1000);
    closeNewRegister();
-  setTimeout(() => { 
-   searchDataFromId();  }, 20000); 
+ 
 }
 
 function printSticker() {
