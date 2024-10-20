@@ -1095,13 +1095,8 @@ function closeSearch() {
 }
 
 function buildSticker() {
- 
-    const m6 =  document.getElementById('searchKey');
-    const n6 =  document.getElementById('newidcard').value;
-
-        m6.innerHTML = n6;
       
-       
+      
     const program = document.getElementById('newprogram').value.trim();
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
@@ -1116,6 +1111,11 @@ function buildSticker() {
             if (data.values) {
                 data.values.forEach(row => {
                     if (row[0] === program) {
+                         const m6 =  document.getElementById('searchKey');
+                         const n6 =  document.getElementById('newidcard').value;
+                         m6.innerHTML = n6;
+
+                       
                         const prog = row[0]; 
                         console.log(prog);
                         console.log(program);
@@ -1123,8 +1123,6 @@ function buildSticker() {
                         const method = row[2]; 
                         const methodid = row[3]; 
                         const custom = row[4]; 
-
-                        // ตรวจสอบการดึงค่า newid และ newname
                         const regisidInput = document.getElementById("newid");
                         const nameInput = document.getElementById("newname");
 
@@ -1190,7 +1188,8 @@ function buildSticker() {
             showConfirmButton: false,
             timer: 1500
         });
-   closeNewRegister();
+    setTimeout(() => { 
+   closeNewRegister(); }, 20000);
    searchData();
 }
 
