@@ -1,4 +1,6 @@
-
+div {
+    line-height: 1.1; /* ใช้กับ div */
+}
 
 .container{
     background-color: #E0FFFF;
