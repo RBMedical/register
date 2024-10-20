@@ -1267,7 +1267,8 @@ function buildSticker() {
     setTimeout(() => { 
    clearRegisterPage(); }, 1000);
    closeNewRegister();
-   searchDataFromId();
+  setTimeout(() => { 
+   searchDataFromId();  }, 10000); 
 }
 
 function printSticker() {
