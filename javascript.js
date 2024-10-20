@@ -83,13 +83,98 @@ function checkAndRefreshToken() {
     refreshAccessToken();  // เรียกฟังก์ชันรีเฟรชเมื่อคลิก
 }
 
-
+function searchData(){
    
+const searchKeyElement = document.getElementById('searchKey');
+
+if (searchKeyElement && searchKeyElement.innerText.trim() === '') {
+  searchDataFromId();
+} else {
+  searchDataFromSearchKey(); 
+}
+}
+
+function searchDataFromId() {
+    const searchKey = document.getElementById('idcard').textContent.trim(); // ดึงค่าจาก input และลบช่องว่าง
+    
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const numb = document.getElementById("numb");
+            const regisid = document.getElementById("registernumber");
+            const name = document.getElementById("name");
+            const idcard = document.getElementById("idcard");
+            const card = document.getElementById("card");
+            const depart = document.getElementById("depart");
+            const age = document.getElementById("age");
+            const birthday = document.getElementById("birthday");
+            const program = document.getElementById("program");
+
+            // ล้างผลลัพธ์ก่อนหน้า
+            regisid.textContent = "";
+            name.textContent = "";
+            idcard.textContent = "";
+            age.textContent = "";
+            birthday.textContent = "";
+            program.textContent = "";
+            card.textContent = "";
+            depart.textContent = "";
+
+            let found = false; // ประกาศตัวแปร found เพื่อตรวจสอบว่าพบข้อมูลหรือไม่
+
+            // ค้นหาและเก็บข้อมูลในตัวแปร searchResult
+            if (data.values) {
+                data.values.forEach(row => {
+                    if (row[2] === searchKey) {
+                        // แสดงผลลัพธ์
+                        regisid.textContent = row[0];
+                        name.textContent = row[1];
+                        idcard.textContent = row[2];
+                        card.textContent = row[3];
+                        depart.textContent = row[4];;
+                        age.textContent = row[5];
+                        birthday.textContent = row[6];
+                        program.textContent = row[7];
+                        found = true; // เปลี่ยนค่า found เป็น true
+
+                        // เก็บค่าผลลัพธ์ในตัวแปร searchResult
+                        searchResult = {
+                            "regisid": row[0],
+                            "name": row[1],
+                            "idcard": row[2],
+                            "age": row[3],
+                            "birthday": row[4],
+                            "program": row[5]
+                        };
+
+                     setTimeout(() => {   
+                        searchProgram();
+                         }, 5000);
+                        searchPrint();
+                    }
+                });
+            }
+
+            // ถ้าไม่พบข้อมูลที่ค้นหา
+            if (!found) {
+                alert("ไม่พบข้อมูลในระบบ");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("เกิดข้อผิดพลาดในการค้นหาข้อมูล");
+        });
+}
 
 
-
-
-function searchData() {
+function searchDataFromSearchKey() {
     const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
     
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
@@ -1111,8 +1196,9 @@ function buildSticker() {
                 data.values.forEach(row => {
                     if (row[0] === program) {
                         
-
-
+                     const n1 = document.getElementById('newidcard').value;          
+                     const n2 = document.getElementById('idcard');
+                       n2.innerText = n1;
                        
                         const prog = row[0]; 
                         console.log(prog);
@@ -1187,7 +1273,7 @@ function buildSticker() {
             timer: 1500
         });
     setTimeout(() => { 
-   closeNewRegister(); }, 10000);
+   closeNewRegister(); }, 1000);
    
    
 }
