@@ -1113,7 +1113,7 @@ function buildSticker() {
                     if (row[0] === program) {
                          const m6 =  document.getElementById('searchKey');
                          const n6 =  document.getElementById('newidcard').value;
-                         m6.innerHTML = n6;
+                         m6.innerText = n6;
 
                        
                         const prog = row[0]; 
