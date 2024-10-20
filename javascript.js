@@ -1190,8 +1190,7 @@ function buildSticker() {
         });
     setTimeout(() => { 
    closeNewRegister(); }, 10000);
-   setTimeout(() => { 
-   searchData(); }, 10000);
+   
    
 }
 
