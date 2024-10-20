@@ -1095,8 +1095,7 @@ function closeSearch() {
 }
 
 function buildSticker() {
-      
-      
+ 
     const program = document.getElementById('newprogram').value.trim();
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
@@ -1111,9 +1110,16 @@ function buildSticker() {
             if (data.values) {
                 data.values.forEach(row => {
                     if (row[0] === program) {
-                         const m6 =  document.getElementById('searchKey');
-                         const n6 =  document.getElementById('newidcard').value;
-                         m6.innerText = n6;
+                         const m6 = document.getElementById('searchKey');
+                         const n6 = document.getElementById('newidcard') ? document.getElementById('newidcard').value : null;
+
+                     if (m6 && n6) {
+               m6.innerText = n6;
+            } else {
+         console.error('ไม่พบ searchKey หรือ newidcard หรือ newidcard ไม่มีค่า');
+    alert('ไม่พบข้อมูลบัตรประชาชนหรือไม่สามารถอัพเดตค่าได้');
+  }
+
 
                        
                         const prog = row[0]; 
