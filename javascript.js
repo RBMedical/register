@@ -1323,7 +1323,7 @@ function printResult() {
         var programDetail = document.getElementById('programdetail');
         var card = document.getElementById('card');
         var depart = document.getElementById('depart');
-        searchKey.innerHTML = '';
+        searchKey.value = '';
         regisid.textContent = '';
         name.textContent = '';
         idcard.textContent = '';
@@ -1347,12 +1347,12 @@ function clearRegisterPage() {
         var newcard = document.getElementById('newcard');
         var newdepart = document.getElementById('newdepart');
 
-        newdepart.innerHTML = '';
-        newregisid.textContent = '';
-        newname.textContent = '';
-        newidcard.textContent = '';
+        newdepart.value = '';
+        newregisid.value = '';
+        newname.value = '';
+        newidcard.value = '';
         newage.textContent = '';
         newbirthday.textContent = '';
-        newprogram.textContent = '';
-        newcard.textContent = '';
+        newprogram.value = '';
+        newcard.value = '';
  }
