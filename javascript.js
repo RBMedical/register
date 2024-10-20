@@ -82,15 +82,13 @@ function checkAndRefreshToken() {
     console.log("Checking if access token needs refresh...");
     refreshAccessToken();  // เรียกฟังก์ชันรีเฟรชเมื่อคลิก
 }
-
 function searchData(){
-   
 const searchKeyElement = document.getElementById('searchKey');
 
 if (searchKeyElement && searchKeyElement.innerText.trim() === '') {
-  searchDataFromId();
+    searchDataFromId();
 } else {
-  searchDataFromSearchKey(); 
+     searchDataFromSearch();
 }
 }
 
@@ -171,10 +169,12 @@ function searchDataFromId() {
             console.error('Error:', error);
             alert("เกิดข้อผิดพลาดในการค้นหาข้อมูล");
         });
-}
+}   
 
 
-function searchDataFromSearchKey() {
+
+
+function searchDataFromSearch() {
     const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
     
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
@@ -1195,10 +1195,9 @@ function buildSticker() {
             if (data.values) {
                 data.values.forEach(row => {
                     if (row[0] === program) {
-                        
-                     const n1 = document.getElementById('newidcard').value;          
-                     const n2 = document.getElementById('idcard');
-                       n2.innerText = n1;
+              const n1 = document.getElementById('newidcard').value.trim();          
+             const n2 = document.getElementById('idcard');
+               n2.innerText = n1;
                        
                         const prog = row[0]; 
                         console.log(prog);
@@ -1328,15 +1327,3 @@ function printResult() {
         birthday.textContent = '';
         program.textContent = '';
         programDetail.textContent = '';
-
-   function copyId(){
- const m6 = document.getElementById('searchKey');
- const n6 = document.getElementById('newidcard') ? document.getElementById('newidcard').value : null;
-
-                     if (m6 && n6) {
-               m6.innerText = n6;
-            } else {
-         console.error('ไม่พบ searchKey หรือ newidcard หรือ newidcard ไม่มีค่า');
-    alert('ไม่พบข้อมูลบัตรประชาชนหรือไม่สามารถอัพเดตค่าได้');
-  }
-   }
