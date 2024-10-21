@@ -1,3 +1,10 @@
+.libre-barcode-39-extended-regular {
+  font-family: "Libre Barcode 39 Extended", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 div {
     line-height: 1.1; /* ใช้กับ div */
 }
