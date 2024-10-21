@@ -547,8 +547,19 @@ function searchPrint() {
 
                     const barcodeValue = row[1];
                     console.log(barcodeValue);
-
                 }
+            });
+
+            // หากไม่พบข้อมูล ให้แจ้งเตือนหรือจัดการในกรณีไม่พบข้อมูล
+            if (!found) {
+                alert("ไม่พบข้อมูลที่ค้นหา");
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
 
 function printSticker() {
     closeAlert();
