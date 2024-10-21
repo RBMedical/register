@@ -553,8 +553,8 @@ function searchPrint() {
                         format: "CODE39",
                         margin: 0,
                         padding: 0,
-                        width: 0.3,
-                        height: 25,
+                        width: 1.8,
+                        height: 70,
                         displayValue: false
                     });
                 }
