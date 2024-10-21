@@ -1,10 +1,9 @@
-// window.onload = function() {
-//       var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSARmAs51gJN6VxDl7Y7TtnhkBHe0ZIFIoC5uqVZX_4s0aaNj6C__FoGEri5_O2tA") +
-//                 "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets");
+ window.onload = function() {
+       var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSARmAs51gJN6VxDl7Y7TtnhkBHe0ZIFIoC5uqVZX_4s0aaNj6C__FoGEri5_O2tA") + 
+        "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/spreadsheets");
 
-
- //     window.history.replaceState({ path: newURL }, '', newURL);
-//  }
+     window.history.replaceState({ path: newURL }, '', newURL);
+  }
 
 
 
@@ -363,13 +362,13 @@ function updateDateTime() {
 setInterval(updateDateTime, 1000);
 
 
-/// window.onload = function(){
-//  loadAllRecords();
-///    displayNextNumber();
-//    displayNextSpecimenNumber();
-//    updateDateTime();
- //   loadAllData();
-// }
+ window.onload = function(){
+  loadAllRecords();
+    displayNextNumber();
+   displayNextSpecimenNumber();
+   updateDateTime();
+   loadAllData();
+ }
     
 
 
