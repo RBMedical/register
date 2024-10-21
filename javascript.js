@@ -1290,7 +1290,7 @@ function printSspecimen() {
    closeModal();
     clearPage();
       closeModal();
-        getLastNumber();
+       displayNextNumber();
        
     
 
