@@ -528,7 +528,7 @@ function searchPrint() {
                         <div class="sticker-id mx-2 my-2"><span>${row[0]}</span></div>
                         <div class="sticker-right">
                             <div class="barcode-container mt-1">
-                                <span><svg id="${uniqueId}"></svg></span>
+                              <span class="libre-barcode-39-extended-regular">${row[1]}</span>
                             </div>
                             <div class="sticker-inner">
                                 <div class="sticker-id"><span>${number}</span></div>
