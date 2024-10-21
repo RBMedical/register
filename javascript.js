@@ -550,12 +550,12 @@ function searchPrint() {
 
                     // สร้างบาร์โค้ด
                     JsBarcode(`#${uniqueId}`, barcodeValue, {
-                        format: "CODE39",
-                        margin: 0,
-                        padding: 0,
-                        width: 1.8,
-                        height: 70,
-                        displayValue: false
+                       format: "CODE128",      // ประเภทของบาร์โค้
+            width: cmToPx(0.3) / 10,  // ความกว้างของบาร์แต่ละเส้น (ความยาวรวมของบาร์โค้ดต้องเท่ากับ 3 cm)
+            height: cmToPx(1),      // ความสูงของบาร์โค้ด 1 cm
+            displayValue: true,     // แสดงค่าบาร์โค้ด
+            fontSize: cmToPx(0.3),  // ขนาดฟอนต์ให้สอดคล้องกับขนาดบาร์โค้ด
+            margin: 0               // ระยะขอบของบาร์โค้ด
                     });
                 }
             });
