@@ -1,11 +1,11 @@
-window.onload = function() {
+// window.onload = function() {
    
-    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiTfI-zaA59SoLjVLs5xKALORmDG1NI-rtmjIHvz2NKjBPi0kTlh_ps7eyshi1rFtQ") +
-                 "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets");
+//    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiTfI-zaA59SoLjVLs5xKALORmDG1NI-rtmjIHvz2NKjBPi0kTlh_ps7eyshi1rFtQ") +
+//                 "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets");
 
   
-    window.history.replaceState({ path: newURL }, '', newURL);
-}
+//    window.history.replaceState({ path: newURL }, '', newURL);
+//  }
 
 
 
@@ -364,13 +364,13 @@ function updateDateTime() {
 setInterval(updateDateTime, 1000);
 
 
- window.onload = function(){
-  loadAllRecords();
-    displayNextNumber();
-    displayNextSpecimenNumber();
-    updateDateTime();
-    loadAllData();
- }
+// window.onload = function(){
+//  loadAllRecords();
+//    displayNextNumber();
+//    displayNextSpecimenNumber();
+//    updateDateTime();
+//    loadAllData();
+// }
     
 
 
