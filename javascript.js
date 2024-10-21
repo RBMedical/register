@@ -784,7 +784,7 @@ function runFunction() {
 
 function sendBarcode() {
 
-
+displayNextSpecimenNumber();
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 8 ตัวแรกของบาร์โค้ดมา
 
@@ -952,9 +952,9 @@ console.log(data);
     .then(data => {
         console.log("Success:", data);
          setTimeout(() => {   
-              displayNextSpecimenNumber();          
+                  loadAllData();
                          }, 5000);
-       loadAllData();
+      
        
         clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
     })
