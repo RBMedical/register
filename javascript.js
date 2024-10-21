@@ -786,7 +786,7 @@ function sendBarcode() {
 
 
     var barcode = document.getElementById('inputbar').value.trim();
-    var barcodeid = barcode.substring(0, 8); // เอา 8 ตัวแรกของบาร์โค้ดมา
+    var barcodeid = barcode.substring(0, 6); // เอา 8 ตัวแรกของบาร์โค้ดมา
 
     // URL สำหรับ Google Sheets API
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
