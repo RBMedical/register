@@ -438,7 +438,7 @@ setInterval(updateDateTime, 1000);
 }
 
  function addRegistrationDataInner() {
-    // ดึงข้อมูลจาก HTML elements
+  displayNextSpecimenNumber();
     var numb1 = document.getElementById('specimenque').textContent.trim();
     var regisid = document.getElementById('registernumber').textContent.trim();
     var name = document.getElementById('name').textContent.trim();
