@@ -443,10 +443,10 @@ setInterval(updateDateTime, 1000);
     var regisid = document.getElementById('registernumber').textContent.trim();
     var name = document.getElementById('name').textContent.trim();
     const type = "ลงทะเบียน";
-    
+    const spec = "10"
     // สร้าง object ที่จะส่งไปยัง Google Sheets
     var data = {
-        values: [[numb1, regisid, name, type]]
+        values: [[numb1, regisid, name, spec, type]]
     };
     
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
