@@ -25,9 +25,9 @@ const rangesheet9 = 'sticker!A2:ZZ';
   const clientId = "257006847363-7e1gusb11uc8o4qg3b8u4lg3d9lk8r12.apps.googleusercontent.com";
   const clientSecret = "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";
   const redirectUri = "https://rbmedical.github.io/register";     
-  const access_token ='ya29.a0AcM612whiq7bWxpTB04kvkzAbV3qG_qqyPn7DKWMax48cFo5o0HKO33yFOkcEMDudNL62sYMA8oHqM8erSMvAmZQgDpqUGxX2cGJfTdPRssRlungVYekLUquDNHIhClvrS76H1nmqGR4xZDTeF7i04Kmx56f-VXtbfbgyQQOaCgYKAfgSARESFQHGX2Mi50_8mfNYwftRAD-Cge89Gw0175';
-  const refreshToken =  '1//05Kt-q-pW-c0lCgYIARAAGAUSNwF-L9IruezAq_ugfypiWlauee4z1uAh7k0aW2KSWjCKA6SfTPbI_lRNWAF5oNhoXPTn0Mca-_M';
-  const scope = 'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets';
+  const access_token ='ya29.a0AcM612zIViuQBvE59SU7qoceVTpm6MwDvHQd1eTNE5NUScNZjBhFMwOnhIPYHQCod74ebM0Mv76nN_5X-Ud_C9VDZ6n4ucDUruUg5F4aFDi0Rm8f5_KtlSqyZL49HYnTcrKbPzrlPwGe5yZmOUVklajHRgNiy6-oljr2GEt0aCgYKAdISARESFQHGX2MiRe3-snCpajifm-rXAxbMjw0175';
+  const refreshToken =  '1//05qLZsqsCg8cLCgYIARAAGAUSNwF-L9IrXMberoaTBnBJ8OaOZbx3a5PiBg5bmAuOKrk3W7CkUu83jCRtViF9NeLXSPlZFTKwq3Q';
+  const scope = 'https://www.googleapis.com/auth/spreadsheets';
     
 
       // ฟังก์ชันสำหรับรีเฟรช access token เมื่อมีการคลิก
