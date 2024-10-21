@@ -553,7 +553,7 @@ function searchPrint() {
                         format: "CODE39",
                         margin: 0,
                         padding: 0,
-                        width: 0.5,
+                        width: 0.3,
                         height: 25,
                         displayValue: false
                     });
