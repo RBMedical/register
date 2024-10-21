@@ -1,17 +1,15 @@
-// window.onload = function() {
-   
-//    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiTfI-zaA59SoLjVLs5xKALORmDG1NI-rtmjIHvz2NKjBPi0kTlh_ps7eyshi1rFtQ") +
-//                 "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets");
+ window.onload = function() {
+       var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSARmAs51gJN6VxDl7Y7TtnhkBHe0ZIFIoC5uqVZX_4s0aaNj6C__FoGEri5_O2tA") +
+                 "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets");
 
-  
-//    window.history.replaceState({ path: newURL }, '', newURL);
-//  }
+      window.history.replaceState({ path: newURL }, '', newURL);
+  }
 
 
 
 
 // ข้อมูล Client
-const apiKey = 'AIzaSyDvWPO5V4Iin8OpQoq0otZNmcicWayo-6E';
+const apiKey = 'AIzaSyDQqaPdyObT7fHtzfXwhyzRx_cyIplVkyc';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 const rangesheet1 = 'data!A2:ZZ'; 
 const rangesheet2 = 'program!A2:ZZ';
@@ -23,11 +21,11 @@ const rangesheet7 = 'specimencount!A:A';
 const rangesheet8 = 'program!A2:ZZ';
 const rangesheet9 = 'sticker!A2:ZZ';
 
-  const clientId = "168121174551-p6j0heikm2aajscj33ngja68s36t35nr.apps.googleusercontent.com";
-  const clientSecret = "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";
+  const clientId = "257006847363-7e1gusb11uc8o4qg3b8u4lg3d9lk8r12.apps.googleusercontent.com";
+  const clientSecret = "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";
   const redirectUri = "https://rbmedical.github.io/register";     
-  const access_token ='ya29.a0AcM612zUy-IOhLhuQcXCfQN0-uv89Is0a4ZqiRKw8UtsK7F2_KCtlCWRMASi6B94U5Iv8pGmLQvb3sgOUytYzqV9ogkYcnYAjJ7aTjTPPQA7S1kz3mRhOho45jOibtp2iAVaB0BqzRuhg9ow1vMVHT7VhKDBFg0Vo6_QvfaxaCgYKAbUSARESFQHGX2Mi_hQtl_Xk8pxh3zePOimZbg0175';
-  const refreshToken =  '1//05NVsEHUGIgFnCgYIARAAGAUSNwF-L9Irbtd0caSfh03jfuqH1ydgufcYl69gawRKI1fcBYPm5ku3mLGEBP0BUL1JQXBKv2Q6JUE';
+  const access_token ='ya29.a0AcM612whiq7bWxpTB04kvkzAbV3qG_qqyPn7DKWMax48cFo5o0HKO33yFOkcEMDudNL62sYMA8oHqM8erSMvAmZQgDpqUGxX2cGJfTdPRssRlungVYekLUquDNHIhClvrS76H1nmqGR4xZDTeF7i04Kmx56f-VXtbfbgyQQOaCgYKAfgSARESFQHGX2Mi50_8mfNYwftRAD-Cge89Gw0175';
+  const refreshToken =  '1//05Kt-q-pW-c0lCgYIARAAGAUSNwF-L9IruezAq_ugfypiWlauee4z1uAh7k0aW2KSWjCKA6SfTPbI_lRNWAF5oNhoXPTn0Mca-_M';
   const scope = 'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets';
     
 
@@ -364,13 +362,13 @@ function updateDateTime() {
 setInterval(updateDateTime, 1000);
 
 
-// window.onload = function(){
-//  loadAllRecords();
-//    displayNextNumber();
-//    displayNextSpecimenNumber();
-//    updateDateTime();
-//    loadAllData();
-// }
+ window.onload = function(){
+  loadAllRecords();
+    displayNextNumber();
+    displayNextSpecimenNumber();
+    updateDateTime();
+    loadAllData();
+ }
     
 
 
