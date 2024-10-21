@@ -554,7 +554,7 @@ function searchPrint() {
                         margin: 0,
                         padding: 0,
                         width: 0.5,
-                        height: 40,
+                        height: 30,
                         displayValue: false
                     });
                 }
