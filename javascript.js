@@ -533,10 +533,10 @@ function searchPrint() {
                             <div class="sticker-inner">
                                 <div class="sticker-id"><span>${number}</span></div>
                                 <div class="sticker-right">
-                                    <div class="sticker-name">${row[3]}</div>
+                                    <div class="sticker-name ms-2 mt-1">${row[3]}</div>
                                     <div class="sticker-name">
-                                        <div class="sticker-method">${row[5]}</div>
-                                        <div class="sticker-date">${updateDate()}</div>
+                                        <div class="sticker-method ms-2">${row[5]}</div>
+                                        <div class="sticker-date mt-1">${updateDate()}</div>
                                     </div>
                                     <div class="sticker-name" style="font-size: 0.5rem">${row[4]}</div>
                                 </div>
@@ -554,7 +554,7 @@ function searchPrint() {
                         margin: 0,
                         padding: 0,
                         width: 0.5,
-                        height: 30,
+                        height: 25,
                         displayValue: false
                     });
                 }
