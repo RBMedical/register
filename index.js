@@ -1202,7 +1202,7 @@ function buildSticker() {
                      const custom = row[4]; 
                      const regisidInput = document.getElementById("newid");
                      const nameInput = document.getElementById("newname");
-                     const program = document.getElementById("program");
+                     const program = document.getElementById("newprogram");
                      if (!regisidInput || !nameInput) {
                          console.error('ไม่พบ element newid หรือ newname');
                          alert('ไม่พบข้อมูลการลงทะเบียน');
