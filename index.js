@@ -483,7 +483,7 @@ displayNextSpecimenNumber();
          text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
      });
      loadAllRecords(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
-     displayNextSpecimenNumber();
+    
  });
 }
 
@@ -577,6 +577,7 @@ function printSpecimen() {
  printResult();
  closeModal();
  clearPage();
+    
 }
 
 function printResult() {
@@ -1217,7 +1218,7 @@ function buildSticker() {
                          return;
                      }
 
-                     const barcodesticker = String(regisid) + String(methodid);
+                     const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
                      const stickerid = String(regisid) + program;
 
                      var data = {
@@ -1282,6 +1283,7 @@ closeModal();
  clearPage();
    closeModal();
     displayNextNumber();
+     displayNextSpecimenNumber();
     
  
 
