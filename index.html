@@ -1,0 +1,495 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Checkup System</title>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Extended&display=swap" rel="stylesheet">
+  <script src="JsBarcode.all.min.js"></script>
+  <link rel="stylesheet" href="index.css">
+ <script src="javascript.js"></script>
+
+</head>
+
+<body>
+ <h1 class="visually-hidden">Headers examples</h1>
+
+<div class="container">
+  <header class="justify-content-center py-3 mb-4 border-bottom bg-light">
+    <a class="align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+      <div class="container-sm noprint" style="font-family: sarabun;">
+        <div class="container-left noprint">
+          <div class="image-container"><img src="https://img2.pic.in.th/pic/-1c1ab0ef40e4a050f.png"></div>
+          <p class="logotext fs-1 fw-bold ">Registation System</p>
+        </div>
+        <div class="container-right ms-5 text-end px-2 py-3 noprint" id="datetime"></div>
+      </div>
+     
+   
+     <ul class="nav nav-underline justify-content-end px-2 noprint">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page"  aria-disabled="true">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"  href="https://docs.google.com/spreadsheets/d/1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw/edit?gid=1443447564#gid=1443447564" target="_blank"  style="cursor: pointer;">Database</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="openSpecimen()" style="cursor: pointer;">Specimen</a>
+      </li>
+     </ul>
+
+  </header>
+
+       <div class="container-nomargin ">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="ms-1 p-2 bg-secondary-subtle border border-dark rounded-2">
+              <form class="d-flex ms-1 p-2 round-2" style="font-size: 0.75rem;" role="search" onsubmit="event.preventDefault(); searchData();">
+              <input id="searchKey"  class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit" onclick="searchData" style="cursor: pointer;">Search</button>
+              <a class="btn btn-secondary ms-1" href="https://docs.google.com/spreadsheets/d/1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw/edit?gid=283433649#gid=283433649" target="_blank"  style="cursor: pointer;">T</a>
+                 </form>
+          </div>    
+                      <div id="form1" class="bg-secondary-subtle mt-2 mb-2 p-2 border border-dark " style="font-family: sarabun;">
+                        <div class="container-fluid">
+                          <div class="input-group input-group-sm mb-3 mt-2">
+                            <div class="row">
+                            <div class="col-4">
+                              <div class="input-group">
+                                 <span class="input-group-text" style="font-size: 0.75rem;">No</span>
+                                <span class="form-control" style="font-size: 0.75rem;" id="numb"></span>
+                              </div>
+                            </div>
+                            <div class="col-8">
+                              <div class="input-group">
+                                <span class="input-group-text" style="font-size: 0.75rem;">Register ID</span>
+                                <span class="form-control me-2 fw-bold" id="registernumber"></span>
+                              </div>
+                            </div>
+                            </div>
+                          </div>
+                          <div class="input-group input-group-sm mb-3 mt-2">
+                            <div class="input-group">
+                              <span class="input-group-text" style="font-size: 0.75rem;">ชื่อ นามสกุล</span>
+                              <span class="form-control fw-bold" id="name" style="font-size: 0.75rem;"></span>
+                            </div>
+                          </div>
+                          <div class="input-group input-group-sm mb-3 mt-2">
+                            <div class="input-group">
+                              <span class="input-group-text" style="font-size: 0.75rem;">รหัสพนักงาน</span>
+                              <span class="form-control fw-bold" id="idcard" style="font-size: 0.75rem;"></span>
+                            </div>
+                          </div>
+                          <div class="input-group input-group-sm mb-3 mt-2">
+                            <div class="input-group">
+                              <span class="input-group-text" style="font-size: 0.75rem;">เลขบัตร ปชช</span>
+                              <span class="form-control fw-bold" id="card" style="font-size: 0.75rem;"></span>
+                            </div>
+                          </div>
+                          <div class="input-group input-group-sm mb-3 mt-2">
+                            <div class="input-group">
+                              <span class="input-group-text" style="font-size: 0.75rem;">แผนก</span>
+                              <span class="form-control fw-bold" id="depart" style="font-size: 0.75rem;"></span>
+                            </div>
+                          </div>
+                          <div class="input-group input-group mb-3 mt-2">
+                            <div class="col-6">
+                              <div class="input-group">
+                                <span class="input-group-text" style="font-size: 0.75rem;">อายุ</span>
+                                <span class="form-control fw-bold" id="age" style="font-size: 0.75rem;"></span>
+                                <span class="input-group-text" style="font-size: 0.75rem;">ปี</span>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="input-group ms-3">
+                                <span class="input-group-text ms-2" style="font-size: 0.75rem;">วันเกิด</span>
+                                <span class="form-control fw-bold" id="birthday" style="font-size: 0.75rem;"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="h-100 p-2 rounded-2 border border-dark" style="min-height: 4.5cm;">
+                          <div class="row">
+                            <div class="col-4" style="font-size: 0.75rem;">โปรแกรมตรวจ</div>
+                            <div class="col-8 fw-bold mt-2" id="program" style="line-height: 0.5;"></div>
+                          </div>
+                          <p class="ms-2 mt-2" style="font-size: 0.50rem;">รายการตรวจ</p>
+                          <div class="ms-5 mb-3 " id="programdetail" style="font-size: 0.50rem; line-height: 0.2;"></div>
+                          
+                        </div>
+                        
+                      </div>
+                      <div class="bg-info-subtle ps-2 mb-3">
+                      <div class="btn-group"  role="group" style="box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);">
+                        <button type="button" id="b1" class="btn btn-primary-50 me-1 boder border-dark" onclick="addRegistrationData()" style="cursor: pointer;">ลงทะเบียน</button>
+                        <button type="button" id="b2" class="btn btn-secondary-50 me-1 border-dark" onclick="openNewRegister()" style="cursor: pointer;">เพิ่มรายชื่อ</button>
+                        <button type="button" id="b3" class="btn btn-success-50 boder border-dark" onclick="printSticker()" style="cursor: pointer;">พิมพ์สติกเกอร์</button>
+                      </div>  
+                      </div>
+
+                </div>
+                  
+                
+
+                <div class="col-md-8 mb-3">
+                    <div class="h-100 p-2 bg-light border border-dark rounded-3" style="max-height: 900px;">
+                       
+                            <div class="table-container">
+                                <table class="table table-result pb-3"  style="font-size: 0.75rem;">
+                                    <thead class="table-secondary sticky-header" style="font-family: sarabun;">
+                                        <tr>
+                                            <th scope="col" class="text-center" >ลำดับ</th>
+                                            <th scope="col" class="text-center" colspan="2" style="width: 8cm;">RegisterID</th>
+                                            <th scope="col" class="text-center" colspan="4" style="width: 10cm;">ชื่อ นามสกุล</th>
+                                            <th scope="col" class="text-center" style="width: 5cm;">โปรแกรมตรวจ</th>
+                                            <th scope="col" class="text-center" style="width: 5cm;">วันที่/เวลาลงทะเบียน</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="registeresult" >
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+       </div>
+         
+          
+          
+       
+        <div class="modalrecieve" id="sticker" style="display: none;"  onclick="printSspecimen()">
+
+
+        </div>
+        <div class="modalregister" id="newregister">
+          <div id="formregister">
+            <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" >RegisterID</span>
+         <input type="text" class="form-control" id="newid">
+      </div>
+       <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text">ชื่อ นามสกุล</span>
+         <input type="text" class="form-control" id="newname">
+      </div>
+       <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-sm">รหัสพนักงาน</span>
+         <input type="text" class="form-control" style="width: 0.5cm;" id="newidcard">
+      </div>
+            <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text">เลขบัตร ป.ช.ช.</span>
+       <input type="text" class="form-control" id="newcard">
+    </div>
+     <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm">แผนก</span>
+       <input type="text" class="form-control" style="width: 0.5cm;" id="newdepart">
+    </div>
+       <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text">วันเกิด</span>
+         <input type="date" class="form-control" id="birthdate" onchange="calculateAge()" name="birthdate">
+      </div>
+          <div class="row">
+         <div class="col-4">
+          <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text">อายุ</span>
+         <span type="text" class="form-control" id="newage" style="max-width: 2cm;"></span>
+         <span class="input-group-text">ปี</span>
+      </div>
+         </div>
+         <div class="col-7">
+        <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text">โปรแกรมตรวจ</span>
+         <input type="text" class="form-control"  id="newprogram" style="max-width: 2cm;">
+      </div>
+    </div>
+</div>
+            <button type="button" onclick="addNewData()" class="w-100 btn btn-lg btn-primary px-1 py-1" style="font-size: 0.75rem">เพิ่มรายชื่อ</button>
+     </div>     
+    </div>
+</div>
+   
+<modal>
+<div class="modalspecimen">
+      <div class="modal-header mb-2"><button type="button" class="btn-close" data-bs-dismiss="modal" onclick="closeSpecimen()" aria-label="Close"></button></div>
+       <div class="container-specimen">
+        <div class="specimen-input">
+         
+        <div class="container-search border border-dark py-2" style="min-height: 500px; max-height: 500px;">
+         <div class="gunbar ms-2">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by 
+            @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 
+            2024 Fonticons, Inc.--><path d="M24 32C10.7 32 0 42.7 0 56L0 456c0 13.3 10.7 24 24 24l16 0c13.3 
+            0 24-10.7 24-24L64 56c0-13.3-10.7-24-24-24L24 32zm88 0c-8.8 0-16 7.2-16 16l0 416c0 8.8 7.2 16 16 
+            16s16-7.2 16-16l0-416c0-8.8-7.2-16-16-16zm72 0c-13.3 0-24 10.7-24 24l0 400c0 13.3 10.7 24 24 24l16
+             0c13.3 0 24-10.7 24-24l0-400c0-13.3-10.7-24-24-24l-16 0zm96 0c-13.3 0-24 10.7-24 24l0 400c0 13.3 10.7
+              24 24 24l16 0c13.3 0 24-10.7 24-24l0-400c0-13.3-10.7-24-24-24l-16 0zM448 56l0 400c0 13.3 10.7 24 24 24l16
+               0c13.3 0 24-10.7 24-24l0-400c0-13.3-10.7-24-24-24l-16 0c-13.3 0-24 10.7-24 24zm-64-8l0 416c0 8.8 7.2 16 16 
+               16s16-7.2 16-16l0-416c0-8.8-7.2-16-16-16s-16 7.2-16 16z"/></svg>
+            <input type="text" class="form-control mx-2 my-1" id="inputbar" oninput="checkInputLength()" placeholder="Barcode Here" >
+        </div>
+     <div class="border border-secondary mt-3 p-2 my-2 mx-2 mb-3" style="height: 300px;">
+        <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm">No.</span>
+             <span type="text" class="form-control" id="specimenque"></span>
+           </div>
+         <div class="input-group input-group-sm mb-3" style="max-width: 7cm;">
+            <span class="input-group-text" id="inputGroup-sizing-sm">RegisterID</span>
+             <span type="text" class="form-control"  id="barregisterid"></span>
+         </div>
+
+           <div class="input-group input-group-sm mb-3" style="max-width: 7cm;">
+              <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อ นามสกุล</span>
+             <span type="text" class="form-control" id="barname"></span>
+           </div>
+       <div class="row">
+       
+        <div class="col-auto">
+     
+       <div class="groupbox border border-dark fs-5 px-2 py-1" style="font-family: sarabun; font-size: 0.75rem; border-radius: 5px;">
+          <label><svg class="icon me-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+          <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com 
+            License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path d="M528 160l0 256c0 8.8-7.2 16-16 16l-192 0c0-44.2-35.8-80-80-80l-64 0c-44.2
+             0-80 35.8-80 80l-32 0c-8.8 0-16-7.2-16-16l0-256 480 0zM64 32C28.7 32 0 60.7 0 96L0 
+             416c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64
+              32zM272 256a64 64 0 1 0 -128 0 64 64 0 1 0 128 0zm104-48c-13.3 0-24 10.7-24 24s10.7
+               24 24 24l80 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-80 0zm0 96c-13.3 0-24 10.7-24 24s10.7
+               24 24 24l80 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-80 0z" />
+                 </svg>ลงทะเบียน</span>
+                <span type="text" class="px-1 py-1 my-2 ms-1" id="register"></span>
+             <span >ราย</span>
+            </div>
+      </div>
+      <div class="col-auto">
+        <a class= "btn btn-secondary mt-2" href="https://docs.google.com/spreadsheets/d/1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw/edit?gid=1581320844#gid=1581320844" target="_blank" >แก้ไขรายการที่นับแล้ว</a>
+       </div>
+      </div>
+    </div>
+      
+        </div>
+    
+        </div>
+        <div class="specimen-count">
+           <div class="countbox ps-1 py-1">
+         <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"><svg class="icon px-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome 
+            - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path d="M342.6 9.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l9.4 9.4L28.1 342.6C10.1 360.6 0 385 0 410.5L0
+             416c0 53 43 96 96 96l5.5 0c25.5 0 49.9-10.1 67.9-28.1L448 205.3l9.4 9.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8
+              0-45.3l-32-32-96-96-32-32zM205.3 256L352 109.3 402.7 160l-96 96-101.5 0z" />
+        </svg> EDTA</span>
+          <span type="text" class="form-control" id="EDTA"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+      </div>
+      <div class="countbox ps-1 py-1">
+         <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"><svg class="icon px-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome 
+            - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path d="M342.6 9.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l9.4 9.4L28.1 342.6C10.1 360.6 0 385 0 410.5L0
+             416c0 53 43 96 96 96l5.5 0c25.5 0 49.9-10.1 67.9-28.1L448 205.3l9.4 9.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8
+              0-45.3l-32-32-96-96-32-32zM205.3 256L352 109.3 402.7 160l-96 96-101.5 0z" />
+        </svg> Naf</span>
+          <span type="text" class="form-control" id="naf"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+      </div>
+      <div class="countbox ps-1 py-1">
+         <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"><svg class="icon px-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome 
+            - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path d="M342.6 9.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l9.4 9.4L28.1 342.6C10.1 360.6 0 385 0 410.5L0
+             416c0 53 43 96 96 96l5.5 0c25.5 0 49.9-10.1 67.9-28.1L448 205.3l9.4 9.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8
+              0-45.3l-32-32-96-96-32-32zM205.3 256L352 109.3 402.7 160l-96 96-101.5 0z" />
+        </svg> Clot</span>
+          <span type="text" class="form-control" id="clot"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+      </div>
+         <div class="countbox ps-1 py-1">
+        
+        <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.6.0
+             by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free 
+             Copyright 2024 Fonticons, Inc.-->
+          <path
+            d="M320 0c17.7 0 32 14.3 32 32l0 132.1c0 16.4 8.4 
+             31.7 22.2 40.5l9.8 6.2 0-45.5C384 127 415 96 453.3 96c21.7 0 42.8 10.2 55.8 28.8c15.4 22.1 
+             44.3 65.4 71 116.9c26.5 50.9 52.4 112.5 59.6 170.3c.2 1.3 .2 2.6 .2 4l0 7c0 49.1-39.8 89-89
+              89c-7.3 0-14.5-.9-21.6-2.7l-72.7-18.2C414 480.5 384 442.1 384 398l0-73 90.5 57.6c7.5 4.7 17.3
+               2.5 22.1-4.9s2.5-17.3-4.9-22.1L384 287.1l0-.4-44.1-28.1c-7.3-4.6-13.9-10.1-19.9-16.1c-5.9 6-12.6 
+               11.5-19.9 16.1L256 286.7 161.2 347l-13.5 8.6c0 0 0 0-.1 0c-7.4 4.8-9.6 14.6-4.8 22.1c4.7 7.5 14.6 
+               9.7 22.1 4.9l91.1-58 0 73.4c0 44.1-30 82.5-72.7 93.1l-72.7 18.2c-7.1 1.8-14.3 2.7-21.6 2.7c-49.1
+                0-89-39.8-89-89l0-7c0-1.3 .1-2.7 .2-4c7.2-57.9 33.1-119.4 59.6-170.3c26.8-51.5 55.6-94.8 71-116.9c13-18.6
+                 34-28.8 55.8-28.8C225 96 256 127 256 165.3l0 45.5 9.8-6.2c13.8-8.8 22.2-24.1 22.2-40.5L288 32c0-17.7 14.3-32 32-32z" />
+        </svg> Chest X-Ray</span>
+          <span type="text" class="form-control" id="xray"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+      </div>
+            <div class="countbox ps-1 py-1">
+        
+        <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com
+             License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-96 55.2C54 332.9 0 401.3
+              0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7c0-81-54-149.4-128-171.1l0
+               50.8c27.6 7.1 48 32.2 48 62l0 40c0 8.8-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l0-24c0-17.7-14.3-32-32-32s-32 
+               14.3-32 32l0 24c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16l0-40c0-29.8 20.4-54.9
+                48-62l0-57.1c-6-.6-12.1-.9-18.3-.9l-91.4 0c-6.2 0-12.3 .3-18.3 .9l0 65.4c23.1 6.9 40 28.3 40 53.7c0 
+                30.9-25.1 56-56 56s-56-25.1-56-56c0-25.4 16.9-46.8 40-53.7l0-59.1zM144 448a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+        </svg> พบแพทย์</span>
+          <span type="text" class="form-control" id="PE"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+      </div>
+         <div class="countbox ps-1 py-1">
+         <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com 
+            License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            d="M228.3 469.1L47.6 300.4c-4.2-3.9-8.2-8.1-11.9-12.4l87 0c22.6 0 43-13.6 51.7-34.5l10.5-25.2
+             49.3 109.5c3.8 8.5 12.1 14 21.4 14.1s17.8-5 22-13.3L320 253.7l1.7 3.4c9.5 19 28.9 31 50.1 31l104.5 
+             0c-3.7 4.3-7.7 8.5-11.9 12.4L283.7 469.1c-7.5 7-17.4 10.9-27.7 10.9s-20.2-3.9-27.7-10.9zM503.7 240l-132
+              0c-3 0-5.8-1.7-7.2-4.4l-23.2-46.3c-4.1-8.1-12.4-13.3-21.5-13.3s-17.4 5.1-21.5 13.3l-41.4 82.8L205.9 
+              158.2c-3.9-8.7-12.7-14.3-22.2-14.1s-18.1 5.9-21.8 14.8l-31.8 76.3c-1.2 3-4.2 4.9-7.4 4.9L16 240c-2.6
+               0-5 .4-7.3 1.1C3 225.2 0 208.2 0 190.9l0-5.8c0-69.9 50.5-129.5 119.4-141C165 36.5 211.4 51.4 244 
+               84l12 12 12-12c32.6-32.6 79-47.5 124.6-39.9C461.5 55.6 512 115.2 512 185.1l0 5.8c0 16.9-2.8 33.5-8.3 49.1z" />
+        </svg> EKG</span>
+          <span type="text" class="form-control" id="ekg"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+      </div>
+               <div class="countbox ps-1 py-1">
+        
+        <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com
+             License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            d="M256 80C149.9 80
+              62.4 159.4 49.6 262c9.4-3.8 19.6-6 30.4-6c26.5 0 48 21.5 48 48l0 128c0 26.5-21.5 48-48 48c-44.2
+               0-80-35.8-80-80l0-16 0-48 0-48C0 146.6 114.6 32 256 32s256 114.6 256 256l0 48 0 48 0 16c0 44.2-35.8 
+               80-80 80c-26.5 0-48-21.5-48-48l0-128c0-26.5 21.5-48 48-48c10.8 0 21 2.1 30.4 6C449.6 159.4 362.1 80 256 80z" />
+        </svg> การได้ยิน</span>
+          <span type="text" class="form-control" id="ear"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+      </div>
+            <div class="countbox ps-1 py-1">
+       
+        <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"> <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com 
+            License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path d="M288
+             32c0 17.7 14.3 32 32 32l32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128c-17.7 0-32 14.3-32 32s14.3 
+             32 32 32l320 0c53 0 96-43 96-96s-43-96-96-96L320 0c-17.7 0-32 14.3-32 32zm64 352c0 17.7 14.3 32 32
+              32l32 0c53 0 96-43 96-96s-43-96-96-96L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l384 0c17.7 0 32 14.3 32 32s-14.3 
+              32-32 32l-32 0c-17.7 0-32 14.3-32 32zM128 512l32 0c53 0 96-43 96-96s-43-96-96-96L32 320c-17.7 0-32 14.3-32 32s14.3
+               32 32 32l128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0c-17.7 0-32 14.3-32 32s14.3 32 32 32z" />
+        </svg> เป่าปอด</span>
+          <span type="text" class="form-control" id="lung"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+      </div> 
+       <div class="countbox ps-1 py-1">
+        
+        <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com
+             License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6
+              156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5
+               78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0
+                1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 
+                117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
+        </svg> ตา(Bio)</span>
+          <span type="text" class="form-control" id="eye"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+
+
+      </div>
+              <div class="countbox ps-1 py-1">
+        
+        <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com 
+            License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path d="M96 64c0-17.7 14.3-32 32-32l32 0c17.7 0 32 14.3 32 32l0 160 0 64 0 160c0 17.7-14.3 32-32 32l-32 
+            0c-17.7 0-32-14.3-32-32l0-64-32 0c-17.7 0-32-14.3-32-32l0-64c-17.7 0-32-14.3-32-32s14.3-32 32-32l0-64c0-17.7
+             14.3-32 32-32l32 0 0-64zm448 0l0 64 32 0c17.7 0 32 14.3 32 32l0 64c17.7 0 32 14.3 32 32s-14.3 32-32 32l0 64c0
+              17.7-14.3 32-32 32l-32 0 0 64c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-160 0-64 0-160c0-17.7 
+              14.3-32 32-32l32 0c17.7 0 32 14.3 32 32zM416 224l0 64-192 0 0-64 192 0z" />
+        </svg> กล้ามเนื้อ</span>
+          <span type="text" class="form-control" id="muscle"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+        </div>
+         <div class="countbox ps-1 py-1">
+       
+        <div class="input-group my-2  py-2">
+          <span class="input-group-text-m border"> <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M32 0C23.1 0 14.6 3.7 8.6 10.2S-.6 25.4 .1 34.3L28.9 437.7c3 41.9 37.8 74.3 79.8 74.3l166.6 0c42 0 76.8-32.4 79.8-74.3L383.9 34.3c.6-8.9-2.4-17.6-8.5-24.1S360.9 0 352 0L32 0zM73 156.5L66.4 64l251.3 0L311 156.5l-24.2 12.1c-19.4 9.7-42.2 9.7-61.6 0c-20.9-10.4-45.5-10.4-66.4 0c-19.4 9.7-42.2 9.7-61.6 0L73 156.5z"/></svg> ปัสสาวะ</span>
+          <span type="text" class="form-control" id="urine"></span>
+          <span class="input-group-text" style="font-size: 0.75rem">ราย</span>
+        </div>
+        </div>
+
+    </div>
+    
+    
+       
+       <div class="container-report">
+  <div class="h-100 bg-light border rounded-3" style="max-height: 700px;">
+    <div class="table-container" style="height: 100%;">
+      <table class="table table-result" id="tabresult" style="font-size: 0.75rem; width: 100%;">
+        <thead class="table-secondary sticky-header" style="font-family: sarabun;">
+          <tr>
+            <th scope="col" class="text-center" style="font-family: sarabun; width: 10%;">ลำดับ</th>
+            <th scope="col" colspan="2" class="text-center" style="font-family: sarabun; width: 30%;">RegisterID</th>
+            <th scope="col" colspan="6" class="text-center" style="font-family: sarabun; width: 40%;">ชื่อ นามสกุล</th>
+            <th scope="col" class="text-center" style="font-family: sarabun; width: 20%;">Specimen</th>
+          </tr>
+        </thead>
+        <tbody id="specimenresult"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+          
+    </div>                              
+
+    </div>
+  </div>
+</modal>
+
+
+
+
+
+
+
+
+    
+
+
+
+   
+   
+
+
+
+</body>
+</html>
