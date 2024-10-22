@@ -1219,7 +1219,7 @@ function buildSticker() {
                      const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
                      const stickerid = String(regisid) + program;
 
-                     var data = {
+                     var data += {
                          values: [[regisid, barcodesticker, stickerid, name, custom, method]]
                      };
 
