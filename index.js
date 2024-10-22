@@ -1194,9 +1194,7 @@ function buildSticker() {
             n2.innerText = n1;
                     
                      const prog = row[0]; 
-                     console.log(prog);
-                     console.log(program);
-
+                    
                      const method = row[2]; 
                      const methodid = row[3]; 
                      const custom = row[4]; 
