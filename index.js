@@ -1174,100 +1174,107 @@ function closeSearch() {
 }
 
 function buildSticker() {
+    const program = document.getElementById('newprogram').value.trim();
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
- const program = document.getElementById('newprogram').value.trim();
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.values) {
+                // ค้นหาแถวที่ row[0] === program ทั้งหมด
+                const matchingRows = data.values.filter(row => row[0] === program);
 
- fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error('Network response was not ok');
-         }
-         return response.json();
-     })
-     .then(data => {
-         if (data.values) {
-             data.values.forEach(row => {
-                 if (row[0] === program) {
-           const n1 = document.getElementById('newidcard').value.trim();          
-          const n2 = document.getElementById('idcard');
-            n2.innerText = n1;
-                    
-                     const prog = row[0]; 
-                    
-                     const method = row[2]; 
-                     const methodid = row[3]; 
-                     const custom = row[4]; 
-                     const regisidInput = document.getElementById("newid");
-                     const nameInput = document.getElementById("newname");
-                     const program = document.getElementById("newprogram");
-                     if (!regisidInput || !nameInput) {
-                         console.error('ไม่พบ element newid หรือ newname');
-                         alert('ไม่พบข้อมูลการลงทะเบียน');
-                         return;
-                     }
+                if (matchingRows.length === 0) {
+                    alert('ไม่พบข้อมูลที่ตรงกับโปรแกรม');
+                    return;
+                }
 
-                     const regisid = regisidInput.value;
-                     const name = nameInput.value;
+                matchingRows.forEach(row => {
+                    const n1 = document.getElementById('newidcard').value.trim();          
+                    const n2 = document.getElementById('idcard');
+                    n2.innerText = n1;
 
-                     if (!regisid || !name) {
-                         console.error('ไม่สามารถดึงค่า regisid หรือ name');
-                         alert('กรุณากรอกข้อมูลให้ครบ');
-                         return;
-                     }
+                    const method = row[2]; 
+                    const methodid = row[3]; 
+                    const custom = row[4]; 
+                    const regisidInput = document.getElementById("newid");
+                    const nameInput = document.getElementById("newname");
+                    const program = document.getElementById("newprogram");
 
-                     const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
-                     const stickerid = String(regisid) + program;
+                    if (!regisidInput || !nameInput) {
+                        console.error('ไม่พบ element newid หรือ newname');
+                        alert('ไม่พบข้อมูลการลงทะเบียน');
+                        return;
+                    }
 
-                     var data += {
-                         values: [[regisid, barcodesticker, stickerid, name, custom, method]]
-                     };
+                    const regisid = regisidInput.value;
+                    const name = nameInput.value;
 
-                     checkAndRefreshToken();
-                     const accessToken = sessionStorage.getItem("access_token");
+                    if (!regisid || !name) {
+                        console.error('ไม่สามารถดึงค่า regisid หรือ name');
+                        alert('กรุณากรอกข้อมูลให้ครบ');
+                        return;
+                    }
 
-                     const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+                    const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
+                    const stickerid = String(regisid) + program;
 
-                     fetch(appendUrl, {
-                         method: 'POST',
-                         headers: {
-                             'Content-Type': 'application/json',
-                             'Authorization': 'Bearer ' + accessToken,
-                         },
-                         body: JSON.stringify(data)
-                     })
-                     .then(response => {
-                         if (!response.ok) {
-                             throw new Error('Network response was not ok');
-                         }
-                         return response.json();
-                     })
-                     .then(result => {
-                         console.log('Data saved successfully:', result);
-                     })
-                     .catch(error => {
-                         console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
-                         alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-                     });
-                 }
-             });
-         }
-     })
-     .catch(error => {
-         console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
-     });
-  Swal.fire({
-         position: 'center',
-         icon: 'success',
-         title: 'เพิ่มข้อมูลสำเร็จ',
-         showConfirmButton: false,
-         timer: 1500
-     });
- setTimeout(() => { 
-clearRegisterPage(); }, 1000);
-closeNewRegister();
+                    // เตรียมข้อมูลที่จะเพิ่มลงใน Google Sheets
+                    const data = {
+                        values: [[regisid, barcodesticker, stickerid, name, custom, method]]
+                    };
 
+                    checkAndRefreshToken();
+                    const accessToken = sessionStorage.getItem("access_token");
+
+                    const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+
+                    fetch(appendUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + accessToken,
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        console.log('Data saved successfully:', result);
+                    })
+                    .catch(error => {
+                        console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
+                        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                    });
+                });
+            }
+        })
+        .catch(error => {
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+        });
+
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'เพิ่มข้อมูลสำเร็จ',
+        showConfirmButton: false,
+        timer: 1500
+    });
+    setTimeout(() => { 
+        clearRegisterPage(); 
+    }, 1000);
+    closeNewRegister();
 }
+
 
 function printSticker() {
 closeAlert();
