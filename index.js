@@ -1185,9 +1185,18 @@ function buildSticker() {
             return response.json();
         })
         .then(data => {
+            // ตรวจสอบข้อมูลที่ได้รับจาก API
+            console.log('Data received from API:', data);
+
             if (data.values) {
-                // ค้นหาแถวที่ row[0] === program ทั้งหมด
+                // ตรวจสอบว่าข้อมูลทั้งหมดเป็น array หลายแถวหรือไม่
+                console.log('All rows:', data.values);
+
+                // กรองแถวที่ row[0] === program ทั้งหมด
                 const matchingRows = data.values.filter(row => row[0] === program);
+
+                // ตรวจสอบจำนวนแถวที่ตรงกับ program
+                console.log('Matching rows:', matchingRows);
 
                 if (matchingRows.length === 0) {
                     alert('ไม่พบข้อมูลที่ตรงกับโปรแกรม');
@@ -1204,7 +1213,7 @@ function buildSticker() {
                     const custom = row[4]; 
                     const regisidInput = document.getElementById("newid");
                     const nameInput = document.getElementById("newname");
-                    const newprogram = document.getElementById("newprogram");
+                    const program = document.getElementById("newprogram");
 
                     if (!regisidInput || !nameInput) {
                         console.error('ไม่พบ element newid หรือ newname');
@@ -1222,10 +1231,10 @@ function buildSticker() {
                     }
 
                     const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
-                    const stickerid = String(regisid) + newprogram;
+                    const stickerid = String(regisid) + program;
 
                     // เตรียมข้อมูลที่จะเพิ่มลงใน Google Sheets
-                    const data = {
+                    const dataToSave = {
                         values: [[regisid, barcodesticker, stickerid, name, custom, method]]
                     };
 
@@ -1240,7 +1249,7 @@ function buildSticker() {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' + accessToken,
                         },
-                        body: JSON.stringify(data)
+                        body: JSON.stringify(dataToSave)
                     })
                     .then(response => {
                         if (!response.ok) {
@@ -1269,11 +1278,13 @@ function buildSticker() {
         showConfirmButton: false,
         timer: 1500
     });
+
     setTimeout(() => { 
         clearRegisterPage(); 
     }, 1000);
     closeNewRegister();
 }
+
 
 
 function printSticker() {
