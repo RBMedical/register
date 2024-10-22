@@ -321,7 +321,7 @@ function loadAllRecords() {
  <td scope="col" class="text-center" style="font-family: sarabun;">${row[7]}</td>
 </tr>
 `;
-              laodAllData();
+              loadAllData();
              });
          } else {
              resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
