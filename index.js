@@ -441,7 +441,7 @@ function addRegistrationData() {
 }
 
 function addRegistrationDataInner() {
-displayNextSpecimenNumber();
+
  var numb1 = document.getElementById('specimenque').textContent.trim();
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
@@ -1202,7 +1202,7 @@ function buildSticker() {
                      const custom = row[4]; 
                      const regisidInput = document.getElementById("newid");
                      const nameInput = document.getElementById("newname");
-
+                     const program = document.getElementById("program");
                      if (!regisidInput || !nameInput) {
                          console.error('ไม่พบ element newid หรือ newname');
                          alert('ไม่พบข้อมูลการลงทะเบียน');
