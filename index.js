@@ -176,6 +176,7 @@ function searchDataFromId() {
 
 
 function searchDataKey() {
+    displayNextNumber();
  const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
  
  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
@@ -381,7 +382,7 @@ loadAllData();
 
 function addRegistrationData() {
  // ดึงข้อมูลจาก HTML elements
-
+ var number = document.getElementById('numb').textContent.trim();
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
  var idcard = document.getElementById('idcard').textContent.trim();
@@ -394,7 +395,7 @@ function addRegistrationData() {
  
  // สร้าง object ที่จะส่งไปยัง Google Sheets
  var data = {
-     values: [[regisid, name, idcard, card, depart, sexage, birth, prog, date]]
+     values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date]]
  };
  
  checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
