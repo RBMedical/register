@@ -1185,17 +1185,11 @@ function buildSticker() {
             return response.json();
         })
         .then(data => {
-            // ตรวจสอบข้อมูลที่ได้รับจาก API
             console.log('Data received from API:', data);
 
             if (data.values) {
-                // ตรวจสอบว่าข้อมูลทั้งหมดเป็น array หลายแถวหรือไม่
-                console.log('All rows:', data.values);
-
-                // กรองแถวที่ row[0] === program ทั้งหมด
                 const matchingRows = data.values.filter(row => row[0] === program);
 
-                // ตรวจสอบจำนวนแถวที่ตรงกับ program
                 console.log('Matching rows:', matchingRows);
 
                 if (matchingRows.length === 0) {
@@ -1208,15 +1202,15 @@ function buildSticker() {
                     const n2 = document.getElementById('idcard');
                     n2.innerText = n1;
 
-                    const method = row[2]; 
-                    const methodid = row[3]; 
-                    const custom = row[4]; 
+                    const method = row[2] || 'Unknown method';  // ตรวจสอบว่ามีค่าไหม
+                    const methodid = row[3] || 'Unknown methodid'; // ตรวจสอบว่ามีค่าไหม
+                    const custom = row[4] || 'Unknown custom'; // ตรวจสอบว่ามีค่าไหม
                     const regisidInput = document.getElementById("newid");
                     const nameInput = document.getElementById("newname");
-                    const program = document.getElementById("newprogram");
+                    const programInput = document.getElementById("newprogram");
 
-                    if (!regisidInput || !nameInput) {
-                        console.error('ไม่พบ element newid หรือ newname');
+                    if (!regisidInput || !nameInput || !programInput) {
+                        console.error('ไม่พบ element newid, newname หรือ newprogram');
                         alert('ไม่พบข้อมูลการลงทะเบียน');
                         return;
                     }
@@ -1233,7 +1227,6 @@ function buildSticker() {
                     const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
                     const stickerid = String(regisid) + String(program);
 
-                    // เตรียมข้อมูลที่จะเพิ่มลงใน Google Sheets
                     const dataToSave = {
                         values: [[regisid, barcodesticker, stickerid, name, custom, method]]
                     };
