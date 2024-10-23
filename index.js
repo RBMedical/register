@@ -1167,7 +1167,9 @@ setInterval(updateDateTime, 1000);
 function openSheet() {
  $(".modalsheet").css('display', 'block');
 }
-
+function closeRegist(){
+ $(".modalregister").css('display', 'none');
+}    
 function closeSheet() {
  $(".modalsheet").css('display', 'none');
 }
