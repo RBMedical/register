@@ -903,41 +903,42 @@ async function addRegistData() {
  var barinput = document.getElementById('inputbar').value.trim();
  var barcodenewid = document.getElementById('barregisterid').textContent.trim();
  var barcodename = document.getElementById('barname').textContent.trim();
- var barinputmethod = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด
+ var inputmethodbar =  barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
+ var barinputmethod = String( inputmethodbar);
  var specimen;
 
  switch (barinputmethod) {
-     case '11':
+     case "11":
          specimen = "พบแพทย์";
          break;
-     case '12':
+     case "12":
          specimen = "EDTA";
          break;
-     case '13':
+     case "13":
          specimen = "ปัสสาวะ";
          break;
-     case '14':
+     case "14":
          specimen = "X Ray";
          break;
-     case '15':
+     case "15":
          specimen = "EKG";
          break;
-     case '20':
+     case "20":
          specimen = "naf";
          break;
-     case '21':
+     case "21":
          specimen = "Clot";
          break;
-     case '16':
+     case "16":
          specimen = "Audiogram";
          break;
-     case '17':
+     case "17":
          specimen = "เป่าปอด";
          break;
-     case '18':
+     case "18":
          specimen = "ตา(ชีวอนามัย)";
          break;
-     case '19':
+     case "19":
          specimen = "Muscle";
          break;
      default:
