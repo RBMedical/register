@@ -4,7 +4,13 @@
   font-style: normal;
   font-size: 32px;
 }
-
+#loadingIcon {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
 div {
     line-height: 1.1; /* ใช้กับ div */
