@@ -380,7 +380,7 @@ loadAllData();
 
 function addRegistrationData() {
  // ดึงข้อมูลจาก HTML elements
- var numb = document.getElementById('numb').textContent.trim();
+
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
  var idcard = document.getElementById('idcard').textContent.trim();
@@ -393,7 +393,7 @@ function addRegistrationData() {
  
  // สร้าง object ที่จะส่งไปยัง Google Sheets
  var data = {
-     values: [[numb, regisid, name, idcard, card, depart, sexage, birth, prog, date]]
+     values: [[regisid, name, idcard, card, depart, sexage, birth, prog, date]]
  };
  
  checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
@@ -442,14 +442,14 @@ function addRegistrationData() {
 
 function addRegistrationDataInner() {
 
- var numb1 = document.getElementById('specimenque').textContent.trim();
+
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
  const type = "ลงทะเบียน";
  const spec = "10"
  // สร้าง object ที่จะส่งไปยัง Google Sheets
  var data = {
-     values: [[numb1, regisid, name, spec, type]]
+     values: [[regisid, name, spec, type]]
  };
  
  checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
@@ -788,7 +788,6 @@ function runFunction() {
 
 function sendBarcode() {
 
-displayNextSpecimenNumber();
  var barcode = document.getElementById('inputbar').value.trim();
  var barcodeid = barcode.substring(0, 6); // เอา 8 ตัวแรกของบาร์โค้ดมา
 
@@ -881,7 +880,7 @@ function displayNextNumber() {
 function addRegistData() {
  checkAndRefreshToken();
 
- var number = document.getElementById('specimenque').textContent.trim();
+
  var barinput = document.getElementById('inputbar').value.trim();
  var barcodenewid = document.getElementById('barregisterid').textContent.trim();
  var barcodename = document.getElementById('barname').textContent.trim();
@@ -933,7 +932,7 @@ function addRegistData() {
  }
 
  var data = {
-     values: [[number, barcodenewid, barcodename, barinputmethod, specimen]]
+     values: [[barcodenewid, barcodename, barinputmethod, specimen]]
  };
 console.log(data);
  const accessToken = sessionStorage.getItem("access_token");
