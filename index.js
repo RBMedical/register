@@ -823,8 +823,8 @@ function sendBarcode() {
 
              var id = baridElement.textContent;
              var name = barnameElement.textContent;
-             console.log(id, name);
-             checkAndRefreshToken(); 
+            
+            
              addRegistData(); // ฟังก์ชันที่ใช้เพิ่มข้อมูล
          } else {
              alert('ไม่พบ ID นี้ในระบบ');
