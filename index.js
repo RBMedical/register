@@ -380,8 +380,9 @@ loadAllData();
 
 
 
-function addRegistrationData() {
- // ดึงข้อมูลจาก HTML elements
+async function addRegistrationData() {
+  await  displayNextNumber();
+
  var number = document.getElementById('numb').textContent.trim();
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
@@ -442,9 +443,9 @@ function addRegistrationData() {
  });
 }
 
-function addRegistrationDataInner() {
+async function addRegistrationDataInner() {
 
-
+await  displayNextSpecimenNumber();
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
  const type = "ลงทะเบียน";
@@ -863,7 +864,9 @@ function getNextNumber() {
      });
 }
 
-function displayNextNumber() {
+
+
+async function displayNextNumber() {
  getNextNumber()
      .then(nextNumber => {
          // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
@@ -878,11 +881,24 @@ function displayNextNumber() {
 
 
 
+ async function displayNextSpecimenNumber() {
+ getNextSpecimenNumber()
+     .then(nextNumber => {
+         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
+         document.getElementById('specimenque').textContent = nextNumber;
+     })
+     .catch(error => {
+         console.error('Error displaying next number:', error);
+         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
+         document.getElementById('specimenque').textContent = 'Error fetching number';
+     });
 
-function addRegistData() {
+
+
+async function addRegistData() {
  checkAndRefreshToken();
-
-
+ await displayNextSpecimenNumber();
+ var number1 = document.getElementById('specimenque').textContent.trim();
  var barinput = document.getElementById('inputbar').value.trim();
  var barcodenewid = document.getElementById('barregisterid').textContent.trim();
  var barcodename = document.getElementById('barname').textContent.trim();
@@ -934,7 +950,7 @@ function addRegistData() {
  }
 
  var data = {
-     values: [[barcodenewid, barcodename, barinputmethod, specimen]]
+     values: [[number1, barcodenewid, barcodename, barinputmethod, specimen]]
  };
 console.log(data);
  const accessToken = sessionStorage.getItem("access_token");
@@ -995,17 +1011,7 @@ function getNextSpecimenNumber() {
      });
 }
 
-function displayNextSpecimenNumber() {
- getNextSpecimenNumber()
-     .then(nextNumber => {
-         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
-         document.getElementById('specimenque').textContent = nextNumber;
-     })
-     .catch(error => {
-         console.error('Error displaying next number:', error);
-         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
-         document.getElementById('specimenque').textContent = 'Error fetching number';
-     });
+
 }
 function loadAllCount() {
  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
