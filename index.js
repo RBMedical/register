@@ -1231,7 +1231,7 @@ function buildSticker() {
                     }
 
                     const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
-                    const stickerid = String(regisid) + program;
+                    const stickerid = String(regisid) + String(program);
 
                     // เตรียมข้อมูลที่จะเพิ่มลงใน Google Sheets
                     const dataToSave = {
