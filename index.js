@@ -5,7 +5,13 @@ window.onload = function() {
   window.history.replaceState({ path: newURL }, '', newURL);
 }
 
+ function showLoading() {
+            document.getElementById('loadingIcon').style.display = 'block';
+        }
 
+  function hideLoading() {
+            document.getElementById('loadingIcon').style.display = 'none';
+        }
 
 
 // ข้อมูล Client
@@ -47,6 +53,7 @@ function refreshAccessToken() {
  params.append("client_secret", clientSecret);  // ใส่ clientSecret ของคุณที่นี่
  params.append("refresh_token", refreshToken);
 
+showLoading();    
  fetch(url, {
      method: 'POST',
      headers: {
@@ -67,7 +74,10 @@ function refreshAccessToken() {
  })
  .catch(error => {
      console.error('Error refreshing access token:', error);
- });
+ })
+ .finally(() => {
+        hideLoading();
+    });   
 }
 
 // ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อคลิก
