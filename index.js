@@ -446,13 +446,14 @@ async function addRegistrationData() {
 async function addRegistrationDataInner() {
 
 await  displayNextSpecimenNumber();
+ var numr =  document.getElementById('specimenque').textContent.trim();
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
  const type = "ลงทะเบียน";
  const spec = "10"
  // สร้าง object ที่จะส่งไปยัง Google Sheets
  var data = {
-     values: [[regisid, name, spec, type]]
+     values: [[numr, regisid, name, spec, type]]
  };
  
  checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
