@@ -1166,6 +1166,7 @@ function openSheet() {
  $(".modalsheet").css('display', 'block');
 }
 function closeRegist(){
+ clearRegisterPage();
  $(".modalregister").css('display', 'none');
 }    
 function closeSheet() {
