@@ -790,51 +790,136 @@ function runFunction() {
  }
 
 
-function sendBarcode() {
+// ประกาศฟังก์ชัน addRegistData ก่อนการเรียกใช้
+async function addRegistData() {
+    checkAndRefreshToken();
+    await displayNextSpecimenNumber();
+    var number1 = document.getElementById('specimenque').textContent.trim();
+    var barinput = document.getElementById('inputbar').value.trim();
+    var barcodenewid = document.getElementById('barregisterid').textContent.trim();
+    var barcodename = document.getElementById('barname').textContent.trim();
+    var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
+    var barinputmethod = String(inputmethodbar);
+    var specimen;
 
- var barcode = document.getElementById('inputbar').value.trim();
- var barcodeid = barcode.substring(0, 6); // เอา 8 ตัวแรกของบาร์โค้ดมา
+    switch (barinputmethod) {
+        case "11":
+            specimen = "พบแพทย์";
+            break;
+        case "12":
+            specimen = "EDTA";
+            break;
+        case "13":
+            specimen = "ปัสสาวะ";
+            break;
+        case "14":
+            specimen = "X Ray";
+            break;
+        case "15":
+            specimen = "EKG";
+            break;
+        case "20":
+            specimen = "naf";
+            break;
+        case "21":
+            specimen = "Clot";
+            break;
+        case "16":
+            specimen = "Audiogram";
+            break;
+        case "17":
+            specimen = "เป่าปอด";
+            break;
+        case "18":
+            specimen = "ตา(ชีวอนามัย)";
+            break;
+        case "19":
+            specimen = "Muscle";
+            break;
+        default:
+            specimen = "ไม่พบข้อมูล";
+            break;
+    }
 
- // URL สำหรับ Google Sheets API
- var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+    if (!barcodenewid || !barcodename || !barinputmethod || specimen === "ไม่พบข้อมูล") {
+        alert("ข้อมูลไม่ครบถ้วน หรือไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง");
+        return;
+    }
 
- // ส่งคำขอ GET เพื่อตรวจสอบข้อมูลใน Google Sheets
- fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error('Network response was not ok: ' + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         var records = data.values || []; // ดึงข้อมูลจาก response
-         var foundRecord = records.find(record => record[1] === barcodeid); // ค้นหาข้อมูลที่ตรงกับ barcodeid
+    var data = {
+        values: [[number1, barcodenewid, barcodename, barinputmethod, specimen]]
+    };
+    console.log(data);
+    const accessToken = sessionStorage.getItem("access_token");
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
-         var baridElement = document.getElementById('barregisterid');
-         var barnameElement = document.getElementById('barname');
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + accessToken, // แก้ไขช่องว่างระหว่าง Bearer กับ token
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Success:", data);
+        setTimeout(() => {
+            loadAllData();
+        }, 5000);
 
-         // เคลียร์ค่าจาก elements
-         baridElement.textContent = '';
-         barnameElement.textContent = '';
-
-         if (foundRecord) {
-             baridElement.textContent = foundRecord[1]; // barid
-             barnameElement.textContent = foundRecord[2]; // barname
-
-             var id = baridElement.textContent;
-             var name = barnameElement.textContent;
-            
-            
-             addRegistData(); // ฟังก์ชันที่ใช้เพิ่มข้อมูล
-         } else {
-             alert('ไม่พบ ID นี้ในระบบ');
-         }
-     })
-     .catch(error => {
-         console.error('Error:', error);
-         alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
-     });
+        clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
+    });
 }
+
+// จากนั้นฟังก์ชัน sendBarcode จะเรียก addRegistData ได้อย่างถูกต้อง
+function sendBarcode() {
+    var barcode = document.getElementById('inputbar').value.trim();
+    var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
+
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            var records = data.values || [];
+            var foundRecord = records.find(record => record[1] === barcodeid);
+
+            var baridElement = document.getElementById('barregisterid');
+            var barnameElement = document.getElementById('barname');
+
+            baridElement.textContent = '';
+            barnameElement.textContent = '';
+
+            if (foundRecord) {
+                baridElement.textContent = foundRecord[1];
+                barnameElement.textContent = foundRecord[2];
+
+                addRegistData(); // เรียกใช้งานฟังก์ชันที่ประกาศไว้ข้างบน
+            } else {
+                alert('ไม่พบ ID นี้ในระบบ');
+            }
+        })
+        .catch(error => {
+            console.error('Error in fetching barcode data:', error);
+            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
+        });
+}
+
 
 
 
@@ -896,96 +981,7 @@ async function displayNextNumber() {
 
 
 
-async function addRegistData() {
- checkAndRefreshToken();
- await displayNextSpecimenNumber();
- var number1 = document.getElementById('specimenque').textContent.trim();
- var barinput = document.getElementById('inputbar').value.trim();
- var barcodenewid = document.getElementById('barregisterid').textContent.trim();
- var barcodename = document.getElementById('barname').textContent.trim();
- var inputmethodbar =  barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
- var barinputmethod = String( inputmethodbar);
- var specimen;
 
- switch (barinputmethod) {
-     case "11":
-         specimen = "พบแพทย์";
-         break;
-     case "12":
-         specimen = "EDTA";
-         break;
-     case "13":
-         specimen = "ปัสสาวะ";
-         break;
-     case "14":
-         specimen = "X Ray";
-         break;
-     case "15":
-         specimen = "EKG";
-         break;
-     case "20":
-         specimen = "naf";
-         break;
-     case "21":
-         specimen = "Clot";
-         break;
-     case "16":
-         specimen = "Audiogram";
-         break;
-     case "17":
-         specimen = "เป่าปอด";
-         break;
-     case "18":
-         specimen = "ตา(ชีวอนามัย)";
-         break;
-     case "19":
-         specimen = "Muscle";
-         break;
-     default:
-         specimen = "ไม่พบข้อมูล";
-         break;
- }
-
- if (!barcodenewid || !barcodename || !barinputmethod || specimen === "ไม่พบข้อมูล") {
-     alert("ข้อมูลไม่ครบถ้วน หรือไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง");
-     return;
- }
-
- var data = {
-     values: [[number1, barcodenewid, barcodename, barinputmethod, specimen]]
- };
-console.log(data);
- const accessToken = sessionStorage.getItem("access_token");
- var url =  `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
-
- fetch(url, {
-     method: 'POST',
-     headers: {
-         'Content-Type': 'application/json',
-         'Authorization': 'Bearer ' + accessToken, // แก้ไขช่องว่างระหว่าง Bearer กับ token
-     },
-     body: JSON.stringify(data)
- })
- .then(response => {
-     if (!response.ok) {
-         throw new Error('Network response was not ok: ' + response.statusText);
-     }
-     return response.json();
- })
- .then(data => {
-     console.log("Success:", data);
-      setTimeout(() => {   
-               loadAllData();
-                      }, 5000);
-   
-    
-     clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
- })
- .catch(error => {
-     console.error('Error:', error);
-     alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
- });
-}
 
 function getNextSpecimenNumber() {
  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
