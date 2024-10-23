@@ -319,8 +319,8 @@ function loadAllRecords() {
  <th scope="col" class="text-center">${row[0]}</th>
  <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1]}</td>
  <td scope="col" colspan="4" style="font-family: sarabun;">${row[2]}</td>
- <td scope="col" class="text-center" style="font-family: sarabun;">${row[6]}</td>
- <td scope="col" class="text-center" style="font-family: sarabun;">${row[7]}</td>
+ <td scope="col" class="text-center" style="font-family: sarabun;">${row[8]}</td>
+ <td scope="col" class="text-center" style="font-family: sarabun;">${row[9]}</td>
 </tr>
 `;
               loadAllData();
