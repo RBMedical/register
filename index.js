@@ -53,7 +53,7 @@ function refreshAccessToken() {
  params.append("client_secret", clientSecret);  // ใส่ clientSecret ของคุณที่นี่
  params.append("refresh_token", refreshToken);
 
-showLoading();    
+showLoading();																					 
  fetch(url, {
      method: 'POST',
      headers: {
@@ -268,6 +268,7 @@ function searchDataKey() {
 function searchProgram() {
  
  const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?key=${apiKey}`;
+  showLoading();	 																						
  fetch(url1)
      .then(response => {
          if (!response.ok) {
@@ -290,6 +291,7 @@ function searchProgram() {
                      found = true; // เปลี่ยนค่า found เป็น true ถ้าพบโปรแกรม
                  }
              });
+             hideLoading();
          }
 
          // หากไม่พบโปรแกรมที่ค้นหา
