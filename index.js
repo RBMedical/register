@@ -672,14 +672,24 @@ function clearPage() {
 
 }
 
-
+async function runFunction() {
+  try {
+    await sendBarcode();                
+    await displayNextSpecimenNumber();  
+    await addRegistData();             
+    await loadAllData();               
+    await clearSpecimen();             
+  } catch (error) {
+    console.error("Error occurred in sequence:", error);
+  }
+}
 
 
 
 function loadAllData() {
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+  return new Promise((resolve, reject) => {
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
 
- 
  fetch(url)
      .then(response => {
          if (!response.ok) {
@@ -722,6 +732,9 @@ function loadAllData() {
          console.error("Error fetching data:", error);
          alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
      });
+     }
+        resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
+  });
 }
 
 
@@ -835,17 +848,11 @@ function checkInputLength() {
  }
 }
 
-function runFunction() {
-   await    sendBarcode();
-    displayNextSpecimenNumber();       
-    addRegistData();
-      loadAllData();
-     clearSpecimen();  
- }
 
    
        
-async function addRegistData() {
+function addRegistData() {
+  return new Promise((resolve, reject) => {
     checkAndRefreshToken();
     var number1 = document.getElementById('specimenque').textContent.trim();
     var barinput = document.getElementById('inputbar').value.trim();
@@ -931,9 +938,12 @@ async function addRegistData() {
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
 }
+ resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
+  });
+}
 
-
-async function sendBarcode() {
+function sendBarcode() {
+  return new Promise((resolve, reject) => {
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
@@ -970,7 +980,9 @@ async function sendBarcode() {
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
 }
-
+ resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
+  });
+}
 
 
 
@@ -1062,7 +1074,8 @@ function getNextSpecimenNumber() {
 
 
 }
-async function loadAllCount() {
+function loadAllCount() {
+  return new Promise((resolve, reject) => {
  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
 checkAndRefreshToken();
 
@@ -1143,10 +1156,11 @@ checkAndRefreshToken();
      .catch(error => {
          console.error('Error fetching data:', error);
      });
-
-
-
 }
+resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
+  });
+}
+
 
 function calculateAge() {
 var birthdate = document.getElementById('birthdate').value;
@@ -1193,10 +1207,15 @@ function loadRegister() {
      });
 }
 
-async function clearSpecimen(){
+function clearSpecimen() {
+  return new Promise((resolve, reject) => {
  var barcode = document.getElementById('inputbar');
  barcode.value = '';
+  }
+      resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
+  });
 }
+
 
 function getCurrentDateTime() {
  const now = new Date();
