@@ -673,7 +673,7 @@ function clearPage() {
 }
 
 function checkInputLength(){
-    var input = document.getElementById('');
+    var input = document.getElementById('inputbar').value;
 if (input.length === 8) {
      runFunction();
  }
