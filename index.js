@@ -827,7 +827,7 @@ function addRegistData() {
         console.error('Error:', error);
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
-}
+
  resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
   });
 }
@@ -869,7 +869,7 @@ function sendBarcode() {
             console.error('Error in fetching barcode data:', error);
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
-}
+
  resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
   });
 }
@@ -957,7 +957,7 @@ checkAndRefreshToken();
      .catch(error => {
          console.error('Error fetching data:', error);
      });
-}
+
 resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
   });
 }
