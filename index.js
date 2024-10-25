@@ -962,6 +962,34 @@ resolve(); // เรียก resolve เมื่อประมวลผลเ
   });
 }
 
+function clearSpecimen() {
+  return new Promise((resolve, reject) => {
+ var barcode = document.getElementById('inputbar');
+ barcode.value = '';
+  
+      resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
+  });
+}
+
+function displayNextSpecimenNumber() {
+  return new Promise((resolve, reject) => {
+ getNextSpecimenNumber()
+     .then(nextNumber => {
+         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
+         document.getElementById('specimenque').textContent = nextNumber;
+     })
+     .catch(error => {
+         console.error('Error displaying next number:', error);
+         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
+         document.getElementById('specimenque').textContent = 'Error fetching number';
+     });
+
+
+ resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
+  });
+}
+
+
 function addNewData(access_token) {
  // ดึงข้อมูลจาก input elements
  var newid = document.getElementById('newid').value.trim();
@@ -1119,24 +1147,7 @@ async function displayNextNumber() {
 
 
 
- function displayNextSpecimenNumber() {
-  return new Promise((resolve, reject) => {
- getNextSpecimenNumber()
-     .then(nextNumber => {
-         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
-         document.getElementById('specimenque').textContent = nextNumber;
-     })
-     .catch(error => {
-         console.error('Error displaying next number:', error);
-         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
-         document.getElementById('specimenque').textContent = 'Error fetching number';
-     });
-
-
- resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
-  });
-}
-
+ 
 
 function getNextSpecimenNumber() {
  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
@@ -1214,14 +1225,6 @@ function loadRegister() {
      });
 }
 
-function clearSpecimen() {
-  return new Promise((resolve, reject) => {
- var barcode = document.getElementById('inputbar');
- barcode.value = '';
-  }
-      resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
-  });
-}
 
 
 function getCurrentDateTime() {
