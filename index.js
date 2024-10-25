@@ -671,10 +671,13 @@ function clearPage() {
    programDetail.textContent = '';
 
 }
+
+function checkInputLength(){
+    var input = document.getElementById('');
 if (input.length === 8) {
      runFunction();
  }
-
+}
 
 async function runFunction() {
   try {
