@@ -732,7 +732,7 @@ function loadAllData() {
          console.error("Error fetching data:", error);
          alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
      });
-     }
+     
         resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
   });
 }
