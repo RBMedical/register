@@ -671,6 +671,10 @@ function clearPage() {
    programDetail.textContent = '';
 
 }
+if (input.length === 8) {
+     runFunction();
+ }
+}
 
 async function runFunction() {
   try {
@@ -737,120 +741,6 @@ function loadAllData() {
   });
 }
 
-
-
-
-function addNewData(access_token) {
- // ดึงข้อมูลจาก input elements
- var newid = document.getElementById('newid').value.trim();
- var newname = document.getElementById('newname').value.trim();
- var newidcard = document.getElementById('newidcard').value.trim();
- var birthdate = document.getElementById('birthdate').value.trim();
- var newcard = document.getElementById('newcard').value.trim();
- var newdepart = document.getElementById('newdepart').value.trim();
- var newage = document.getElementById('newage').textContent.trim(); // ใช้ innerText หรือ textContent ให้เหมาะสมกับ HTML
- var newprogram = document.getElementById('newprogram').value.trim();
-
- // ตรวจสอบว่าข้อมูลทั้งหมดถูกกรอก
- if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
-     alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-     return; // ออกจากฟังก์ชันถ้ามีข้อมูลไม่ครบ
- }
-
- var newRow = [newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram];
- checkAndRefreshToken(); // ตรวจสอบและรีเฟรช OAuth token
- const accessToken = sessionStorage.getItem("access_token");
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
-
- const body = {
-     "values": [newRow]
- };
-
- // ส่งข้อมูลไปที่ Google Sheets API ด้วย OAuth Token
- fetch(url, {
-     method: "POST",
-   headers: {
- 'Content-Type': 'application/json',
- 'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
-},
-
-
-     body: JSON.stringify(body)
- })
- .then(response => {
-     if (!response.ok) {
-         throw new Error("Network response was not ok " + response.statusText);
-     }
-     return response.json();
- })
- .then(data => {
-     console.log("Data added successfully", data);
-      buildSticker();
-    
-   
- })
- .catch(error => {
-     console.error("Error adding data:", error);
-     Swal.fire({
-         icon: 'error',
-         title: 'เกิดข้อผิดพลาด',
-         text: 'ไม่สามารถเพิ่มข้อมูลได้!'
-     });
- });
-
-}
-
-
- 
-
-
-
-function openSheet() {
- $('#sheet').css('display', 'flex');
-}
-
-function closeSheet() {
- $('#sheet').css('display', 'none');
-}
-
-function getAlert() {
- $('#alert').css('display', 'flex');
-}
-
-function closeAlert() {
- $('#alert').css('display', 'none');
-}
-
-function closeNewRegister() {
- $('.modalregister').css('display', 'none');
-}
-
-function openNewRegister() {
-clearPage();
-clearRegisterPage();
- $('.modalregister').css('display', 'block');
-}
-
-function openSpecimen() {
- $('.modalspecimen').css('display', 'flex');
-}
-
-function closeSpecimen() {
- $('.modalspecimen').css('display', 'none');
-}
-
-function checkInputLength() {
- const input = document.getElementById('inputbar').value;
-
- // ตรวจสอบความยาวของ input
- if (input.length === 8) {
-     runFunction();
- }
-}
-
-
-   
-       
 function addRegistData() {
   return new Promise((resolve, reject) => {
     checkAndRefreshToken();
@@ -985,95 +875,6 @@ function sendBarcode() {
 }
 
 
-
-
-function getNextNumber() {
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
- checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
-
- return fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const values = data.values;
-         if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
-             return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
-         } else {
-             return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
-         }
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-     });
-}
-
-
-
-async function displayNextNumber() {
- getNextNumber()
-     .then(nextNumber => {
-         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
-         document.getElementById('numb').textContent = nextNumber;
-     })
-     .catch(error => {
-         console.error('Error displaying next number:', error);
-         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
-         document.getElementById('numb').textContent = 'Error fetching number';
-     });
-}
-
-
-
- async function displayNextSpecimenNumber() {
- getNextSpecimenNumber()
-     .then(nextNumber => {
-         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
-         document.getElementById('specimenque').textContent = nextNumber;
-     })
-     .catch(error => {
-         console.error('Error displaying next number:', error);
-         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
-         document.getElementById('specimenque').textContent = 'Error fetching number';
-     });
-
-
-
-
-
-function getNextSpecimenNumber() {
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
- checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
-
- return fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const values = data.values;
-         if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
-             return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
-         } else {
-             return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
-         }
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-     });
-}
-
-
-}
 function loadAllCount() {
   return new Promise((resolve, reject) => {
  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
@@ -1160,6 +961,212 @@ checkAndRefreshToken();
 resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
   });
 }
+
+function addNewData(access_token) {
+ // ดึงข้อมูลจาก input elements
+ var newid = document.getElementById('newid').value.trim();
+ var newname = document.getElementById('newname').value.trim();
+ var newidcard = document.getElementById('newidcard').value.trim();
+ var birthdate = document.getElementById('birthdate').value.trim();
+ var newcard = document.getElementById('newcard').value.trim();
+ var newdepart = document.getElementById('newdepart').value.trim();
+ var newage = document.getElementById('newage').textContent.trim(); // ใช้ innerText หรือ textContent ให้เหมาะสมกับ HTML
+ var newprogram = document.getElementById('newprogram').value.trim();
+
+ // ตรวจสอบว่าข้อมูลทั้งหมดถูกกรอก
+ if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
+     alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+     return; // ออกจากฟังก์ชันถ้ามีข้อมูลไม่ครบ
+ }
+
+ var newRow = [newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram];
+ checkAndRefreshToken(); // ตรวจสอบและรีเฟรช OAuth token
+ const accessToken = sessionStorage.getItem("access_token");
+ const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+
+ const body = {
+     "values": [newRow]
+ };
+
+ // ส่งข้อมูลไปที่ Google Sheets API ด้วย OAuth Token
+ fetch(url, {
+     method: "POST",
+   headers: {
+ 'Content-Type': 'application/json',
+ 'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
+},
+
+
+     body: JSON.stringify(body)
+ })
+ .then(response => {
+     if (!response.ok) {
+         throw new Error("Network response was not ok " + response.statusText);
+     }
+     return response.json();
+ })
+ .then(data => {
+     console.log("Data added successfully", data);
+      buildSticker();
+    
+   
+ })
+ .catch(error => {
+     console.error("Error adding data:", error);
+     Swal.fire({
+         icon: 'error',
+         title: 'เกิดข้อผิดพลาด',
+         text: 'ไม่สามารถเพิ่มข้อมูลได้!'
+     });
+ });
+
+}
+
+
+ 
+
+
+
+function openSheet() {
+ $('#sheet').css('display', 'flex');
+}
+
+function closeSheet() {
+ $('#sheet').css('display', 'none');
+}
+
+function getAlert() {
+ $('#alert').css('display', 'flex');
+}
+
+function closeAlert() {
+ $('#alert').css('display', 'none');
+}
+
+function closeNewRegister() {
+ $('.modalregister').css('display', 'none');
+}
+
+function openNewRegister() {
+clearPage();
+clearRegisterPage();
+ $('.modalregister').css('display', 'block');
+}
+
+function openSpecimen() {
+ $('.modalspecimen').css('display', 'flex');
+}
+
+function closeSpecimen() {
+ $('.modalspecimen').css('display', 'none');
+}
+
+function checkInputLength() {
+ const input = document.getElementById('inputbar').value;
+
+ 
+ 
+
+
+   
+       
+
+
+
+
+
+
+function getNextNumber() {
+ const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
+ checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+
+ return fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok " + response.statusText);
+         }
+         return response.json();
+     })
+     .then(data => {
+         const values = data.values;
+         if (values && values.length > 0) {
+             const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
+             return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
+         } else {
+             return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
+         }
+     })
+     .catch(error => {
+         console.error('Error fetching data:', error);
+         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
+     });
+}
+
+
+
+async function displayNextNumber() {
+ getNextNumber()
+     .then(nextNumber => {
+         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
+         document.getElementById('numb').textContent = nextNumber;
+     })
+     .catch(error => {
+         console.error('Error displaying next number:', error);
+         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
+         document.getElementById('numb').textContent = 'Error fetching number';
+     });
+}
+
+
+
+ function displayNextSpecimenNumber() {
+  return new Promise((resolve, reject) => {
+ getNextSpecimenNumber()
+     .then(nextNumber => {
+         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
+         document.getElementById('specimenque').textContent = nextNumber;
+     })
+     .catch(error => {
+         console.error('Error displaying next number:', error);
+         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
+         document.getElementById('specimenque').textContent = 'Error fetching number';
+     });
+
+
+ resolve(); // เรียก resolve เมื่อประมวลผลเสร็จ
+  });
+}
+
+
+function getNextSpecimenNumber() {
+ const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
+ checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+
+ return fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok " + response.statusText);
+         }
+         return response.json();
+     })
+     .then(data => {
+         const values = data.values;
+         if (values && values.length > 0) {
+             const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
+             return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
+         } else {
+             return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
+         }
+     })
+     .catch(error => {
+         console.error('Error fetching data:', error);
+         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
+     });
+}
+
+
+}
+
 
 
 function calculateAge() {
