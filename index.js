@@ -674,7 +674,7 @@ function clearPage() {
 if (input.length === 8) {
      runFunction();
  }
-}
+
 
 async function runFunction() {
   try {
