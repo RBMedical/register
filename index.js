@@ -379,8 +379,8 @@ setInterval(updateDateTime, 1000);
 
 window.onload = function(){
 loadAllRecords();
- displayNextNumber();
-displayNextSpecimenNumber();
+nextNumber();
+nextSpecimenNumber();
 updateDateTime();
 loadAllData();
 }
@@ -1134,7 +1134,6 @@ function getNextNumber() {
 }
 
 
-
 async function displayNextNumber() {
  getNextNumber()
      .then(nextNumber => {
@@ -1148,7 +1147,18 @@ async function displayNextNumber() {
      });
 }
 
-
+    function nextNumber() {
+ getNextNumber()
+     .then(nextNumber => {
+         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
+         document.getElementById('numb').textContent = nextNumber;
+     })
+     .catch(error => {
+         console.error('Error displaying next number:', error);
+         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
+         document.getElementById('numb').textContent = 'Error fetching number';
+     });
+}
 
  
 
@@ -1226,6 +1236,20 @@ function loadRegister() {
          console.error('Error fetching data:', error);
          alert('เกิดข้อผิดพลาดในการโหลดจำนวนทะเบียน');
      });
+}
+
+function nextSpecimenNumber() {
+
+     .then(nextNumber => {
+         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
+         document.getElementById('specimenque').textContent = nextNumber;
+     })
+     .catch(error => {
+         console.error('Error displaying next number:', error);
+         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
+         document.getElementById('specimenque').textContent = 'Error fetching number';
+     });
+
 }
 
 
