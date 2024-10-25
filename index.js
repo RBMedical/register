@@ -823,7 +823,7 @@ function addRegistData() {
   setTimeout(() => { 
         loadAllData(); 
     }, 5000);
-  });
+
 }
 
 function sendBarcode() {
