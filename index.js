@@ -1460,5 +1460,5 @@ loadAllRecords();
 getNextNumber();
 getNextSpecimenNumber();
 updateDateTime();
-loadAllData();
+loadAllData()
 }
