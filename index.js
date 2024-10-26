@@ -836,22 +836,21 @@ const input = document.getElementById('inputbar').value;
 }
 
 async function runFunction() {
-     try {
+  try {
     await sendBarcode();                
-    await displayNextSpecimenNumber(); 
-    await addRegistData();              
-    await loadAllData();                
-    await clearSpecimen();            
+    await displayNextSpecimenNumber();  
+    await addRegistData();             
+    await loadAllData();              
+    await clearSpecimen();             
   } catch (error) {
     console.error("Error occurred in sequence:", error);
   }
 }
 
 
-
    
        
-  function sendBarcode() {
+  function addRegistData() {
    return new Promise((resolve, reject) => {
     checkAndRefreshToken();
     var number1 = document.getElementById('specimenque').textContent.trim();
@@ -937,17 +936,18 @@ async function runFunction() {
         console.error('Error:', error);
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
+
 resolve(); 
   });
 }
 
 
  function sendBarcode() {
-  return new Promise((resolve, reject) => {
-    var barcode = document.getElementById('inputbar').value.trim();
-    var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
+ return new Promise((resolve, reject) => {
+     var barcode = document.getElementById('inputbar').value.trim();
+     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
     fetch(url)
         .then(response => {
@@ -969,7 +969,7 @@ resolve();
             if (foundRecord) {
                 baridElement.textContent = foundRecord[1];
                 barnameElement.textContent = foundRecord[2];
-
+                
                
             } else {
                 alert('ไม่พบ ID นี้ในระบบ');
@@ -979,6 +979,7 @@ resolve();
             console.error('Error in fetching barcode data:', error);
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
+
 resolve(); 
   });
 }
@@ -1078,7 +1079,7 @@ resolve();
 
 
 function displayNextSpecimenNumber() {
-  return new Promise((resolve, reject) => {
+   return new Promise((resolve, reject) => {
    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
      checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
 
@@ -1104,10 +1105,11 @@ function displayNextSpecimenNumber() {
          console.error('Error fetching data:', error);
          throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
      });
-
 resolve(); 
   });
 }
+
+
 
 
 
@@ -1243,10 +1245,11 @@ function loadRegister() {
 }
 
  function clearSpecimen(){
- return new Promise((resolve, reject) => {
+return new Promise((resolve, reject) => {
  var barcode = document.getElementById('inputbar');
  barcode.value = '';
-  resolve(); 
+
+resolve();
   });
 }
 
