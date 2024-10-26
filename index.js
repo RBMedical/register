@@ -379,8 +379,8 @@ setInterval(updateDateTime, 1000);
 
 window.onload = function(){
 loadAllRecords();
- displayNextNumber();
-displayNextSpecimenNumber();
+getNextNumber();
+getNextSpecimenNumber();
 updateDateTime();
 loadAllData();
 }
@@ -986,10 +986,8 @@ resolve();
 
 
 
-
-
-function getNextNumber() {
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
+ function displayNextNumber() {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
  checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
 
  return fetch(url)
@@ -1002,10 +1000,12 @@ function getNextNumber() {
      .then(data => {
          const values = data.values;
          if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
-             return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
+             const lastNumber = values[values.length - 1][0];
+             var newNumber = document.getElementById('numb');
+             newNum.innerText =  parseInt(lastNumber) + 1;
          } else {
-             return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
+             var newNumber = document.getElementById('numb');
+             newNum.innerText = 1;
          }
      })
      .catch(error => {
@@ -1015,32 +1015,94 @@ function getNextNumber() {
 }
 
 
- function displayNextNumber() {
- getNextNumber()
-     .then(nextNumber => {
-         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
-         document.getElementById('numb').textContent = nextNumber;
+
+ function getNextNumber() {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
+  checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+
+  return fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok " + response.statusText);
+         }
+         return response.json();
+     })
+     .then(data => {
+         const values = data.values;
+         if (values && values.length > 0) {
+             const lastNumber = values[values.length - 1][0];
+             var newNumber = document.getElementById('numb');
+             newNum.innerText =  parseInt(lastNumber) + 1;
+         } else {
+             var newNumber = document.getElementById('numb');
+             newNum.innerText = 1;
+         }
      })
      .catch(error => {
-         console.error('Error displaying next number:', error);
-         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
-         document.getElementById('numb').textContent = 'Error fetching number';
+         console.error('Error fetching data:', error);
+         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
      });
 }
 
 
 
-  function displayNextSpecimenNumber() {
-  return new Promise((resolve, reject) => {
- getNextSpecimenNumber();
-     .then(nextNumber => {
-         // แสดงค่า nextNumber ใน element ที่มี id เป็น 'numb'
-         document.getElementById('specimenque').textContent = nextNumber;
+  function getNextSpecimenNumber() {
+ 
+   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
+     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+
+  return fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok " + response.statusText);
+         }
+         return response.json();
+     })
+     .then(data => {
+         const values = data.values;
+         if (values && values.length > 0) {
+             const lastNumber = values[values.length - 1][0]; 
+             var newNum = document.getElementById('specimenque');
+            newNum.innerText =  parseInt(lastNumber) + 1; 
+         } else {
+             const newNum = document.getElementById('specimenque');
+             newNum.innerText = 1 ;
+         }
      })
      .catch(error => {
-         console.error('Error displaying next number:', error);
-         // แสดงข้อความ error ในกรณีที่เกิดข้อผิดพลาด
-         document.getElementById('specimenque').textContent = 'Error fetching number';
+         console.error('Error fetching data:', error);
+         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
+     });
+}
+
+
+
+function displayNextSpecimenNumber() {
+  return new Promise((resolve, reject) => {
+   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
+     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+
+  return fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok " + response.statusText);
+         }
+         return response.json();
+     })
+     .then(data => {
+         const values = data.values;
+         if (values && values.length > 0) {
+             const lastNumber = values[values.length - 1][0]; 
+             var newNum = document.getElementById('specimenque');
+            newNum.innerText =  parseInt(lastNumber) + 1; 
+         } else {
+             const newNum = document.getElementById('specimenque');
+             newNum.innerText = 1 ;
+         }
+     })
+     .catch(error => {
+         console.error('Error fetching data:', error);
+         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
      });
 
 resolve(); 
@@ -1049,34 +1111,6 @@ resolve();
 
 
 
-function getNextSpecimenNumber() {
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
- checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
-
- return fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const values = data.values;
-         if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
-             return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
-         } else {
-             return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
-         }
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-     });
-}
-
-
-}
  function loadAllCount() {
  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
 checkAndRefreshToken();
