@@ -931,7 +931,7 @@ const input = document.getElementById('inputbar').value;
 
 
  function sendBarcode() {
-  
+   displayNextSpecimenNumber();
      var barcode = document.getElementById('inputbar').value.trim();
      var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
@@ -958,13 +958,10 @@ const input = document.getElementById('inputbar').value;
                 baridElement.textContent = foundRecord[1];
                 barnameElement.textContent = foundRecord[2];
                  showLoading();
-                 displayNextSpecimenNumber();
-               setTimeout(() => { 
-                      addRegistData();   }, 1000);
+                
+               addRegistData();  
                   loadAllCount();
-              
-                  setTimeout(() => { 
-                        loadAllData();   }, 2000);
+                    loadAllData();;
                   loadAllCount();
                 hideLoading();
             } else {
