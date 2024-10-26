@@ -677,7 +677,7 @@ function clearPage() {
 
 
 function loadAllData() {
-  return new Promise((resolve, reject) => {
+
    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
 
  fetch(url)
@@ -722,8 +722,7 @@ function loadAllData() {
          console.error("Error fetching data:", error);
          alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
      });
- resolve(); 
-  });
+
 }
 
 
@@ -831,20 +830,8 @@ function closeSpecimen() {
 function checkInputLength() {
 const input = document.getElementById('inputbar').value;  
  if (input.length === 8) {
-     runFunction();
+     sendBarcode();
  }
-}
-
-async function runFunction() {
-  try {
-    await sendBarcode();                
-    await displayNextSpecimenNumber();  
-    await addRegistData();             
-    await loadAllData();              
-    await clearSpecimen();             
-  } catch (error) {
-    console.error("Error occurred in sequence:", error);
-  }
 }
 
 
@@ -942,8 +929,9 @@ resolve();
 }
 
 
- function sendBarcode() {
- return new Promise((resolve, reject) => {
+
+async function sendBarcode() {
+   displayNextSpecimenNumber();
      var barcode = document.getElementById('inputbar').value.trim();
      var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
@@ -969,8 +957,11 @@ resolve();
             if (foundRecord) {
                 baridElement.textContent = foundRecord[1];
                 barnameElement.textContent = foundRecord[2];
-                
-               
+                showLoading();
+              await  addRegistData();
+                  setTimeout(() => { 
+                        loadAllData();   }, 5000);
+                  loadAllCount();
             } else {
                 alert('ไม่พบ ID นี้ในระบบ');
             }
@@ -980,8 +971,6 @@ resolve();
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
 
-resolve(); 
-  });
 }
 
 
@@ -1079,7 +1068,7 @@ resolve();
 
 
 function displayNextSpecimenNumber() {
-   return new Promise((resolve, reject) => {
+ 
    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
      checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
 
@@ -1105,8 +1094,7 @@ function displayNextSpecimenNumber() {
          console.error('Error fetching data:', error);
          throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
      });
-resolve(); 
-  });
+
 }
 
 
@@ -1132,13 +1120,16 @@ checkAndRefreshToken();
          }
 
          // ประกาศตัวนับนอกลูป
-         let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0;
+         let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l=0;
 
          data.values.forEach(row => {
              const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
 
              // นับจำนวนการเกิดของแต่ละ `barcodemethod`
              switch (barcodemethod) {
+                 case "10":
+                     l++;
+                     break;
                  case "11":
                      a++; 
                      break;
@@ -1178,26 +1169,28 @@ checkAndRefreshToken();
              }
          });
 
-         // อัปเดตค่าใน HTML หลังจากประมวลผลเสร็จสิ้น
-         document.getElementById('PE').textContent = a;      // พบแพทย์
-         document.getElementById('EDTA').textContent = b;    // เจาะเลือด
-         document.getElementById('urine').textContent = c;   // ปัสสาวะ
-         document.getElementById('xray').textContent = d;    // X Ray
-         document.getElementById('ekg').textContent = e;     // EKG
-         document.getElementById('ear').textContent = f;     // Audiogram
-         document.getElementById('lung').textContent = g;    // เป่าปอด
-         document.getElementById('eye').textContent = h;     // ตา(ชีวอนามัย)
-         document.getElementById('muscle').textContent = i;  // กล้ามเนื้อ
-         document.getElementById('naf').textContent = j;     // NAF
-         document.getElementById('clot').textContent = k;    // Clot
+        
+         document.getElementById('PE').textContent = a;     
+         document.getElementById('EDTA').textContent = b;   
+         document.getElementById('urine').textContent = c;  
+         document.getElementById('xray').textContent = d;    
+         document.getElementById('ekg').textContent = e;     
+         document.getElementById('ear').textContent = f;     
+         document.getElementById('lung').textContent = g;
+         document.getElementById('eye').textContent = h;     
+         document.getElementById('muscle').textContent = i; 
+         document.getElementById('naf').textContent = j;     
+         document.getElementById('clot').textContent = k;    
+          document.getElementById('register').textContent = l;
+
+         clearSpecimen();
      })
      .catch(error => {
          console.error('Error fetching data:', error);
      });
 
-
-
 }
+
 
 function calculateAge() {
 var birthdate = document.getElementById('birthdate').value;
@@ -1245,12 +1238,9 @@ function loadRegister() {
 }
 
  function clearSpecimen(){
-return new Promise((resolve, reject) => {
+
  var barcode = document.getElementById('inputbar');
  barcode.value = '';
-
-resolve();
-  });
 }
 
 function getCurrentDateTime() {
