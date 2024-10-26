@@ -836,7 +836,7 @@ function checkInputLength() {
  }
 }
 
-function runFunction() {
+async function runFunction() {
    await    sendBarcode();
     displayNextSpecimenNumber();       
     addRegistData();
