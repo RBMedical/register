@@ -80,10 +80,9 @@ showLoading();
     });   
 }
 
-// ฟังก์ชันเพื่อตรวจสอบและรีเฟรช token เมื่อคลิก
+
 function checkAndRefreshToken() {
- 
- if (!access_token) {
+  if (!access_token) {
      console.error("No access token found.");
      return;
  }
@@ -992,7 +991,7 @@ function closeSpecimen() {
        
   function addRegistData() {
    displayNextSpecimenNumber();
-    sendBarcode()  
+    sendBarcode();  
     checkAndRefreshToken();
     var number1 = document.getElementById('specimenque').textContent.trim();
     var barinput = document.getElementById('inputbar').value.trim();
@@ -1082,7 +1081,7 @@ loadAllData();
 function checkInputLength() {
 const input = document.getElementById('inputbar').value;  
  if (input.length === 8) {
-   addRegistData()
+   addRegistData();
  }
 }
 
@@ -1460,5 +1459,5 @@ loadAllRecords();
 getNextNumber();
 getNextSpecimenNumber();
 updateDateTime();
-loadAllData()
+loadAllData();
 }
