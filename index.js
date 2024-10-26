@@ -833,7 +833,7 @@ const input = document.getElementById('inputbar').value;
  }
 }
 
-function runFunction() {
+async function runFunction() {
    await    sendBarcode();
     displayNextSpecimenNumber();       
     addRegistData();
