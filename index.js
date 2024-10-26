@@ -5,6 +5,13 @@ window.onload = function() {
   window.history.replaceState({ path: newURL }, '', newURL);
 }
 
+window.onload = function() {
+loadAllRecords();
+getNextNumber();
+getNextSpecimenNumber();
+updateDateTime();
+loadAllData();
+}
  function showLoading() {
             document.getElementById('loadingIcon').style.display = 'block';
         }
@@ -1454,10 +1461,4 @@ function clearRegisterPage() {
      newcard.value = '';
 }
 
-window.onload = function(){
-loadAllRecords();
-getNextNumber();
-getNextSpecimenNumber();
-updateDateTime();
-loadAllData();
-}
+
