@@ -1,4 +1,3 @@
-
 window.onload = function() {
     var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSARmAs51gJN6VxDl7Y7TtnhkBHe0ZIFIoC5uqVZX_4s0aaNj6C__FoGEri5_O2tA") + 
      "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/spreadsheets");
@@ -502,7 +501,7 @@ await  displayNextSpecimenNumber();
  var numr =  document.getElementById('specimenque').textContent.trim();
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
- const type = "1ลงทะเบียน";
+ const type = "ลงทะเบียน";
  const spec = "10"
  // สร้าง object ที่จะส่งไปยัง Google Sheets
  var data = {
@@ -836,18 +835,17 @@ function checkInputLength() {
  }
 }
 
-async function runFunction() {
-   await    sendBarcode();
-    displayNextSpecimenNumber();       
-    addRegistData();
-      loadAllData();
-     clearSpecimen();  
+function runFunction() {
+     setTimeout(() => {   
+                     sendBarcode();
+                      }, 1000);
  }
 
-   
-       
+
+
 async function addRegistData() {
     checkAndRefreshToken();
+    await displayNextSpecimenNumber();
     var number1 = document.getElementById('specimenque').textContent.trim();
     var barinput = document.getElementById('inputbar').value.trim();
     var barcodenewid = document.getElementById('barregisterid').textContent.trim();
@@ -858,13 +856,13 @@ async function addRegistData() {
 
     switch (barinputmethod) {
         case "11":
-            specimen = "PE";
+            specimen = "พบแพทย์";
             break;
         case "12":
             specimen = "EDTA";
             break;
         case "13":
-            specimen = "Urine";
+            specimen = "ปัสสาวะ";
             break;
         case "14":
             specimen = "X Ray";
@@ -882,10 +880,10 @@ async function addRegistData() {
             specimen = "Audiogram";
             break;
         case "17":
-            specimen = "Lung";
+            specimen = "เป่าปอด";
             break;
         case "18":
-            specimen = "Eyes";
+            specimen = "ตา(ชีวอนามัย)";
             break;
         case "19":
             specimen = "Muscle";
@@ -923,7 +921,9 @@ async function addRegistData() {
     })
     .then(data => {
         console.log("Success:", data);
-       
+        setTimeout(() => {
+            loadAllData();
+        }, 5000);
 
         clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
     })
@@ -933,8 +933,8 @@ async function addRegistData() {
     });
 }
 
-
-async function sendBarcode() {
+// จากนั้นฟังก์ชัน sendBarcode จะเรียก addRegistData ได้อย่างถูกต้อง
+function sendBarcode() {
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
@@ -961,7 +961,7 @@ async function sendBarcode() {
                 baridElement.textContent = foundRecord[1];
                 barnameElement.textContent = foundRecord[2];
 
-               
+                addRegistData(); // เรียกใช้งานฟังก์ชันที่ประกาศไว้ข้างบน
             } else {
                 alert('ไม่พบ ID นี้ในระบบ');
             }
@@ -1063,7 +1063,7 @@ function getNextSpecimenNumber() {
 
 
 }
-async function loadAllCount() {
+function loadAllCount() {
  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
 checkAndRefreshToken();
 
@@ -1145,8 +1145,8 @@ checkAndRefreshToken();
          console.error('Error fetching data:', error);
      });
 
-
-
+ loadRegister(); 
+ clearSpecimen();  
 }
 
 function calculateAge() {
@@ -1194,7 +1194,7 @@ function loadRegister() {
      });
 }
 
-async function clearSpecimen(){
+function clearSpecimen(){
  var barcode = document.getElementById('inputbar');
  barcode.value = '';
 }
