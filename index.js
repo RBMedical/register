@@ -846,91 +846,63 @@ function runFunction() {
 async function addRegistData() {
     checkAndRefreshToken();
     await displayNextSpecimenNumber();
-    var number1 = document.getElementById('specimenque').textContent.trim();
-    var barinput = document.getElementById('inputbar').value.trim();
-    var barcodenewid = document.getElementById('barregisterid').textContent.trim();
-    var barcodename = document.getElementById('barname').textContent.trim();
-    var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
-    var barinputmethod = String(inputmethodbar);
-    var specimen;
+    
+    const number1 = document.getElementById('specimenque').textContent.trim();
+    const barinput = document.getElementById('inputbar').value.trim();
+    const barcodenewid = document.getElementById('barregisterid').textContent.trim();
+    const barcodename = document.getElementById('barname').textContent.trim();
+    const barinputmethod = barinput.slice(-2);
 
-    switch (barinputmethod) {
-        case "11":
-            specimen = "พบแพทย์";
-            break;
-        case "12":
-            specimen = "EDTA";
-            break;
-        case "13":
-            specimen = "ปัสสาวะ";
-            break;
-        case "14":
-            specimen = "X Ray";
-            break;
-        case "15":
-            specimen = "EKG";
-            break;
-        case "20":
-            specimen = "naf";
-            break;
-        case "21":
-            specimen = "Clot";
-            break;
-        case "16":
-            specimen = "Audiogram";
-            break;
-        case "17":
-            specimen = "เป่าปอด";
-            break;
-        case "18":
-            specimen = "ตา(ชีวอนามัย)";
-            break;
-        case "19":
-            specimen = "Muscle";
-            break;
-        default:
-            specimen = "ไม่พบข้อมูล";
-            break;
-    }
+    const specimenMapping = {
+        "11": "พบแพทย์",
+        "12": "EDTA",
+        "13": "ปัสสาวะ",
+        "14": "X Ray",
+        "15": "EKG",
+        "20": "naf",
+        "21": "Clot",
+        "16": "Audiogram",
+        "17": "เป่าปอด",
+        "18": "ตา(ชีวอนามัย)",
+        "19": "Muscle"
+    };
 
-    if (!barcodenewid || !barcodename || !barinputmethod || specimen === "ไม่พบข้อมูล") {
+    const specimen = specimenMapping[barinputmethod] || "ไม่พบข้อมูล";
+
+    if (!barcodenewid || !barcodename || specimen === "ไม่พบข้อมูล") {
         alert("ข้อมูลไม่ครบถ้วน หรือไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง");
         return;
     }
 
-    var data = {
+    const data = {
         values: [[number1, barcodenewid, barcodename, barinputmethod, specimen]]
     };
-    console.log(data);
+    
     const accessToken = sessionStorage.getItem("access_token");
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken, // แก้ไขช่องว่างระหว่าง Bearer กับ token
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(data)
+        });
+
         if (!response.ok) {
             throw new Error('Network response was not ok: ' + response.statusText);
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log("Success:", data);
-        setTimeout(() => {
-            loadAllData();
-        }, 5000);
 
-        clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
-    })
-    .catch(error => {
+        console.log("Success:", await response.json());
+        setTimeout(loadAllData, 5000);
+        clearSpecimen();
+
+    } catch (error) {
         console.error('Error:', error);
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
-    });
+    }
 }
 
 // จากนั้นฟังก์ชัน sendBarcode จะเรียก addRegistData ได้อย่างถูกต้อง
@@ -976,30 +948,18 @@ function sendBarcode() {
 
 
 
-function getNextNumber() {
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
- checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+async function getNextNumber() {
+    checkAndRefreshToken();
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
+    const data = await fetchData(url);
+    const values = data.values;
 
- return fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const values = data.values;
-         if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
-             return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
-         } else {
-             return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
-         }
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-     });
+    if (values && values.length > 0) {
+        const lastNumber = parseInt(values[values.length - 1][0]);
+        return lastNumber + 1;
+    } else {
+        return 1;
+    }
 }
 
 
@@ -1035,33 +995,30 @@ async function displayNextNumber() {
 
 
 
-function getNextSpecimenNumber() {
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
- checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+async function getNextSpecimenNumber() {
+    checkAndRefreshToken();
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
+    const data = await fetchData(url);
+    const values = data.values;
 
- return fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const values = data.values;
-         if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; // ค่าเลขสุดท้ายในคอลัมน์ A
-             return parseInt(lastNumber) + 1; // ค่าเลขถัดไป
-         } else {
-             return 1; // ถ้าไม่มีข้อมูลในคอลัมน์ A ให้เริ่มที่ 1
-         }
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-     });
-}
+    if (values && values.length > 0) {
+        const lastNumber = parseInt(values[values.length - 1][0]);
+        return lastNumber + 1;
+    } else {
+        return 1;
+    }
+}async function getNextSpecimenNumber() {
+    checkAndRefreshToken();
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
+    const data = await fetchData(url);
+    const values = data.values;
 
-
+    if (values && values.length > 0) {
+        const lastNumber = parseInt(values[values.length - 1][0]);
+        return lastNumber + 1;
+    } else {
+        return 1;
+    }
 }
 function loadAllCount() {
  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
