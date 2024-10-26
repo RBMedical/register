@@ -962,7 +962,7 @@ function closeSpecimen() {
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
 
-
+ }
      function displayNextSpecimenNumber() {
  
    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
