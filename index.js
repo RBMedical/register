@@ -992,7 +992,7 @@ function closeSpecimen() {
        
   function addRegistData() {
    displayNextSpecimenNumber();
-   sendBarcode();
+    sendBarcode()  
     checkAndRefreshToken();
     var number1 = document.getElementById('specimenque').textContent.trim();
     var barinput = document.getElementById('inputbar').value.trim();
@@ -1069,19 +1069,15 @@ function closeSpecimen() {
     })
     .then(data => {
         console.log("Success:", data);
-        
-        loadAllData();
+     
        
     })
     .catch(error => {
         console.error('Error:', error);
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
-
+loadAllData();
 }
- console.log("addRegistData called!");
-}
-
 
 function checkInputLength() {
 const input = document.getElementById('inputbar').value;  
