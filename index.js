@@ -827,6 +827,8 @@ function closeSpecimen() {
  $('.modalspecimen').css('display', 'none');
 }
 
+
+
 function checkInputLength() {
 const input = document.getElementById('inputbar').value;  
  if (input.length === 8) {
@@ -838,7 +840,7 @@ const input = document.getElementById('inputbar').value;
    
        
   function addRegistData() {
-   return new Promise((resolve, reject) => {
+ 
     checkAndRefreshToken();
     var number1 = document.getElementById('specimenque').textContent.trim();
     var barinput = document.getElementById('inputbar').value.trim();
@@ -924,13 +926,11 @@ const input = document.getElementById('inputbar').value;
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
 
-resolve(); 
-  });
 }
 
 
 
-async function sendBarcode() {
+ function sendBarcode() {
    displayNextSpecimenNumber();
      var barcode = document.getElementById('inputbar').value.trim();
      var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
@@ -958,10 +958,11 @@ async function sendBarcode() {
                 baridElement.textContent = foundRecord[1];
                 barnameElement.textContent = foundRecord[2];
                 showLoading();
-              await  addRegistData();
+               addRegistData();
                   setTimeout(() => { 
                         loadAllData();   }, 5000);
                   loadAllCount();
+                hideLoading();
             } else {
                 alert('ไม่พบ ID นี้ในระบบ');
             }
