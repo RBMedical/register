@@ -836,11 +836,170 @@ const input = document.getElementById('inputbar').value;
  }
 }
 
+ function sendBarcode() {
+  
+     var barcode = document.getElementById('inputbar').value.trim();
+     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
-   
+     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            var records = data.values || [];
+            var foundRecord = records.find(record => record[1] === barcodeid);
+
+            var baridElement = document.getElementById('barregisterid');
+            var barnameElement = document.getElementById('barname');
+
+            baridElement.textContent = '';
+            barnameElement.textContent = '';
+
+            if (foundRecord) {
+                baridElement.textContent = foundRecord[1];
+                barnameElement.textContent = foundRecord[2];
+               
+            } else {
+                alert('ไม่พบ ID นี้ในระบบ');
+            }
+        })
+        .catch(error => {
+            console.error('Error in fetching barcode data:', error);
+            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
+        });
+
+
+     function displayNextSpecimenNumber() {
+ 
+   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
+     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+
+  return fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok " + response.statusText);
+         }
+         return response.json();
+     })
+     .then(data => {
+         const values = data.values;
+         if (values && values.length > 0) {
+             const lastNumber = values[values.length - 1][0]; 
+             var newNum = document.getElementById('specimenque');
+            newNum.innerText =  parseInt(lastNumber) + 1; 
+         } else {
+             const newNum = document.getElementById('specimenque');
+             newNum.innerText = 1 ;
+         }
+     })
+     .catch(error => {
+         console.error('Error fetching data:', error);
+         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
+     });
+
+}
+
+
+ function loadAllCount() {
+ const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+checkAndRefreshToken();
+
+ fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok");
+         }
+         return response.json();
+     })
+     .then(data => {
+         // ตรวจสอบว่ามีข้อมูลใน data.values หรือไม่
+         if (!data.values || data.values.length === 0) {
+             console.error('No data found.');
+             return;
+         }
+
+         // ประกาศตัวนับนอกลูป
+         let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l=0;
+
+         data.values.forEach(row => {
+             const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
+
+             // นับจำนวนการเกิดของแต่ละ `barcodemethod`
+             switch (barcodemethod) {
+                 case "10":
+                     l++;
+                     break;
+                 case "11":
+                     a++; 
+                     break;
+                 case "12":
+                     b++; 
+                     break;
+                 case "13":
+                     c++; 
+                     break;
+                 case "14":
+                     d++; 
+                     break;
+                 case "15":
+                     e++; 
+                     break;
+                 case "16":
+                     f++; 
+                     break;
+                 case "17":
+                     g++; 
+                     break;
+                 case "18":
+                     h++; 
+                     break;
+                 case "19":
+                     i++; 
+                     break;
+                 case "20":
+                     j++; 
+                     break;
+                 case "21":
+                     k++; 
+                     break;
+                 default:
+                     console.log("Unrecognized barcode method:", barcodemethod);
+                     break;
+             }
+         });
+
+        
+         document.getElementById('PE').textContent = a;     
+         document.getElementById('EDTA').textContent = b;   
+         document.getElementById('urine').textContent = c;  
+         document.getElementById('xray').textContent = d;    
+         document.getElementById('ekg').textContent = e;     
+         document.getElementById('ear').textContent = f;     
+         document.getElementById('lung').textContent = g;
+         document.getElementById('eye').textContent = h;     
+         document.getElementById('muscle').textContent = i; 
+         document.getElementById('naf').textContent = j;     
+         document.getElementById('clot').textContent = k;    
+          document.getElementById('register').textContent = l;
+
+         clearSpecimen();
+     })
+     .catch(error => {
+         console.error('Error fetching data:', error);
+     });
+
+}
+
+     
        
   function addRegistData() {
- 
+   displayNextSpecimenNumber();
+   sendBarcode();
     checkAndRefreshToken();
     var number1 = document.getElementById('specimenque').textContent.trim();
     var barinput = document.getElementById('inputbar').value.trim();
@@ -917,10 +1076,10 @@ const input = document.getElementById('inputbar').value;
     })
     .then(data => {
         console.log("Success:", data);
-       
-
-        clearSpecimen(); 
+        
         loadAllData();
+        loadAllCount();
+        clearSpecimen(); 
     })
     .catch(error => {
         console.error('Error:', error);
@@ -928,50 +1087,6 @@ const input = document.getElementById('inputbar').value;
     });
 
 }
-
-
-
- function sendBarcode() {
-   displayNextSpecimenNumber();
-     var barcode = document.getElementById('inputbar').value.trim();
-     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
-
-     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            var records = data.values || [];
-            var foundRecord = records.find(record => record[1] === barcodeid);
-
-            var baridElement = document.getElementById('barregisterid');
-            var barnameElement = document.getElementById('barname');
-
-            baridElement.textContent = '';
-            barnameElement.textContent = '';
-
-            if (foundRecord) {
-                baridElement.textContent = foundRecord[1];
-                barnameElement.textContent = foundRecord[2];
-                showLoading();
-               addRegistData();
-                  setTimeout(() => { 
-                        loadAllData();   }, 5000);
-                  loadAllCount();
-                hideLoading();
-            } else {
-                alert('ไม่พบ ID นี้ในระบบ');
-            }
-        })
-        .catch(error => {
-            console.error('Error in fetching barcode data:', error);
-            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
-        });
 
 }
 
@@ -1069,129 +1184,11 @@ const input = document.getElementById('inputbar').value;
 
 
 
-function displayNextSpecimenNumber() {
- 
-   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
-     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
-
-  return fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const values = data.values;
-         if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; 
-             var newNum = document.getElementById('specimenque');
-            newNum.innerText =  parseInt(lastNumber) + 1; 
-         } else {
-             const newNum = document.getElementById('specimenque');
-             newNum.innerText = 1 ;
-         }
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-     });
-
-}
 
 
 
 
 
- function loadAllCount() {
- const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-checkAndRefreshToken();
-
- fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok");
-         }
-         return response.json();
-     })
-     .then(data => {
-         // ตรวจสอบว่ามีข้อมูลใน data.values หรือไม่
-         if (!data.values || data.values.length === 0) {
-             console.error('No data found.');
-             return;
-         }
-
-         // ประกาศตัวนับนอกลูป
-         let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l=0;
-
-         data.values.forEach(row => {
-             const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
-
-             // นับจำนวนการเกิดของแต่ละ `barcodemethod`
-             switch (barcodemethod) {
-                 case "10":
-                     l++;
-                     break;
-                 case "11":
-                     a++; 
-                     break;
-                 case "12":
-                     b++; 
-                     break;
-                 case "13":
-                     c++; 
-                     break;
-                 case "14":
-                     d++; 
-                     break;
-                 case "15":
-                     e++; 
-                     break;
-                 case "16":
-                     f++; 
-                     break;
-                 case "17":
-                     g++; 
-                     break;
-                 case "18":
-                     h++; 
-                     break;
-                 case "19":
-                     i++; 
-                     break;
-                 case "20":
-                     j++; 
-                     break;
-                 case "21":
-                     k++; 
-                     break;
-                 default:
-                     console.log("Unrecognized barcode method:", barcodemethod);
-                     break;
-             }
-         });
-
-        
-         document.getElementById('PE').textContent = a;     
-         document.getElementById('EDTA').textContent = b;   
-         document.getElementById('urine').textContent = c;  
-         document.getElementById('xray').textContent = d;    
-         document.getElementById('ekg').textContent = e;     
-         document.getElementById('ear').textContent = f;     
-         document.getElementById('lung').textContent = g;
-         document.getElementById('eye').textContent = h;     
-         document.getElementById('muscle').textContent = i; 
-         document.getElementById('naf').textContent = j;     
-         document.getElementById('clot').textContent = k;    
-          document.getElementById('register').textContent = l;
-
-         clearSpecimen();
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-     });
-
-}
 
 
 function calculateAge() {
