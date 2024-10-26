@@ -377,13 +377,7 @@ function updateDateTime() {
 setInterval(updateDateTime, 1000);
 
 
-window.onload = function(){
-loadAllRecords();
-getNextNumber();
-getNextSpecimenNumber();
-updateDateTime();
-loadAllData();
-}
+
  
 
 
@@ -829,80 +823,7 @@ function closeSpecimen() {
 
 
 
-function checkInputLength() {
-const input = document.getElementById('inputbar').value;  
- if (input.length === 8) {
-     sendBarcode();
- }
-}
 
- function sendBarcode() {
-  
-     var barcode = document.getElementById('inputbar').value.trim();
-     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
-
-     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            var records = data.values || [];
-            var foundRecord = records.find(record => record[1] === barcodeid);
-
-            var baridElement = document.getElementById('barregisterid');
-            var barnameElement = document.getElementById('barname');
-
-            baridElement.textContent = '';
-            barnameElement.textContent = '';
-
-            if (foundRecord) {
-                baridElement.textContent = foundRecord[1];
-                barnameElement.textContent = foundRecord[2];
-               
-            } else {
-                alert('ไม่พบ ID นี้ในระบบ');
-            }
-        })
-        .catch(error => {
-            console.error('Error in fetching barcode data:', error);
-            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
-        });
-
-
-     function displayNextSpecimenNumber() {
- 
-   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
-     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
-
-  return fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const values = data.values;
-         if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; 
-             var newNum = document.getElementById('specimenque');
-            newNum.innerText =  parseInt(lastNumber) + 1; 
-         } else {
-             const newNum = document.getElementById('specimenque');
-             newNum.innerText = 1 ;
-         }
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-     });
-
-}
 
 
  function loadAllCount() {
@@ -995,6 +916,76 @@ checkAndRefreshToken();
 
 }
 
+
+ function sendBarcode() {
+  
+     var barcode = document.getElementById('inputbar').value.trim();
+     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
+
+     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            var records = data.values || [];
+            var foundRecord = records.find(record => record[1] === barcodeid);
+
+            var baridElement = document.getElementById('barregisterid');
+            var barnameElement = document.getElementById('barname');
+
+            baridElement.textContent = '';
+            barnameElement.textContent = '';
+
+            if (foundRecord) {
+                baridElement.textContent = foundRecord[1];
+                barnameElement.textContent = foundRecord[2];
+               
+            } else {
+                alert('ไม่พบ ID นี้ในระบบ');
+            }
+        })
+        .catch(error => {
+            console.error('Error in fetching barcode data:', error);
+            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
+        });
+
+
+     function displayNextSpecimenNumber() {
+ 
+   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
+     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+
+  return fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok " + response.statusText);
+         }
+         return response.json();
+     })
+     .then(data => {
+         const values = data.values;
+         if (values && values.length > 0) {
+             const lastNumber = values[values.length - 1][0]; 
+             var newNum = document.getElementById('specimenque');
+            newNum.innerText =  parseInt(lastNumber) + 1; 
+         } else {
+             const newNum = document.getElementById('specimenque');
+             newNum.innerText = 1 ;
+         }
+     })
+     .catch(error => {
+         console.error('Error fetching data:', error);
+         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
+     });
+
+}
+
+
      
        
   function addRegistData() {
@@ -1078,8 +1069,7 @@ checkAndRefreshToken();
         console.log("Success:", data);
         
         loadAllData();
-        loadAllCount();
-        clearSpecimen(); 
+       
     })
     .catch(error => {
         console.error('Error:', error);
@@ -1090,7 +1080,12 @@ checkAndRefreshToken();
 
 }
 
-
+function checkInputLength() {
+const input = document.getElementById('inputbar').value;  
+ if (input.length === 8) {
+    addRegistData();
+ }
+}
 
 
  function displayNextNumber() {
@@ -1458,4 +1453,12 @@ function clearRegisterPage() {
      newbirthday.textContent = '';
      newprogram.value = '';
      newcard.value = '';
+}
+
+window.onload = function(){
+loadAllRecords();
+getNextNumber();
+getNextSpecimenNumber();
+updateDateTime();
+loadAllData();
 }
