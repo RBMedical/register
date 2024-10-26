@@ -827,9 +827,7 @@ function closeSpecimen() {
 }
 
 function checkInputLength() {
- const input = document.getElementById('inputbar').value;
-
- // ตรวจสอบความยาวของ input
+const input = document.getElementById('inputbar').value;  
  if (input.length === 8) {
      runFunction();
  }
