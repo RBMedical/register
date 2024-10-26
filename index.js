@@ -1002,10 +1002,10 @@ resolve();
          if (values && values.length > 0) {
              const lastNumber = values[values.length - 1][0];
              var newNumber = document.getElementById('numb');
-             newNum.innerText =  parseInt(lastNumber) + 1;
+             newNumber.innerText =  parseInt(lastNumber) + 1;
          } else {
              var newNumber = document.getElementById('numb');
-             newNum.innerText = 1;
+             newNumber.innerText = 1;
          }
      })
      .catch(error => {
