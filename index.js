@@ -1241,16 +1241,7 @@ function clearRegisterPage() {
      newcard.value = '';
 }
 
-
-
-
-<body>
-  <input id="inputbar" onchange="checkInputLength()">
-
-  <div id="specimenresult"></div>
-
-  <script>
-    async function loadAllData() {
+   async function loadAllData() {
       const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
       try {
         const response = await fetch(url);
@@ -1422,5 +1413,3 @@ function clearRegisterPage() {
         sendBarcode();
       }
     }
-  </script>
-</body>
