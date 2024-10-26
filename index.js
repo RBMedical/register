@@ -919,7 +919,8 @@ const input = document.getElementById('inputbar').value;
         console.log("Success:", data);
        
 
-        clearSpecimen(); // เคลียร์ค่าที่กรอกใน input
+        clearSpecimen(); 
+        loadAllData();
     })
     .catch(error => {
         console.error('Error:', error);
