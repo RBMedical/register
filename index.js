@@ -1244,7 +1244,11 @@ function loadRegister() {
  function clearSpecimen(){
 
  var barcode = document.getElementById('inputbar');
+ var bid = document.getElementById('barregisterid');
+ var bname = document.getElementById('barname');    
  barcode.value = '';
+ bid.innerText = '';
+ bname.innerText = '';    
 }
 
 function getCurrentDateTime() {
