@@ -1012,6 +1012,7 @@ function closeSpecimen() {
                                var barcodename = document.getElementById('barname').textContent.trim();
                                var inputdate =  document.getElementById('datetime').textContent;
                                var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
+                            console.log(inputmethodbar);
                                var barinputmethod = String(inputmethodbar);
                                var specimen;
 
