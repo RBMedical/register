@@ -956,19 +956,20 @@ function closeSpecimen() {
      
 
      
-  let autonumber = 0 ;     
+    
  async function addRegistData() {
     return new Promise(resolve => {
         setTimeout(() => {
                             sendBarcode();  
                             checkAndRefreshToken();
-                              autonumber += 1 ;
+                             
                                 document.getElementById('specimenque').innerText = autonumber ;
       
-                               var number1 = document.getElementById('specimenque').textContent.trim();
+                              
                                var barinput = document.getElementById('inputbar').value.trim();
                                var barcodenewid = document.getElementById('barregisterid').textContent.trim();
                                var barcodename = document.getElementById('barname').textContent.trim();
+                               var inputdate =  document.getElementById('datetime').textContent;
                                var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
                                var barinputmethod = String(inputmethodbar);
                                var specimen;
@@ -1018,7 +1019,7 @@ function closeSpecimen() {
     }
 
     var data = {
-        values: [[number1, barcodenewid, barcodename, barinputmethod, specimen]]
+        values: [[inputdate, barcodenewid, barcodename, barinputmethod, specimen]]
     };
     console.log(data);
     const accessToken = sessionStorage.getItem("access_token");
