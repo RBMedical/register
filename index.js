@@ -1113,7 +1113,7 @@ function closeSpecimen() {
 
 async function runInOrder() {
 await addRegistData();
-     loadAllDataa();
+await   loadAllDataa();
 }
 
 
