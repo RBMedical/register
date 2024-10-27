@@ -5,12 +5,7 @@ window.onload = function() {
   window.history.replaceState({ path: newURL }, '', newURL);
 }
 
-window.onload = function() {
-loadAllRecords();
-getNextNumber();
-updateDateTime();
-loadAllData();
-}
+
 
 
  function showLoading() {
@@ -1470,4 +1465,10 @@ function clearRegisterPage() {
      newcard.value = '';
 }
 
+window.onload = function() {
+loadAllRecords();
+getNextNumber();
+updateDateTime();
+loadDataTable();
+}
 
