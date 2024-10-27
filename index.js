@@ -1052,7 +1052,7 @@ function closeSpecimen() {
 }
 
 
-     function loadAlltData() {
+     function loadAllData() {
     
 
    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
