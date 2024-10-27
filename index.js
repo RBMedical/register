@@ -957,9 +957,8 @@ function closeSpecimen() {
 
      
     
- async function addRegistData() {
-    return new Promise(resolve => {
-        setTimeout(() => {
+       function addRegistData() {
+  
                             sendBarcode();  
                             checkAndRefreshToken();
                              
@@ -1041,7 +1040,7 @@ function closeSpecimen() {
     })
     .then(data => {
         console.log("Success:", data);
-     
+     loadAllData();
        
     })
     .catch(error => {
@@ -1049,15 +1048,12 @@ function closeSpecimen() {
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
 
-  resolve();
-        }, 1000); 
-    });
+ 
 }
 
 
- async function loadAlltData() {
-    return new Promise(resolve => {
-        setTimeout(() => {
+     function loadAlltData() {
+    
 
    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
 
@@ -1104,17 +1100,15 @@ function closeSpecimen() {
          alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
      });
 
- resolve();
-        }, 1000); 
-    });
+
 }
 
 
 
 
-async function runInOrder() {
+function runInOrder() {
 await addRegistData();
-await   loadAllDataa();
+
 }
 
 
