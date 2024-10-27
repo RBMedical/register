@@ -1107,7 +1107,7 @@ function closeSpecimen() {
 
 
 function runInOrder() {
-await addRegistData();
+ addRegistData();
 
 }
 
