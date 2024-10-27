@@ -962,7 +962,7 @@ function closeSpecimen() {
                             sendBarcode();  
                             checkAndRefreshToken();
                              
-                                document.getElementById('specimenque').innerText = autonumber ;
+                               
       
                               
                                var barinput = document.getElementById('inputbar').value.trim();
