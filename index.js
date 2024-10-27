@@ -1012,10 +1012,7 @@ function closeSpecimen() {
             break;
     }
 
-    if (!barcodenewid || !barcodename || !barinputmethod || specimen === "ไม่พบข้อมูล") {
-        alert("ข้อมูลไม่ครบถ้วน หรือไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง");
-        return;
-    }
+   
 
     var data = {
         values: [[inputdate, barcodenewid, barcodename, barinputmethod, specimen]]
