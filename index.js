@@ -8,10 +8,11 @@ window.onload = function() {
 window.onload = function() {
 loadAllRecords();
 getNextNumber();
-getNextSpecimenNumber();
 updateDateTime();
 loadAllData();
 }
+
+
  function showLoading() {
             document.getElementById('loadingIcon').style.display = 'block';
         }
@@ -21,7 +22,7 @@ loadAllData();
         }
 
 
-// ข้อมูล Client
+
 const apiKey = 'AIzaSyCvtBvaZ5celuXWAZ1aJNuxBsfJEd3nMuA';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 const rangesheet1 = 'data!A2:ZZ'; 
@@ -341,7 +342,7 @@ function loadAllRecords() {
  <td scope="col" class="text-center" style="font-family: sarabun;">${row[9]}</td>
 </tr>
 `;
-              loadAllData();
+            
              });
          } else {
              resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
@@ -381,13 +382,6 @@ function updateDateTime() {
 
 // เรียกใช้ updateDateTime ทุก 1 วินาที
 setInterval(updateDateTime, 1000);
-
-
-
- 
-
-
-
 
 
 
@@ -495,10 +489,8 @@ async function addRegistrationData() {
 }
 
 
-async function addRegistrationDataInner() {
-
-await  displayNextSpecimenNumber();
- var numr =  document.getElementById('specimenque').textContent.trim();
+function addRegistrationDataInner() {
+ var numr = 0 ;
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
  const type = "1ลงทะเบียน";
@@ -757,6 +749,7 @@ checkAndRefreshToken();
           document.getElementById('register').textContent = l;
 
          clearSpecimen();
+         loadDataTable();
      })
      .catch(error => {
          console.error('Error fetching data:', error);
@@ -817,6 +810,55 @@ function loadAllData() {
 
 }
 
+
+function loadDataTable() {
+
+   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+
+ fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok " + response.statusText);
+         }
+         return response.json();
+     })
+     .then(data => {
+         const resultDiv1 = document.getElementById('specimenresult');
+         resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
+
+         // ตรวจสอบว่ามีข้อมูลหรือไม่
+         if (!data.values || data.values.length === 0) {
+             resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
+             return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
+         }
+
+         // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
+         const sortedData = data.values.sort((a, b) => {
+             const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
+             const valueB = parseInt(b[0], 10);
+             return valueB - valueA; // เรียงจากมากไปน้อย
+         });
+
+         // แสดงข้อมูลใน resultDiv1
+         sortedData.forEach(row => {
+             resultDiv1.innerHTML += 
+               `<tr>
+                 <th scope="row" class="text-center">${row[0]}</th>
+                 <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
+                 <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
+                 <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
+               </tr>`;
+         });
+
+         // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
+        
+     })
+     .catch(error => {
+         console.error("Error fetching data:", error);
+         alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+     });
+
+}
 
 
 
@@ -963,43 +1005,16 @@ function closeSpecimen() {
         });
 
     }
-     function displayNextSpecimenNumber() {
- 
-   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
-     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
-
-  return fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const values = data.values;
-         if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; 
-             var newNum = document.getElementById('specimenque');
-            newNum.innerText =  parseInt(lastNumber) + 1; 
-         } else {
-             const newNum = document.getElementById('specimenque');
-             newNum.innerText = 1 ;
-         }
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-     });
-
-}
-
+     
 
      
-       
+  let autonumber = 0 ;     
   function addRegistData() {
-   displayNextSpecimenNumber();
-    sendBarcode();  
+     sendBarcode();  
     checkAndRefreshToken();
+      autonumber += 1 ;
+      document.getElementById('specimenque').innerText = autonumber ;
+      
     var number1 = document.getElementById('specimenque').textContent.trim();
     var barinput = document.getElementById('inputbar').value.trim();
     var barcodenewid = document.getElementById('barregisterid').textContent.trim();
@@ -1154,36 +1169,7 @@ const input = document.getElementById('inputbar').value;
 
 
 
-  function getNextSpecimenNumber() {
- 
-   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet7}?key=${apiKey}`;
-     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
-
-  return fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const values = data.values;
-         if (values && values.length > 0) {
-             const lastNumber = values[values.length - 1][0]; 
-             var newNum = document.getElementById('specimenque');
-            newNum.innerText =  parseInt(lastNumber) + 1; 
-         } else {
-             const newNum = document.getElementById('specimenque');
-             newNum.innerText = 1 ;
-         }
-     })
-     .catch(error => {
-         console.error('Error fetching data:', error);
-         throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-     });
-}
-
-
+  
 
 
 
@@ -1396,7 +1382,7 @@ closeModal();
  clearPage();
    closeModal();
     displayNextNumber();
-     displayNextSpecimenNumber();
+    
     
  
 
