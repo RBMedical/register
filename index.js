@@ -808,6 +808,48 @@ function loadDataTable() {
 
 }
 
+ function addRegistDataInner() {
+                              checkAndRefreshToken();
+                                      var inputdate = document.getElementById('datetime').textContent;
+                                      var barcodenewid = document.getElementById('newid').value.trim();
+                                      var barcodename = document.getElementById('newname').value.trim();
+                                      var barinputmethod = "10";
+                                      var specimen ="1ลงทะเบียน";
+                            
+    var data = {
+        values: [[inputdate, barcodenewid, barcodename, barinputmethod, specimen]]
+    };
+    console.log(data);
+    const accessToken = sessionStorage.getItem("access_token");
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + accessToken, // แก้ไขช่องว่างระหว่าง Bearer กับ token
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Success:", data);
+     loadAllData();
+       
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
+    });
+
+ 
+}
+
 
 
 function addNewData(access_token) {
@@ -856,6 +898,7 @@ function addNewData(access_token) {
  .then(data => {
      console.log("Data added successfully", data);
       buildSticker();
+     addRegistDataInner();
     
    
  })
@@ -942,7 +985,9 @@ function closeSpecimen() {
             if (foundRecord) {
                 baridElement.textContent = foundRecord[1];
                 barnameElement.textContent = foundRecord[2];
-               
+            setTimeout(() => {    
+              addRegistData();  
+                 }, 1000);
             } else {
                 alert('ไม่พบ ID นี้ในระบบ');
             }
@@ -958,11 +1003,8 @@ function closeSpecimen() {
      
     
        function addRegistData() {
-  
-                            sendBarcode();  
-                            checkAndRefreshToken();
+                              checkAndRefreshToken();
                              
-                               
       
                               
                                var barinput = document.getElementById('inputbar').value.trim();
@@ -1107,12 +1149,6 @@ function closeSpecimen() {
 
 
 
-function checkInputLength() {
-const input = document.getElementById('inputbar').value;  
- if (input.length === 8) {
-   runInOrder();
- }
-}
 
 
 
