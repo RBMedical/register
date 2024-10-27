@@ -489,7 +489,7 @@ function addRegistrationDataInner() {
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
  const type = "1ลงทะเบียน";
- const spec = "10"
+ const spec = 10;
  // สร้าง object ที่จะส่งไปยัง Google Sheets
  var data = {
      values: [[numr, regisid, name, spec, type]]
