@@ -761,54 +761,7 @@ checkAndRefreshToken();
 
 
 
-function loadAllData() {
 
-   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-
- fetch(url)
-     .then(response => {
-         if (!response.ok) {
-             throw new Error("Network response was not ok " + response.statusText);
-         }
-         return response.json();
-     })
-     .then(data => {
-         const resultDiv1 = document.getElementById('specimenresult');
-         resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
-
-         // ตรวจสอบว่ามีข้อมูลหรือไม่
-         if (!data.values || data.values.length === 0) {
-             resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
-             return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
-         }
-
-         // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
-         const sortedData = data.values.sort((a, b) => {
-             const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
-             const valueB = parseInt(b[0], 10);
-             return valueB - valueA; // เรียงจากมากไปน้อย
-         });
-
-         // แสดงข้อมูลใน resultDiv1
-         sortedData.forEach(row => {
-             resultDiv1.innerHTML += 
-               `<tr>
-                 <th scope="row" class="text-center">${row[0]}</th>
-                 <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
-                 <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
-                 <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
-               </tr>`;
-         });
-
-         // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
-         loadAllCount();
-     })
-     .catch(error => {
-         console.error("Error fetching data:", error);
-         alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
-     });
-
-}
 
 
 function loadDataTable() {
@@ -1009,34 +962,36 @@ function closeSpecimen() {
 
      
   let autonumber = 0 ;     
-  function addRegistData() {
-     sendBarcode();  
-    checkAndRefreshToken();
-      autonumber += 1 ;
-      document.getElementById('specimenque').innerText = autonumber ;
+ async function addRegistData() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+                            sendBarcode();  
+                            checkAndRefreshToken();
+                              autonumber += 1 ;
+                                document.getElementById('specimenque').innerText = autonumber ;
       
-    var number1 = document.getElementById('specimenque').textContent.trim();
-    var barinput = document.getElementById('inputbar').value.trim();
-    var barcodenewid = document.getElementById('barregisterid').textContent.trim();
-    var barcodename = document.getElementById('barname').textContent.trim();
-    var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
-    var barinputmethod = String(inputmethodbar);
-    var specimen;
+                               var number1 = document.getElementById('specimenque').textContent.trim();
+                               var barinput = document.getElementById('inputbar').value.trim();
+                               var barcodenewid = document.getElementById('barregisterid').textContent.trim();
+                               var barcodename = document.getElementById('barname').textContent.trim();
+                               var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
+                               var barinputmethod = String(inputmethodbar);
+                               var specimen;
 
-    switch (barinputmethod) {
-        case "11":
-            specimen = "PE";
-            break;
-        case "12":
-            specimen = "EDTA";
-            break;
-        case "13":
-            specimen = "Urine";
-            break;
-        case "14":
-            specimen = "X Ray";
-            break;
-        case "15":
+                             switch (barinputmethod) {
+                                 case "11":
+                               specimen = "PE";
+                                 break;
+                              case "12":
+                           specimen = "EDTA";
+                            break;
+                           case "13":
+                            specimen = "Urine";
+                      break;
+                     case "14":
+                     specimen = "X Ray";
+                      break;
+                    case "15":
             specimen = "EKG";
             break;
         case "20":
@@ -1097,13 +1052,81 @@ function closeSpecimen() {
         console.error('Error:', error);
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
     });
-loadAllData();
+
+  resolve();
+        }, 1000); 
+    });
 }
+
+
+ async function loadAlltData() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+
+   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+
+ fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok " + response.statusText);
+         }
+         return response.json();
+     })
+     .then(data => {
+         const resultDiv1 = document.getElementById('specimenresult');
+         resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
+
+         // ตรวจสอบว่ามีข้อมูลหรือไม่
+         if (!data.values || data.values.length === 0) {
+             resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
+             return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
+         }
+
+         // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
+         const sortedData = data.values.sort((a, b) => {
+             const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
+             const valueB = parseInt(b[0], 10);
+             return valueB - valueA; // เรียงจากมากไปน้อย
+         });
+
+         // แสดงข้อมูลใน resultDiv1
+         sortedData.forEach(row => {
+             resultDiv1.innerHTML += 
+               `<tr>
+                 <th scope="row" class="text-center">${row[0]}</th>
+                 <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
+                 <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
+                 <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
+               </tr>`;
+         });
+
+         // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
+         loadAllCount();
+     })
+     .catch(error => {
+         console.error("Error fetching data:", error);
+         alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+     });
+
+ resolve();
+        }, 1000); 
+    });
+}
+
+
+
+
+async function runInOrder() {
+await addRegistData();
+     loadAllDataa();
+}
+
+
 
 function checkInputLength() {
 const input = document.getElementById('inputbar').value;  
  if (input.length === 8) {
-   addRegistData();
+   runInOrder();
  }
 }
 
