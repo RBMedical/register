@@ -1106,10 +1106,7 @@ function closeSpecimen() {
 
 
 
-function runInOrder() {
- addRegistData();
 
-}
 
 
 
