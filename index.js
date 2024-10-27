@@ -1013,7 +1013,7 @@ function closeSpecimen() {
                                var inputdate =  document.getElementById('datetime').textContent;
                                var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
                             console.log(inputmethodbar);
-                               var barinputmethod = String(inputmethodbar);
+                               var barinputmethod = inputmethodbar;
                                var specimen;
 
                              switch (barinputmethod) {
