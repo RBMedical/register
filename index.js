@@ -462,7 +462,7 @@ async function addRegistrationData() {
           showConfirmButton: false,
           timer: 1500
         });
-        
+       loadDataTable(); 
       })
       .catch(error => {
         console.error('Error:', error);
