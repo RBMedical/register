@@ -746,5 +746,9 @@ div {
     .container-md{
       display: flex;
     }
+#edta, #naf, #clot, #xray, #pe, #ekg, #urine, #eye, #ear, #muscle, #lung {
+  max-width: 2cm;
+  min-width: 2cm;
+}
     
   
