@@ -1084,6 +1084,7 @@ function closeSpecimen() {
 
          // แสดงข้อมูลใน resultDiv1
          sortedData.forEach(row => {
+             if (row[4] !== "1ลงทะเบียน") {
              resultDiv1.innerHTML += 
                `<tr>
                  <th scope="row" class="text-center">${row[0]}</th>
@@ -1091,7 +1092,7 @@ function closeSpecimen() {
                  <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
                  <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
                </tr>`;
-         });
+             }  });
 
          // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
          loadAllCount();
