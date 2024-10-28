@@ -886,4 +886,5 @@ td {
     max-width: 2cm;
     box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.5);
     background-color: #f5f5f5;
+    border: 1px solid black;
 }
