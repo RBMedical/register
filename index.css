@@ -751,10 +751,15 @@ div {
 }
 
 .col-2 {
-  width: 2cm;
+  width: 3cm;
 }
 
 .col-3 {
-  width: 4cm;
+  width: 5cm;
+}
+
+.col4 {
+  width: 8cm;
+}
 }
 
