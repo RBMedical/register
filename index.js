@@ -332,9 +332,9 @@ function loadAllRecords() {
 <tr>
  <th scope="col" class="col-1 text-center">${row[0]}</th>
  <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1]}</td>
- <td scope="col" class="col-3" style="font-family: sarabun;">${row[2]}</td>
- <td scope="col" class="col-1 text-center" style="font-family: sarabun;">${row[8]}</td>
- <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[9]}</td>
+ <td scope="col" class="col-4" style="font-family: sarabun;">${row[2]}</td>
+ <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[8]}</td>
+ <td scope="col" class="col-3 text-center" style="font-family: sarabun;">${row[9]}</td>
 </tr>
 `;
             
