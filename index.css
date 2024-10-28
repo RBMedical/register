@@ -892,4 +892,8 @@ td {
   min-width: 2cm;
     max-width: 2cm;
 }
+.table-container{
+    max-width: 20cm;
+    min-width: 20cm;
+}
     
