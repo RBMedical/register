@@ -746,4 +746,15 @@ div {
     .container-md{
       display: flex;
     }
+.col-1{
+  width: 1cm;
+}
+
+.col-2 {
+  width: 2cm;
+}
+
+.col-3 {
+  width: 4cm;
+}
 
