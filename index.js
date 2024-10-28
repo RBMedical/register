@@ -453,7 +453,8 @@ async function addRegistrationData() {
         return response.json();
       })
       .then(data => {
-        loadAllRecords(); // โหลดข้อมูลใหม่
+        loadAllRecords();
+        addRegistrationDataInner();
         Swal.fire({
           position: "center",
           icon: "success",
@@ -461,7 +462,7 @@ async function addRegistrationData() {
           showConfirmButton: false,
           timer: 1500
         });
-        addRegistrationDataInner(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
+        
       })
       .catch(error => {
         console.error('Error:', error);
@@ -485,7 +486,7 @@ async function addRegistrationData() {
 
 
 function addRegistrationDataInner() {
- var numr = 0 ;
+ var numr = document.getElementById('datetime').textContent ;
  var regisid = document.getElementById('registernumber').textContent.trim();
  var name = document.getElementById('name').textContent.trim();
  const type = "1ลงทะเบียน";
@@ -808,47 +809,7 @@ function loadDataTable() {
 
 }
 
- function addRegistDataInner() {
-                              checkAndRefreshToken();
-                                      var inputdate = document.getElementById('datetime').textContent;
-                                      var barcodenewid = document.getElementById('newid').value.trim();
-                                      var barcodename = document.getElementById('newname').value.trim();
-                                      var barinputmethod = "10";
-                                      var specimen ="1ลงทะเบียน";
-                            
-    var data = {
-        values: [[inputdate, barcodenewid, barcodename, barinputmethod, specimen]]
-    };
-    console.log(data);
-    const accessToken = sessionStorage.getItem("access_token");
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken, // แก้ไขช่องว่างระหว่าง Bearer กับ token
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log("Success:", data);
-     loadAllData();
-       
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
-    });
-
  
-}
 
 
 
