@@ -1,769 +1,889 @@
 .libre-barcode-39-extended-regular {
-  font-family: "Libre Barcode 39 Extended", system-ui;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 32px;
+    font-family: "Libre Barcode 39 Extended", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 32px;
 }
+
 #loadingIcon {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 div {
-    line-height: 1.1; /* ใช้กับ div */
+    line-height: 1.1;
+    /* ใช้กับ div */
 }
 
-.container{
+.container {
     background-color: #E0FFFF;
     min-width: 1250px;
-  
-  }
-  .btn-3 {
-  background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 51%, #ffecd2 100%);
+
 }
-  #registernumber{
+
+.btn-3 {
+    background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 51%, #ffecd2 100%);
+}
+
+#registernumber {
     max-width: 4cm;
-  } 
-  #numb{
+}
+
+#numb {
     min-width: 1.5cm;
     max-width: 1.5cm;
-  }
-#barregisterid{
+}
+
+#barregisterid {
     max-width: 6cm;
 }
-#barname{
+
+#barname {
     max-width: 6cm;
 }
-  #registernumber{
+
+#registernumber {
     min-width: 3cm;
     ax-width: 3cm;
-  }
-  #specimenque{
+}
+
+#specimenque {
     min-width: 3cm;
     max-width: 3cm;
-  }
-  .container-md{
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-  }
-  .container-left{
-      width: 85%;
-  
-    }
-    .container-right{
-      width: 15%;
-    }
-  .container-input{
-      width: 8cm;
-      
-      flex-direction: row;
-  }
-  .container-count{
-      width:30%;
-     
-      flex-direction: row;
-  
-  }
-  .container-report{
-      width: 40%;
-      background-color: darkorange;
-      flex-direction: row;
-  }
-  .gunbar{
-      display:flex;
-      height: 1cm;
-  }
-  .countbox{
-      display: flex;
-      width: 90%;
-      height: 2cm;
-      margin-bottom: 0.1cm;
-      margin-left: 0.5cm;
-    
-  }  
-  .input-group{
-      font-family: sarabun;
-      font-weight: bold;
-      font-size: 0.75rem;
-      width: 10cm;
-     
-  }
-  .count-icon{
-     justify-content: space-between;
-  
-  }
-  .input-group-text-m{
-      width: 2.5cm;
-      background-color: azure;
-      padding-top: 0.2cm;
-      text-align: center;
-      border-bottom-left-radius: 10px;
-      border-top-left-radius: 10px;
-      border-color:black;
-  } 
-  .form-control{
-          box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.5);
-          background-color: #f5f5f5;
-        
-  } 
-  .container-sm{
-      display: flex;
-    
-    
-    
-    
-  }
-  .groupbox{
-      display: flex;
-  }
-  .container-md{
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-  }
-  .container-left{
-      width: 85%;
-      display: flex;
-  
-    }
-    .container-right{
-      width: 15%;
-      
-    }
-  .container-input{
-      width: 30%;
-      
-      
-  }
-  .container-count{
-      width:20%;
-     background-color: #FFFF33;
-      min-height: 700px;
-      max-height: 700px;
-  }
-  .container-search{
+}
+
+.container-md {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container-left {
+    width: 85%;
+
+}
+
+.container-right {
+    width: 15%;
+}
+
+.container-input {
+    width: 8cm;
+
+    flex-direction: row;
+}
+
+.container-count {
+    width: 30%;
+
+    flex-direction: row;
+
+}
+
+.container-report {
+    width: 40%;
+    background-color: darkorange;
+    flex-direction: row;
+}
+
+.gunbar {
+    display: flex;
+    height: 1cm;
+}
+
+.countbox {
+    display: flex;
+    width: 90%;
+    height: 2cm;
+    margin-bottom: 0.1cm;
+    margin-left: 0.5cm;
+
+}
+
+.input-group {
+    font-family: sarabun;
+    font-weight: bold;
+    font-size: 0.75rem;
+    width: 10cm;
+
+}
+
+.count-icon {
+    justify-content: space-between;
+
+}
+
+.input-group-text-m {
+    width: 2.5cm;
+    background-color: azure;
+    padding-top: 0.2cm;
+    text-align: center;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-color: black;
+}
+
+.form-control {
+    box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.5);
+    background-color: #f5f5f5;
+
+}
+
+.container-sm {
+    display: flex;
+
+
+
+
+}
+
+.groupbox {
+    display: flex;
+}
+
+.container-md {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container-left {
+    width: 85%;
+    display: flex;
+
+}
+
+.container-right {
+    width: 15%;
+
+}
+
+.container-input {
+    width: 30%;
+
+
+}
+
+.container-count {
+    width: 20%;
+    background-color: #FFFF33;
+    min-height: 700px;
+    max-height: 700px;
+}
+
+.container-search {
     background-color: #D3D3D3;
-  }
-  .container-report{
-      width: 40%;
-    
-      
-  }
-  .gunbar{
-      display:flex;
-      height: 1cm;
-  }
-  .countbox{
-      display: flex;
-      width: 90%;
-      height: 1cm;
-      margin-bottom: 0.1cm;
-      margin-left: 0.5cm;
-    
-      justify-content: space-between;
-  }
-  .input-group{
-      font-family: sarabun;
-      font-weight: bold;
-      font-size: 0.75rem;
-      width: 8cm;
-     
-  }
-  
-  .count-icon{
-     justify-content: space-between;
-  
-  }
-  .input-group-text-m{
-      width: 2.5cm;
-      background-color: azure;
-      padding-top: 0.2cm;
-      text-align: center;
-      border-bottom-left-radius: 10px;
-      border-top-left-radius: 10px;
-      border-color:black;
-  }  
-  .form-control{
-      box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.5);
-      background-color: #f5f5f5;
-      text-align: center;
-  } 
-  
-  
-  
-  
-  .modalspecimen {
-    
-        display: none;
-        position: fixed;
-       
-        top: 50%;
-      
-        left: 50%;
-        
-        transform: translate(-50%, -50%);
-        
-        width: 55%;
-        flex-direction: column;
-        min-height: 700px;
-        max-height: 700px;
-        
-       
-        background-color: rgb(240, 248, 255);
-       
-        padding: 20px;
-        
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        
-        z-index: 1000;
-        font-size: 0.75rem;
-       
-        border-radius: 10px;
-       
-        
-       
-      }
-      .h-100{
-        max-height: 600px;
-      }
-      .icon{
-        width: 0.5cm;
-      }
-  
-      .modalsheet {
-    
-        display: flex;
-        position: fixed;
-        flex-direction: column;
-        top: 50%;
-      
-        left: 50%;
-        
-        transform: translate(-50%, -50%);
-        
-        width: 100%;
-        flex-direction: column;
-        min-height: 700px;
-        max-height: 700px;
-        
-       
-        background-color: rgb(240, 248, 255);
-       
-        padding: 20px;
-        
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        
-        z-index: 1000;
-        font-size: 0.75rem;
-       
-        border-radius: 10px;
-       
-        
-       
-      }
-      .modalsearch {
-    
-        display: flex;
-        position: fixed;
-        flex-direction: column;
-        top: 50%;
-      
-        left: 50%;
-        
-        transform: translate(-50%, -50%);
-        
-        width: 60%;
-        flex-direction: column;
-        min-height: 700px;
-        max-height: 700px;
-        
-       
-        background-color: rgb(240, 248, 255);
-       
-        padding: 20px;
-        
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        
-        z-index: 1000;
-        font-size: 0.75rem;
-       
-        border-radius: 10px;
-       
-        
-       
-      }
-      .h-100{
-        max-height: 600px;
-      }
-      .icon{
-        width: 0.5cm;
-      }
-  .image-container {
-    width: 100px;  /* กำหนดความกว้างของกล่อง */
-    height: 100px; /* กำหนดความสูงของกล่อง */
+}
+
+.container-report {
+    width: 40%;
+
+
+}
+
+.gunbar {
+    display: flex;
+    height: 1cm;
+}
+
+.countbox {
+    display: flex;
+    width: 90%;
+    height: 1cm;
+    margin-bottom: 0.1cm;
+    margin-left: 0.5cm;
+
+    justify-content: space-between;
+}
+
+.input-group {
+    font-family: sarabun;
+    font-weight: bold;
+    font-size: 0.75rem;
+    width: 8cm;
+
+}
+
+.count-icon {
+    justify-content: space-between;
+
+}
+
+.input-group-text-m {
+    width: 2.5cm;
+    background-color: azure;
+    padding-top: 0.2cm;
+    text-align: center;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-color: black;
+}
+
+.form-control {
+    box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.5);
+    background-color: #f5f5f5;
+    text-align: center;
+}
+
+
+
+
+.modalspecimen {
+
+    display: none;
+    position: fixed;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 55%;
+    flex-direction: column;
+    min-height: 700px;
+    max-height: 700px;
+
+
+    background-color: rgb(240, 248, 255);
+
+    padding: 20px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    z-index: 1000;
+    font-size: 0.75rem;
+
+    border-radius: 10px;
+
+
+
+}
+
+.h-100 {
+    max-height: 600px;
+}
+
+.icon {
+    width: 0.5cm;
+}
+
+.modalsheet {
+
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    flex-direction: column;
+    min-height: 700px;
+    max-height: 700px;
+
+
+    background-color: rgb(240, 248, 255);
+
+    padding: 20px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    z-index: 1000;
+    font-size: 0.75rem;
+
+    border-radius: 10px;
+
+
+
+}
+
+.modalsearch {
+
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 60%;
+    flex-direction: column;
+    min-height: 700px;
+    max-height: 700px;
+
+
+    background-color: rgb(240, 248, 255);
+
+    padding: 20px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    z-index: 1000;
+    font-size: 0.75rem;
+
+    border-radius: 10px;
+
+
+
+}
+
+.h-100 {
+    max-height: 600px;
+}
+
+.icon {
+    width: 0.5cm;
+}
+
+.image-container {
+    width: 100px;
+    /* กำหนดความกว้างของกล่อง */
+    height: 100px;
+    /* กำหนดความสูงของกล่อง */
     background-color: #E0FFFF;
-    overflow: hidden; /* ซ่อนส่วนที่เกินออกจากกล่อง */
-  }
-  
-  .image-container img {
+    overflow: hidden;
+    /* ซ่อนส่วนที่เกินออกจากกล่อง */
+}
+
+.image-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* ปรับให้รูปภาพครอบกล่องแบบเต็ม */
+    object-fit: cover;
+    /* ปรับให้รูปภาพครอบกล่องแบบเต็ม */
     background-color: #F8F8FF;
-  }
-  .logotext{
+}
+
+.logotext {
     color: #006400;
-  }
-  .container-specimen{
+}
+
+.container-specimen {
     display: flex;
     padding: 1;
     min-height: 600px;
     max-height: 600px;
-  }
-  .specimen-input{
-    width: 30%;
-   
-  }
-  .specimen-count{
-     width: 34%;
-    
-  }
-  body {
-      font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif; 
-    }
-      .container{
-        background-color: #E0FFFF;
-        min-width: 1250px;
-      }
-        .container-register {
-          display: flex;
-          flex-direction: row;
-          background-color: #DCDCDC;
-          box-shadow: 20px 20px 20px rgba(0,0,0,0.5);
-        }
-        .data-form {
-          width: 40%;
-          background-color: #DCDCDC;
-          box-shadow: 3px 3px 3px rgba(0,0,0,0.5);
-        }
-        .table-data {
-          width: 40%;
-          background-color: blue;
-        }
-        .input-no {
-          width: 10%;
-        }
-        
-          
-    
-        
-        #form1 {
-         min-height: 500px;
-          max-height: 500px;
-        }
-        #numb{
-          font-size: 0.75rem;
-        }
-      #registernumber{
-          font-size: 0.75rem;
-        }
-        #name{
-          font-size: 0.75rem;
-        }
-        #idcard{
-          font-size: 0.75rem;
-        }
-        #age{
-          font-size: 0.75rem;
-          max-width: 1.5cm;
-          
-        }
-        #birthday{
-          font-size: 0.75rem;
-          max-width: 3cm;
-        }
-        #program{
-          font-size: 0.75rem;
-        }
-        #name{
-           min-width: 3.5cm;
+}
 
-        }
-        .container-nomargin{
-          width: 1200px;
-        }
-        .alert{
-          font-size: 1rem;
-          justify-content: center;
-          display: flex;
-          background-color: #32CD32;
-          display: none;
-        }
-        #b1{
-          font-family: sarabun;
-          font-size: 0.75rem;
-          height: 2cm;
-          width: 3.2cm;
-        }
-    #b2{
-      font-family: sarabun;
-          font-size: 0.75rem;
-          width: 3cm;
-        }
-        #b3{
-          font-family: sarabun;
-          font-size: 0.75rem;
-           width: 3.3cm;
-        }
-     
-    
-        .barcode-container {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 10px;
-                border: 1px solid #000;
-                width: 400px;
-                font-size: 18px;
-            }
-            .barcode {
-                margin: 10px 0;
-            }
-            .details {
-                margin-top: 10px;
-            }
-            .details div {
-                margin: 5px 0;
-            }
-            .footer {
-                display: flex;
-                justify-content: space-between;
-                width: 100%;
-            }
-            .libre-barcode-39-extended-regular {
-      font-family: "Libre Barcode 39 Extended", system-ui;
-      font-weight: 400;
-      font-style: normal;
-    }
-    .container-barcode{
-        display: flex;
-    }
-    .container-barcode-name{
-        width: 70%;
-    }
-    .container-barcode-program{
-         width: 30%;
-    }
-    .modalrecieve {
-      
-        
-          position: fixed;
-         
-          top: 40%;
-        
-          left: 20%;
-          
-          transform: translate(-50%, -50%);
-          
-          min-width: 7cm;
-          max-width: 7cm;
-          
-          min-height: 3cm;
-         
-          background-color: rgb(240, 248, 255);
-         
-          padding: 20px;
-          
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-          
-          z-index: 1000;
-          font-size: 0.75rem;
-         
-          border-radius: 10px;
-          flex-direction:row;
-          justify-content: space-between;
-         
-        }
-    
-        .modalregister {
-      
-          display: none;
-          position: fixed;
-         
-          top: 50%;
-        
-          left: 50%;
-          
-          transform: translate(-50%, -50%);
-          
-          min-width: 10cm;
-          max-width: 10cm;
-          
-          min-height: 5cm;
-         
-          background-color: rgb(240, 248, 255);
-         
-          padding: 20px;
-          
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-          
-          z-index: 1000;
-          font-size: 0.75rem;
-         
-          border-radius: 10px;
-          flex-direction:row;
-          justify-content: space-between;
-         
-        }
-        .modalsheet {
-      
-          display: none;
-          position: fixed;
-         
-          top: 50%;
-        
-          left: 50%;
-          
-          transform: translate(-50%, -50%);
-          
-          
-          width: 60%;
-          
-          
-         
-          background-color: rgb(240, 248, 255);
-         
-          padding: 20px;
-          
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-          
-          z-index: 1000;
-          font-size: 0.75rem;
-         
-          border-radius: 10px;
-          flex-direction:row;
-          justify-content: space-between;
-         
-        }
-  
-  #start{
+.specimen-input {
+    width: 30%;
+
+}
+
+.specimen-count {
+    width: 34%;
+
+}
+
+body {
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.container {
+    background-color: #E0FFFF;
+    min-width: 1250px;
+}
+
+.container-register {
+    display: flex;
+    flex-direction: row;
+    background-color: #DCDCDC;
+    box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.5);
+}
+
+.data-form {
+    width: 40%;
+    background-color: #DCDCDC;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+}
+
+.table-data {
+    width: 40%;
+    background-color: blue;
+}
+
+.input-no {
+    width: 10%;
+}
+
+
+
+
+#form1 {
+    min-height: 500px;
+    max-height: 500px;
+}
+
+#numb {
+    font-size: 0.75rem;
+}
+
+#registernumber {
+    font-size: 0.75rem;
+}
+
+#name {
+    font-size: 0.75rem;
+}
+
+#idcard {
+    font-size: 0.75rem;
+}
+
+#age {
+    font-size: 0.75rem;
+    max-width: 1.5cm;
+
+}
+
+#birthday {
+    font-size: 0.75rem;
+    max-width: 3cm;
+}
+
+#program {
+    font-size: 0.75rem;
+}
+
+#name {
+    min-width: 3.5cm;
+
+}
+
+.container-nomargin {
+    width: 1200px;
+}
+
+.alert {
+    font-size: 1rem;
+    justify-content: center;
+    display: flex;
+    background-color: #32CD32;
+    display: none;
+}
+
+#b1 {
+    font-family: sarabun;
+    font-size: 0.75rem;
+    height: 2cm;
+    width: 3.2cm;
+}
+
+#b2 {
+    font-family: sarabun;
+    font-size: 0.75rem;
+    width: 3cm;
+}
+
+#b3 {
+    font-family: sarabun;
+    font-size: 0.75rem;
+    width: 3.3cm;
+}
+
+
+.barcode-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    border: 1px solid #000;
+    width: 400px;
+    font-size: 18px;
+}
+
+.barcode {
+    margin: 10px 0;
+}
+
+.details {
+    margin-top: 10px;
+}
+
+.details div {
+    margin: 5px 0;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.libre-barcode-39-extended-regular {
+    font-family: "Libre Barcode 39 Extended", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.container-barcode {
+    display: flex;
+}
+
+.container-barcode-name {
+    width: 70%;
+}
+
+.container-barcode-program {
+    width: 30%;
+}
+
+.modalrecieve {
+
+
+    position: fixed;
+
+    top: 40%;
+
+    left: 20%;
+
+    transform: translate(-50%, -50%);
+
+    min-width: 7cm;
+    max-width: 7cm;
+
+    min-height: 3cm;
+
+    background-color: rgb(240, 248, 255);
+
+    padding: 20px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    z-index: 1000;
+    font-size: 0.75rem;
+
+    border-radius: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.modalregister {
+
+    display: none;
+    position: fixed;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    min-width: 10cm;
+    max-width: 10cm;
+
+    min-height: 5cm;
+
+    background-color: rgb(240, 248, 255);
+
+    padding: 20px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    z-index: 1000;
+    font-size: 0.75rem;
+
+    border-radius: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.modalsheet {
+
+    display: none;
+    position: fixed;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+
+    width: 60%;
+
+
+
+    background-color: rgb(240, 248, 255);
+
+    padding: 20px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    z-index: 1000;
+    font-size: 0.75rem;
+
+    border-radius: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+#start {
     min-width: 400px;
     max-width: 400px;
     min-height: 200px;
     max-height: 200px;
     top: 50;
     left: 50;
-   transform: translate(-50%, -50%);
-   justify-content: center;
-  }
-    
-        .sticker {
-                width: 5cm;
-                min-height: 2cm;
-                max-height: 2cm;
-                border: 1px solid black; 
-                display: flex;
-                
-            }
-        .sticker-inner{
-                width: 4cm;
-                min-height: 1cm;
-                max-height: 1cm;
-               justify-content: space-between;
-                display: flex;
-        }
-        
-            .sticker-id {
-      width: 0.2cm;
-      min-height: 0.5cm;
-      max-height: 2cm;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1;
-     
-    }
-    
-    .sticker-id span {
-      writing-mode: vertical-rl;
-      transform: rotate(180deg); 
-      white-space: nowrap;
-      font-size: 0.60rem
-    
-    }
-    
-          
-            .sticker-right {
-              
-                max-width: 4.5cm;
-                min-width: 3cm;
-                max-height: 2cm;
-                min-height: 2cm;
-                flex-direction: column;
-                
-            }
-    
-            /* .sticker-place - สีเหลือง */
-            .barcode-container {
-                border: none;
-                width: 3.8cm;
-                height: 0.3cm;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            barcode-container span{
-                width: 100%;
-                height: 100%;
-                
-            }
-              svg {
-                width: 100%; /* ให้บาร์โค้ดครอบคลุมพื้นที่ทั้งหมดของกล่อง */
-                height: 100%;
-                margin:  0;
-                padding: 0;
-              }
-            .sticker-name {
-                display: flex;
-                width: 3.8cm;
-                font-size: 0.80rem;  
-                flex-direction: row;
-            }
-            .sticker-method{
-                width: 40%;
-                font-size: 0.60rem;
-            }
-            .sticker-date{
-                width: 60%;
-                font-size: 0.5rem;
-                text-align: right;
-               
-            }
-    
-            .row{
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-         
-            }
-            .fs-6{
-                width: 0.25cm;
-                height: 0.25cm;
-                justify-content: start;
-              
-            }
-          
-            #form2{
-                background-color: aqua;
-                box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.5);
-            }
-            .printbtn{
-               height: 1.5cm;
-              object-fit: cover;
-            }
-          .alert{
-          
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-          } 
-          .form-control{
-            box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.5);
-            background-color: #f5f5f5;
-        
-          }
-          .newregister{
-            max-width: 300px;
-            min-width: 300px;
-            max-height: 900px;
-            min-height: 900px;
-            left: 10%;
-    
-          }
-          #newregister{
-            font-size: 0.5rem;
-            font-family: sarabun;
-          }
-          .age{
-            max-width: 2cm;
-            min-width: 2cm;
-            box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.5);
-            border: 1px solid black;
-         }
-       table {
-        width: 100%; /* กำหนดความกว้างของตารางเป็น 80% ของพื้นที่ที่มีอยู่ */
-        margin: auto; /* จัดกลางตารางในหน้า */
-        border-collapse: collapse; /* ไม่มีระยะห่างระหว่างเซลล์ */
-        max-height: 600px; /* กำหนดความสูงสูงสุดของตาราง */
-        overflow-y: auto; /* อนุญาตให้เลื่อนแนวดิ่ง */
-        display: block; /* ทำให้ตารางเป็น block element */
-       }
-    
-    thead {
-        position: sticky; /* ทำให้ thead คงที่ */
-        top: 0; /* ระยะห่างจากด้านบน */
-        background-color: white; /* ตั้งค่าพื้นหลังเพื่อให้เห็นชัด */
-        z-index: 10; /* ให้ส่วนหัวอยู่ด้านบน */
-    }
-    tr{
-      height: 5px;
-    }
-    th, td {
-      font-size: 0.6rem;
-        border: 1px solid black; /* กำหนดกรอบเซลล์ */
-        padding: 8px; /* ตั้งค่าระยะห่างภายในเซลล์ */
-        text-align: left; /* ตั้งค่าการจัดแนวข้อความ */
-        width: 1cm; /* กำหนดความกว้างของแต่ละเซลล์ในแถวหัวตาราง */
-        font-family: sarabun;
-        height: 0.25cm;
-      
-         }
-     .container-left{
-      width: 70%;
-      display: flex;
-     } 
-     .container-right{
-      width: 30%;
-     }   
-    .image-container {
-      width: 100px;  /* กำหนดความกว้างของกล่อง */
-      height: 100px; /* กำหนดความสูงของกล่อง */
-      
-      overflow: hidden; /* ซ่อนส่วนที่เกินออกจากกล่อง */
-    }
-    
-    .image-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover; /* ปรับให้รูปภาพครอบกล่องแบบเต็ม */
-    }
-    .logotext{
-      color: #006400;
-    }
-    .container-md{
-      display: flex;
-    }
-.col-1{
-  width: 2cm;
+    transform: translate(-50%, -50%);
+    justify-content: center;
+}
+
+.sticker {
+    width: 5cm;
+    min-height: 2cm;
+    max-height: 2cm;
+    border: 1px solid black;
+    display: flex;
+
+}
+
+.sticker-inner {
+    width: 4cm;
+    min-height: 1cm;
+    max-height: 1cm;
+    justify-content: space-between;
+    display: flex;
+}
+
+.sticker-id {
+    width: 0.2cm;
+    min-height: 0.5cm;
+    max-height: 2cm;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1;
+
+}
+
+.sticker-id span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    font-size: 0.60rem
+}
+
+
+.sticker-right {
+
+    max-width: 4.5cm;
+    min-width: 3cm;
+    max-height: 2cm;
+    min-height: 2cm;
+    flex-direction: column;
+
+}
+
+/* .sticker-place - สีเหลือง */
+.barcode-container {
+    border: none;
+    width: 3.8cm;
+    height: 0.3cm;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+barcode-container span {
+    width: 100%;
+    height: 100%;
+
+}
+
+svg {
+    width: 100%;
+    /* ให้บาร์โค้ดครอบคลุมพื้นที่ทั้งหมดของกล่อง */
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.sticker-name {
+    display: flex;
+    width: 3.8cm;
+    font-size: 0.80rem;
+    flex-direction: row;
+}
+
+.sticker-method {
+    width: 40%;
+    font-size: 0.60rem;
+}
+
+.sticker-date {
+    width: 60%;
+    font-size: 0.5rem;
+    text-align: right;
+
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.fs-6 {
+    width: 0.25cm;
+    height: 0.25cm;
+    justify-content: start;
+
+}
+
+#form2 {
+    background-color: aqua;
+    box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.printbtn {
+    height: 1.5cm;
+    object-fit: cover;
+}
+
+.alert {
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.form-control {
+    box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.5);
+    background-color: #f5f5f5;
+
+}
+
+.newregister {
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 900px;
+    min-height: 900px;
+    left: 10%;
+
+}
+
+#newregister {
+    font-size: 0.5rem;
+    font-family: sarabun;
+}
+
+.age {
+    max-width: 2cm;
+    min-width: 2cm;
+    box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid black;
+}
+
+table {
+    width: 100%;
+    /* กำหนดความกว้างของตารางเป็น 80% ของพื้นที่ที่มีอยู่ */
+    margin: auto;
+    /* จัดกลางตารางในหน้า */
+    border-collapse: collapse;
+    /* ไม่มีระยะห่างระหว่างเซลล์ */
+    max-height: 600px;
+    /* กำหนดความสูงสูงสุดของตาราง */
+    overflow-y: auto;
+    /* อนุญาตให้เลื่อนแนวดิ่ง */
+    display: block;
+    /* ทำให้ตารางเป็น block element */
+}
+
+thead {
+    position: sticky;
+    /* ทำให้ thead คงที่ */
+    top: 0;
+    /* ระยะห่างจากด้านบน */
+    background-color: white;
+    /* ตั้งค่าพื้นหลังเพื่อให้เห็นชัด */
+    z-index: 10;
+    /* ให้ส่วนหัวอยู่ด้านบน */
+}
+
+tr {
+    height: 5px;
+}
+
+th,
+td {
+    font-size: 0.6rem;
+    border: 1px solid black;
+    /* กำหนดกรอบเซลล์ */
+    padding: 8px;
+    /* ตั้งค่าระยะห่างภายในเซลล์ */
+    text-align: left;
+    /* ตั้งค่าการจัดแนวข้อความ */
+    width: 1cm;
+    /* กำหนดความกว้างของแต่ละเซลล์ในแถวหัวตาราง */
+    font-family: sarabun;
+    height: 0.25cm;
+
+}
+
+.container-left {
+    width: 70%;
+    display: flex;
+}
+
+.container-right {
+    width: 30%;
+}
+
+.image-container {
+    width: 100px;
+    /* กำหนดความกว้างของกล่อง */
+    height: 100px;
+    /* กำหนดความสูงของกล่อง */
+
+    overflow: hidden;
+    /* ซ่อนส่วนที่เกินออกจากกล่อง */
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* ปรับให้รูปภาพครอบกล่องแบบเต็ม */
+}
+
+.logotext {
+    color: #006400;
+}
+
+.container-md {
+    display: flex;
+}
+
+.col-1 {
+    width: 2cm;
 }
 
 .col-2 {
-  width: 3cm;
+    width: 3cm;
 }
 
 .col-3 {
-  width: 6cm;
+    width: 6cm;
 }
 
 .col4 {
-  width: 12cm;
-}
-.form-control-box{
-  min-width: 2cm;
-  max-width: 2cm;
-}
+    width: 12cm;
 }
 
+.form-control-box {
+    min-width: 2cm;
+    max-width: 2cm;
+    box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.5);
+    background-color: #f5f5f5;
+}
