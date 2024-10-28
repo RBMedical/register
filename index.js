@@ -330,11 +330,11 @@ function loadAllRecords() {
              data.values.forEach(row => {
                  resultDiv1.innerHTML += `
 <tr>
- <th scope="col" class="text-center">${row[0]}</th>
- <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1]}</td>
- <td scope="col" colspan="4" style="font-family: sarabun;">${row[2]}</td>
- <td scope="col" class="text-center" style="font-family: sarabun;">${row[8]}</td>
- <td scope="col" class="text-center" style="font-family: sarabun;">${row[9]}</td>
+ <th scope="col" class="col-1 text-center">${row[0]}</th>
+ <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1]}</td>
+ <td scope="col" class="col-3" style="font-family: sarabun;">${row[2]}</td>
+ <td scope="col" class="col-1 text-center" style="font-family: sarabun;">${row[8]}</td>
+ <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[9]}</td>
 </tr>
 `;
             
