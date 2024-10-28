@@ -71,7 +71,7 @@ div {
 }
 
 .container-input {
-    width: 8cm;
+    width: 6cm;
 
     flex-direction: row;
 }
@@ -84,7 +84,7 @@ div {
 }
 
 .container-report {
-    width: 50%;
+    width: 60%;
     background-color: darkorange;
     flex-direction: row;
 }
