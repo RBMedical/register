@@ -747,7 +747,7 @@ div {
       display: flex;
     }
 .col-1{
-  width: 1cm;
+  width: 2cm;
 }
 
 .col-2 {
@@ -755,7 +755,7 @@ div {
 }
 
 .col-3 {
-  width: 5cm;
+  width: 6cm;
 }
 
 .col4 {
