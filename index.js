@@ -237,7 +237,7 @@ function searchDataKey() {
                         age.textContent = row[5];
                         birthday.textContent = row[6];
                         program.textContent = row[7];
-                        desc.textContent = 'ในรายชื่อ';
+                        
                         found = true; // เปลี่ยนค่า found เป็น true
 
                         // เก็บค่าผลลัพธ์ในตัวแปร searchResult
