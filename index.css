@@ -173,8 +173,8 @@ div {
 
 .container-search {
     background-color: #D3D3D3;
-    min-height: 500px;
-    max-height: 500px;
+    min-height: 400px;
+    max-height: 400px;
 }
 
 .container-report {
