@@ -394,10 +394,10 @@ async function addRegistrationData() {
     var birth = document.getElementById('birthday').textContent.trim();
     var prog = document.getElementById('program').textContent.trim();
     var date = document.getElementById('datetime').textContent.trim();
-
-    // สร้าง object ที่จะส่งไปยัง Google Sheets
+    const desc= 'ในรายชื่อ';
+   
     var data = {
-        values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date]]
+        values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
     };
 
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
@@ -911,7 +911,7 @@ function addNewData(access_token) {
     var newdepart = document.getElementById('newdepart').value.trim();
     var newage = document.getElementById('newage').textContent.trim(); // ใช้ innerText หรือ textContent ให้เหมาะสมกับ HTML
     var newprogram = document.getElementById('newprogram').value.trim();
-
+    
     // ตรวจสอบว่าข้อมูลทั้งหมดถูกกรอก
     if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
         alert('กรุณากรอกข้อมูลให้ครบถ้วน');
