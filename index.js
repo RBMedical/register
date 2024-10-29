@@ -1701,5 +1701,5 @@ window.onload = function () {
     getNextNumber();
     updateDateTime();
     loadDataTable();
-    loadAllCountOpen();
+ 
 }
