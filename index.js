@@ -1353,10 +1353,7 @@ function closeSheet() {
     $(".modalsheet").css('display', 'none');
 }
 
-function openSearch() {
-    $(".modalsearch").css('display', 'block');
-   loadAllRecordsSearch();
-}
+
 
 function closeSearch() {
     $(".modalsearch").css('display', 'none');
@@ -1588,6 +1585,7 @@ fetch(url)
 
 function openSearch() {
     $(".modalsearch").css('display', 'block');
+     clearPage();
   loadAllRecordsSearch();
 }
 
