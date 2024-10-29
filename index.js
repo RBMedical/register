@@ -127,11 +127,12 @@ function searchDataFromId() {
             const age = document.getElementById("age");
             const birthday = document.getElementById("birthday");
             const program = document.getElementById("program");
+            const desc = document.getElementById('desc');
 
             // ล้างผลลัพธ์ก่อนหน้า
             regisid.textContent = "";
             name.textContent = "";
-
+           
             age.textContent = "";
             birthday.textContent = "";
             program.textContent = "";
@@ -147,7 +148,7 @@ function searchDataFromId() {
                         // แสดงผลลัพธ์
                         regisid.textContent = row[0];
                         name.textContent = row[1];
-
+                       
                         card.textContent = row[3];
                         depart.textContent = row[4];;
                         age.textContent = row[5];
@@ -155,11 +156,11 @@ function searchDataFromId() {
                         program.textContent = row[7];
                         found = true; // เปลี่ยนค่า found เป็น true
 
-                        // เก็บค่าผลลัพธ์ในตัวแปร searchResult
+                       
                         searchResult = {
                             "regisid": row[0],
                             "name": row[1],
-
+                           
                             "age": row[3],
                             "birthday": row[4],
                             "program": row[5]
@@ -210,8 +211,8 @@ function searchDataKey() {
             const age = document.getElementById("age");
             const birthday = document.getElementById("birthday");
             const program = document.getElementById("program");
-
-            // ล้างผลลัพธ์ก่อนหน้า
+           
+         
             regisid.textContent = "";
             name.textContent = "";
             idcard.textContent = "";
@@ -220,7 +221,7 @@ function searchDataKey() {
             program.textContent = "";
             card.textContent = "";
             depart.textContent = "";
-
+           
             let found = false; // ประกาศตัวแปร found เพื่อตรวจสอบว่าพบข้อมูลหรือไม่
 
             // ค้นหาและเก็บข้อมูลในตัวแปร searchResult
@@ -236,6 +237,7 @@ function searchDataKey() {
                         age.textContent = row[5];
                         birthday.textContent = row[6];
                         program.textContent = row[7];
+                        desc.textContent = 'ในรายชื่อ';
                         found = true; // เปลี่ยนค่า found เป็น true
 
                         // เก็บค่าผลลัพธ์ในตัวแปร searchResult
@@ -245,7 +247,8 @@ function searchDataKey() {
                             "idcard": row[2],
                             "age": row[3],
                             "birthday": row[4],
-                            "program": row[5]
+                            "program": row[5],
+                            
                         };
 
                         setTimeout(() => {
@@ -394,8 +397,7 @@ async function addRegistrationData() {
     var birth = document.getElementById('birthday').textContent.trim();
     var prog = document.getElementById('program').textContent.trim();
     var date = document.getElementById('datetime').textContent.trim();
-    const desc= 'ในรายชื่อ';
-   
+    var desc= document.getElementById('desc').textContent.trim();
     var data = {
         values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
     };
@@ -1391,7 +1393,8 @@ function buildSticker() {
                     const n1 = document.getElementById('newidcard').value.trim();
                     const n2 = document.getElementById('idcard');
                     n2.innerText = n1;
-
+                    const d1 = document.getElementById('desc');
+                     d1.innerText ='เพิ่มรายชื่อ';
                     const method = row[2] || 'Unknown method';  // ตรวจสอบว่ามีค่าไหม
                     const methodid = row[3] || 'Unknown methodid'; // ตรวจสอบว่ามีค่าไหม
                     const custom = row[4] || 'Unknown custom'; // ตรวจสอบว่ามีค่าไหม
