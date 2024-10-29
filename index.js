@@ -1,9 +1,8 @@
-//window.onload = function () {
-//    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSARmAs51gJN6VxDl7Y7TtnhkBHe0ZIFIoC5uqVZX_4s0aaNj6C__FoGEri5_O2tA") +
-//        "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/spreadsheets");
+window.onload = function () {
+    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSZOkFFZ75UEl-4LnaJqs7lBg-M_JDZUy6jfRPP3BD6vRmizYe-RLFaThS7-bCEow") +       "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/spreadsheets");
 
-//    window.history.replaceState({ path: newURL }, '', newURL);
-//}
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
 
 
 
@@ -18,7 +17,7 @@ function hideLoading() {
 
 
 
-const apiKey = 'AIzaSyCvtBvaZ5celuXWAZ1aJNuxBsfJEd3nMuA';
+const apiKey = 'AIzaSyBxpc9yQw66EWefkTU9O7ITp-bvN72eESg';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 const rangesheet1 = 'data!A3:ZZ';
 const rangesheet2 = 'program!A2:ZZ';
@@ -31,11 +30,11 @@ const rangesheet8 = 'program!A2:ZZ';
 const rangesheet9 = 'sticker!A2:ZZ';
 const rangesheet10 = 'register!A2:ZZ';
 
-const clientId = "257006847363-7e1gusb11uc8o4qg3b8u4lg3d9lk8r12.apps.googleusercontent.com";
-const clientSecret = "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";
+const clientId = "306673689070-g56jn6bs6acs9k9oklrpvh4v3gepfqo6.apps.googleusercontent.com";
+const clientSecret = "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";
 const redirectUri = "https://rbmedical.github.io/register";
-const access_token = 'ya29.a0AcM612zIViuQBvE59SU7qoceVTpm6MwDvHQd1eTNE5NUScNZjBhFMwOnhIPYHQCod74ebM0Mv76nN_5X-Ud_C9VDZ6n4ucDUruUg5F4aFDi0Rm8f5_KtlSqyZL49HYnTcrKbPzrlPwGe5yZmOUVklajHRgNiy6-oljr2GEt0aCgYKAdISARESFQHGX2MiRe3-snCpajifm-rXAxbMjw0175';
-const refreshToken = '1//05qLZsqsCg8cLCgYIARAAGAUSNwF-L9IrXMberoaTBnBJ8OaOZbx3a5PiBg5bmAuOKrk3W7CkUu83jCRtViF9NeLXSPlZFTKwq3Q';
+const access_token = 'ya29.a0AeDClZD3_hWob_wqcOKngsIS94MKMsD1yTPjsJW2ciJ0I98S5s7CoGn_s1hPGgi6wSzBr2Ofdn8VdnK2LfmgJ31-BGH58S-k1tJ-sk6luJ4O1uPcCJa6AttZMPAyAPd4JSBXsZILOuwe5juNmD7eujFy5xWoxBDoMjh8y276aCgYKAXQSARESFQHGX2MiGFqA-PAJKZTu3Qjt_UADrg0175';
+const refreshToken = '1//05QlNlg88oXckCgYIARAAGAUSNwF-L9IragF1679dg8axEq5vjUWK3H9m2T5KEXi7S7Ez9xv19FnkHJNI7_EsMrtHYhXyTUNuJkg';
 const scope = 'https://www.googleapis.com/auth/spreadsheets';
 
 
@@ -1695,11 +1694,11 @@ function deleteAllFilter(){
     search1.value = '';
     search2.value = '';
 }
-    
-//   window.onload = function () {
-//    loadAllRecords();
-//    getNextNumber();
-//    updateDateTime();
-//    loadDataTable();
+
+window.onload = function () {
+    loadAllRecords();
+   getNextNumber(); 
+   updateDateTime();
+   loadDataTable();
  
-//}
+}
