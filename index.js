@@ -1682,7 +1682,13 @@ function filterRecords() {
         });
 }
 
-
+function deleteAllFilter(){
+     loadAllRecordsSearch();
+     var search1 = document.getElementById('datasearchid');
+     var search2 = document.getElementById('datasearchname');
+    search1.value = '';
+    search2.value = '';
+}
     
 window.onload = function () {
     loadAllRecords();
