@@ -1386,7 +1386,9 @@ function buildSticker() {
                 matchingRows.forEach(row => {
                     const n1 = document.getElementById('newidcard').value.trim();
                     const n2 = document.getElementById('idcard');
+                    const n3 = document.getElementId('desc');
                     n2.innerText = n1;
+                    n3.innerText = "เพิ่มรายชื่อ";
 
                     const method = row[2] || 'Unknown method';  // ตรวจสอบว่ามีค่าไหม
                     const methodid = row[3] || 'Unknown methodid'; // ตรวจสอบว่ามีค่าไหม
