@@ -21,6 +21,7 @@ div {
 .container {
     background-color: #E0FFFF;
     min-width: 1250px;
+    border: 1px solid black;
 
 }
 
