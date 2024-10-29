@@ -1596,6 +1596,48 @@ function closeSearch() {
     $(".modalsearch").css('display', 'none');
 }
 
+
+function searchDataSearch(){
+      const searchId = document.getElementById('datasearchid').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
+
+     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+             var resultDiv1 = document.gerElenemtById('searchdataload');
+            
+            if (data.values) {
+                data.values.forEach(row => {
+                    if (row[2] === searchId)
+                          resultDiv1.innerHTML += `
+<tr>
+
+          <th class="column-5 text-center">${row[0]}</th>
+          <td class="column-6 text-center">${row[1]}</th>
+          <td class="column-5 text-center">${row[2]}</th>
+          <td class="column-5 text-center">${row[4]}</th>
+        
+</tr>
+`;
+
+            });
+        } else {
+            resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
+        }
+    })
+    .catch(error => {
+        console.error('Error loading all records:', error);
+        alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    });
+}
+
+    
 window.onload = function () {
     loadAllRecords();
     getNextNumber();
