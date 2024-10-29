@@ -1610,7 +1610,7 @@ function searchDataSearch(){
             return response.json();
         })
         .then(data => {
-             var resultDiv1 = document.gerElenemtById('searchdataload');
+             var resultDiv1 = document.gerElementById('searchdataload');
             
             if (data.values) {
                 data.values.forEach(row => {
