@@ -874,7 +874,8 @@ td {
       
       
       width: 45%;
-      
+      max-height: 500px;
+      min-height: 500px;
       
      
       background-color: rgb(25, 226, 149);
