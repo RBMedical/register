@@ -865,6 +865,7 @@ td {
       
       display: none;
       position: fixed;
+       background-color: #FFFFE0;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -872,13 +873,13 @@ td {
       max-height: 500px;
       min-height: 500px;
       padding: 20px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 1);
       z-index: 1000;
       font-size: 0.75rem;
       border-radius: 10px;
       flex-direction:row;
       justify-content: space-between;
-      background-color: #E0FFFF;
+     
   
     }
 
