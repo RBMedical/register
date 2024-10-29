@@ -1356,6 +1356,7 @@ function closeSheet() {
 
 function openSearch() {
     $(".modalsearch").css('display', 'block');
+    loadAllRecordsSearch();
 }
 
 function closeSearch() {
@@ -1544,6 +1545,46 @@ function clearRegisterPage() {
     newbirthday.textContent = '';
     newprogram.value = '';
     newcard.value = '';
+}
+function loadAllRecordsSearch() {
+
+
+const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet10}?key=${apiKey}`;
+
+fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const resultDiv1 = document.getElementById('registeresult');
+
+        resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
+
+        if (data.values && data.values.length > 0) { // ตรวจสอบว่ามีข้อมูลใน data.values
+            data.values.forEach(row => {
+                resultDiv1.innerHTML += `
+<tr>
+
+          <th class="column-5 text-center">${row[0]}</th>
+          <td class="column-6 text-center">${row[1]}</th>
+          <td class="column-5 text-center">${row[2]}</th>
+          <td class="column-5 text-center">${row[4]}</th>
+        
+</tr>
+`;
+
+            });
+        } else {
+            resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
+        }
+    })
+    .catch(error => {
+        console.error('Error loading all records:', error);
+        alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    });
 }
 
 window.onload = function () {
