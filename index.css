@@ -421,6 +421,7 @@ body {
 
 #program {
     font-size: 0.75rem;
+    max-width: 3cm;
 }
 
 #name {
