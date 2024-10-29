@@ -1613,7 +1613,7 @@ function searchDataSearch(){
                 data.values.forEach(row => {
                     if (row[2] === searchId)
                           resultDiv1.innerHTML += `
-<tr onclick="copyId">
+<tr onclick="copyId"  style="cursor: pointer;">
 
           <th class="column-5 text-center">${row[0]}</th>
           <td class="column-6 text-center">${row[1]}</th>
@@ -1661,7 +1661,7 @@ function filterRecords() {
                     // กรองเฉพาะแถวที่คอลัมน์ที่สอง (row[1]) มีข้อความที่คล้ายกับ searchValue
                     if (row[1] && row[1].toLowerCase().includes(searchValue)) {
                         resultDiv1.innerHTML += `
-                            <tr onclick="copyId()">
+                            <tr onclick="copyId()" style="cursor: pointer;">
                                 <th class="column-5 text-center">${row[0]}</th>
                                 <td class="column-6 text-center">${row[1]}</td>
                                 <td id="copyid" class="column-5 text-center">${row[2]}</td>
