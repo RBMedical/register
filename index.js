@@ -1611,7 +1611,7 @@ function searchDataSearch(){
         })
         .then(data => {
              var resultDiv1 = document.getElementById('searchdataload');
-            
+                resultDiv1.innerHTML = '';
             if (data.values) {
                 data.values.forEach(row => {
                     if (row[2] === searchId)
