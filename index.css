@@ -889,8 +889,8 @@ td {
     border: 1px solid black;
 }
 #EDTA, #naf, #clot, #pe, #xray, #urine, #ekg, #lung, #ear, #eye, #muscle{
-  min-width: 2cm;
-    max-width: 2cm;
+  min-width: 1.5cm;
+    max-width: 1.5cm;
 }
 .table-container{
     width: 100%;
