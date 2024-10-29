@@ -1637,6 +1637,52 @@ function searchDataSearch(){
     });
 }
 
+
+function filterRecords() {
+    const searchValue = document.getElementById('datasearchname').value.toLowerCase();
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet10}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const resultDiv1 = document.getElementById('searchdataload');
+            resultDiv1.innerHTML = ''; // เคลียร์ข้อมูลเก่าออก
+
+            if (data.values && data.values.length > 0) {
+                data.values.forEach(row => {
+                    // กรองเฉพาะแถวที่คอลัมน์ที่สอง (row[1]) มีข้อความที่คล้ายกับ searchValue
+                    if (row[1] && row[1].toLowerCase().includes(searchValue)) {
+                        resultDiv1.innerHTML += `
+                            <tr>
+                                <th class="column-5 text-center">${row[0]}</th>
+                                <td class="column-6 text-center">${row[1]}</td>
+                                <td class="column-5 text-center">${row[2]}</td>
+                                <td class="column-5 text-center">${row[4]}</td>
+                            </tr>
+                        `;
+                    }
+                });
+
+                // หากไม่พบข้อมูลที่ตรงกับการค้นหา
+                if (resultDiv1.innerHTML === '') {
+                    resultDiv1.innerHTML = `<tr><td colspan="4" class="text-center">ไม่พบข้อมูลที่ตรงกับการค้นหา</td></tr>`;
+                }
+            } else {
+                resultDiv1.innerHTML = `<tr><td colspan="4" class="text-center">ไม่พบข้อมูล</td></tr>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading records:', error);
+            alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
+        });
+}
+
+
     
 window.onload = function () {
     loadAllRecords();
