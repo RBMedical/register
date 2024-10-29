@@ -335,9 +335,8 @@ div {
 
 }
 
-.h-100 {
-    max-height: 600px;
-}
+
+
 
 .icon {
     width: 0.5cm;
@@ -378,7 +377,7 @@ div {
 }
 
 .specimen-count {
-    width: 34%;
+    width: 20%;
 
 }
 
