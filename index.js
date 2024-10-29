@@ -946,7 +946,7 @@ function addNewData(access_token) {
         .then(data => {
             console.log("Data added successfully", data);
             buildSticker();
-            addRegistDataInner();
+           
 
 
         })
