@@ -20,7 +20,7 @@ function hideLoading() {
 
 const apiKey = 'AIzaSyCvtBvaZ5celuXWAZ1aJNuxBsfJEd3nMuA';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
-const rangesheet1 = 'data!A2:ZZ';
+const rangesheet1 = 'data!A3:ZZ';
 const rangesheet2 = 'program!A2:ZZ';
 const rangesheet3 = 'register!A2:ZZ';
 const rangesheet4 = 'register!A2:A';
