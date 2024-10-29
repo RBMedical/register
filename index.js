@@ -1356,7 +1356,7 @@ function closeSheet() {
 
 function openSearch() {
     $(".modalsearch").css('display', 'block');
-    loadAllRecordsSearch();
+   loadAllRecordsSearch();
 }
 
 function closeSearch() {
@@ -1549,7 +1549,7 @@ function clearRegisterPage() {
 function loadAllRecordsSearch() {
 
 
-const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet10}?key=${apiKey}`;
+const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
 
 fetch(url)
     .then(response => {
@@ -1559,7 +1559,7 @@ fetch(url)
         return response.json();
     })
     .then(data => {
-        const resultDiv1 = document.getElementById('registeresult');
+        const resultDiv1 = document.getElementById('searchdataload');
 
         resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
 
@@ -1585,6 +1585,15 @@ fetch(url)
         console.error('Error loading all records:', error);
         alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
     });
+}
+
+function openSearch() {
+    $(".modalsearch").css('display', 'block');
+   loadAllRecordsSearch();
+}
+
+function closeSearch() {
+    $(".modalsearch").css('display', 'none');
 }
 
 window.onload = function () {
