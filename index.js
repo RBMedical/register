@@ -1,9 +1,9 @@
-window.onload = function () {
-    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSARmAs51gJN6VxDl7Y7TtnhkBHe0ZIFIoC5uqVZX_4s0aaNj6C__FoGEri5_O2tA") +
-        "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/spreadsheets");
+//window.onload = function () {
+//    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSARmAs51gJN6VxDl7Y7TtnhkBHe0ZIFIoC5uqVZX_4s0aaNj6C__FoGEri5_O2tA") +
+//        "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/spreadsheets");
 
-    window.history.replaceState({ path: newURL }, '', newURL);
-}
+//    window.history.replaceState({ path: newURL }, '', newURL);
+//}
 
 
 
@@ -1696,10 +1696,10 @@ function deleteAllFilter(){
     search2.value = '';
 }
     
-window.onload = function () {
-    loadAllRecords();
-    getNextNumber();
-    updateDateTime();
-    loadDataTable();
+//window.onload = function () {
+//    loadAllRecords();
+//    getNextNumber();
+//    updateDateTime();
+//    loadDataTable();
  
-}
+//}
