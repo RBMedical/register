@@ -124,6 +124,7 @@ div {
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
     border-color: black;
+    font-size: 0.75rem;
 }
 
 .form-control {
