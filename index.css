@@ -769,7 +769,7 @@ thead {
     /* ทำให้ thead คงที่ */
     top: 0;
     /* ระยะห่างจากด้านบน */
-    background-color: white;
+    background-color: #DCDCDC;
     /* ตั้งค่าพื้นหลังเพื่อให้เห็นชัด */
     z-index: 10;
     /* ให้ส่วนหัวอยู่ด้านบน */
