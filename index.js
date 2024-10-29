@@ -1641,6 +1641,7 @@ function copyId(){
     const copystart = document.getElementById('copyid').textContent;
     const copyend = document.getElementById('idcard');
     copyend.innerText = copystart;
+    closeSearch();
 }
 
 function filterRecords() {
