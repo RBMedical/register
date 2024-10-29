@@ -1589,7 +1589,7 @@ fetch(url)
 
 function openSearch() {
     $(".modalsearch").css('display', 'block');
-   loadAllRecordsSearch();
+  
 }
 
 function closeSearch() {
