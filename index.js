@@ -1696,7 +1696,7 @@ function deleteAllFilter(){
     search2.value = '';
 }
     
-//window.onload = function () {
+//   window.onload = function () {
 //    loadAllRecords();
 //    getNextNumber();
 //    updateDateTime();
