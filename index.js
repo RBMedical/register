@@ -792,7 +792,7 @@ function loadDataTable() {
          sortedData.forEach(row => {
              resultDiv1.innerHTML += 
                `<tr>
-                 <th scope="row" class="col-2 text-center">${row[0]}</th>
+                 <th scope="row" class="col-3 text-center">${row[0]}</th>
                  <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
                  <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
                  <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
@@ -1087,7 +1087,7 @@ function closeSpecimen() {
              if (row[4] !== "1ลงทะเบียน") {
              resultDiv1.innerHTML += 
                `<tr>
-                 <th scope="row" class="col-2 text-center">${row[0]}</th>
+                 <th scope="row" class="col-3 text-center">${row[0]}</th>
                  <td scope="col" colspan="2" class="text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
                  <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
                  <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
