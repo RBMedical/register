@@ -218,8 +218,8 @@ div {
     background-color: azure;
     padding-top: 0.2cm;
     text-align: center;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
     border-color: black;
 }
 
