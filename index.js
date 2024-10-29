@@ -1616,11 +1616,11 @@ function searchDataSearch(){
                 data.values.forEach(row => {
                     if (row[2] === searchId)
                           resultDiv1.innerHTML += `
-<tr>
+<tr onclick="copyId">
 
           <th class="column-5 text-center">${row[0]}</th>
           <td class="column-6 text-center">${row[1]}</th>
-          <td class="column-5 text-center">${row[2]}</th>
+          <td id="copyid" class="column-5 text-center">${row[2]}</th>
           <td class="column-5 text-center">${row[4]}</th>
         
 </tr>
@@ -1637,6 +1637,11 @@ function searchDataSearch(){
     });
 }
 
+function copyId(){
+    const copystart = document.getElementById('copyid').textContent;
+    const copyend = document.getElementById('idcard');
+    copyend.innerText = copystart;
+}
 
 function filterRecords() {
     const searchValue = document.getElementById('datasearchname').value.toLowerCase();
@@ -1658,10 +1663,10 @@ function filterRecords() {
                     // กรองเฉพาะแถวที่คอลัมน์ที่สอง (row[1]) มีข้อความที่คล้ายกับ searchValue
                     if (row[1] && row[1].toLowerCase().includes(searchValue)) {
                         resultDiv1.innerHTML += `
-                            <tr>
+                            <tr onclick="copyId()">
                                 <th class="column-5 text-center">${row[0]}</th>
                                 <td class="column-6 text-center">${row[1]}</td>
-                                <td class="column-5 text-center">${row[2]}</td>
+                                <td id="copyid" class="column-5 text-center">${row[2]}</td>
                                 <td class="column-5 text-center">${row[4]}</td>
                             </tr>
                         `;
