@@ -299,37 +299,6 @@ div {
 
 }
 
-.modalsearch {
-
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-    top: 50%;
-
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 60%;
-    flex-direction: column;
-    min-height: 700px;
-    max-height: 700px;
-
-
-    background-color: rgb(240, 248, 255);
-
-    padding: 20px;
-
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-
-    z-index: 1000;
-    font-size: 0.75rem;
-
-    border-radius: 10px;
-
-
-
-}
 
 
 
@@ -891,4 +860,60 @@ td {
     width: 100%;
   
 }
+
+.modalsearch {
+      
+      display: none;
+      position: fixed;
+     
+      top: 50%;
     
+      left: 50%;
+      
+      transform: translate(-50%, -50%);
+      
+      
+      width: 45%;
+      
+      
+     
+      background-color: rgb(25, 226, 149);
+     
+      padding: 20px;
+      
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      
+      z-index: 1000;
+      font-size: 0.75rem;
+     
+      border-radius: 10px;
+      flex-direction:row;
+      justify-content: space-between;
+  
+    }
+
+    .searchbox{
+      height: 0.70cm;
+      min-width: 4cm;
+      max-width: 4cm;
+      box-shadow: inset 2px 2px 1px rgba(112, 111, 111, 0.1);
+    }
+    .container-sd{
+    display: flex;
+   } 
+   
+   .column-5{
+    max-width: 3cm;
+    min-width: 3cm;
+   }
+
+   .column-6{
+    max-width: 6cm;
+    min-width: 10cm;
+   }
+  .input-group-sm{
+    display: flex;
+  }
+  .center{
+    text-justify: center;
+  }
