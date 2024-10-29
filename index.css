@@ -865,7 +865,7 @@ td {
       
       display: none;
       position: fixed;
-       background-color: #FFFFE0;
+      background-color: #E0FFFF;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
