@@ -105,7 +105,7 @@
               <form class="d-flex ms-1 p-2 round-2" style="font-size: 0.75rem;" role="search" onsubmit="event.preventDefault(); searchData();">
               <input id="searchKey"  class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit" onclick="searchData" style="cursor: pointer;">Search</button>
-              <a class="btn btn-secondary ms-1" href="https://docs.google.com/spreadsheets/d/1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw/edit?gid=2088749114#gid=2088749114" target="_blank"  style="cursor: pointer;">T</a>
+              <button class="btn btn-secondary ms-1" onclick="openSearch" style="cursor: pointer;">T</button>
                  </form>
           </div>    
                       <div id="form1" class="bg-secondary-subtle mt-2 mb-2 p-2 border border-dark " style="font-family: sarabun;">
@@ -461,6 +461,36 @@
         </div>
 <iframe src="https://docs.google.com/spreadsheets/d/1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw/edit?gid=579028264#gid=579028264" width="1100px" height="650px"></iframe>
   
+</modal>
+
+  <modal class="modalsearch" style="font-size: 0.75rem;">
+  <button type="button" class="btn-close mb-3" id="closeregis" onclick="closeSheet()"  data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="container-lg">
+    <div class="container-sd">
+      <div class="input-group-sm">
+           <input type="text" class="form-control" id="datasearchname">
+             <btn class="btn btn-primary px-1 py-1 ms-2" id="btndataidsearch">search</btn>
+             <span class="input-group-text ms-5"  style="font-size: 0.75rem;">ค้นหาจากชื่อ</span>
+            <input type="text" class="form-control" id="datasearchname">
+       </div>
+   </div>
+     <table id="searchtable" class="mt-5">
+       <thead >
+        <tr>
+          <th class="column-5 text-center">RegisterID</th>
+          <th class="column-6 text-center">ชื่อ นามสกุล</th>
+          <th class="column-5 text-center">รหัสประจำตัว</th>
+          <th class="column-5 text-center">แผนก</th>
+        </tr>
+       </thead>
+        <tbody id="searchdataload">
+
+        </tbody>
+     </table>
+   
+
+  </div>
+
 </modal>
 
 
