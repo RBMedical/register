@@ -1640,7 +1640,7 @@ function searchDataSearch(){
 
 function filterRecords() {
     const searchValue = document.getElementById('datasearchname').value.toLowerCase();
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet10}?key=${apiKey}`;
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
 
     fetch(url)
         .then(response => {
