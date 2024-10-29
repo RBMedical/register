@@ -393,10 +393,10 @@ async function addRegistrationData() {
     var birth = document.getElementById('birthday').textContent.trim();
     var prog = document.getElementById('program').textContent.trim();
     var date = document.getElementById('datetime').textContent.trim();
-
+    var desc =  document.getElementById('desc').textContent.trim();
     // สร้าง object ที่จะส่งไปยัง Google Sheets
     var data = {
-        values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date]]
+        values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
     };
 
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
