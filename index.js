@@ -127,12 +127,11 @@ function searchDataFromId() {
             const age = document.getElementById("age");
             const birthday = document.getElementById("birthday");
             const program = document.getElementById("program");
-            const desc = document.getElementById('desc');
 
             // ล้างผลลัพธ์ก่อนหน้า
             regisid.textContent = "";
             name.textContent = "";
-           
+
             age.textContent = "";
             birthday.textContent = "";
             program.textContent = "";
@@ -148,7 +147,7 @@ function searchDataFromId() {
                         // แสดงผลลัพธ์
                         regisid.textContent = row[0];
                         name.textContent = row[1];
-                       
+
                         card.textContent = row[3];
                         depart.textContent = row[4];;
                         age.textContent = row[5];
@@ -156,11 +155,11 @@ function searchDataFromId() {
                         program.textContent = row[7];
                         found = true; // เปลี่ยนค่า found เป็น true
 
-                       
+                        // เก็บค่าผลลัพธ์ในตัวแปร searchResult
                         searchResult = {
                             "regisid": row[0],
                             "name": row[1],
-                           
+
                             "age": row[3],
                             "birthday": row[4],
                             "program": row[5]
@@ -211,8 +210,8 @@ function searchDataKey() {
             const age = document.getElementById("age");
             const birthday = document.getElementById("birthday");
             const program = document.getElementById("program");
-           
-         
+
+            // ล้างผลลัพธ์ก่อนหน้า
             regisid.textContent = "";
             name.textContent = "";
             idcard.textContent = "";
@@ -221,7 +220,7 @@ function searchDataKey() {
             program.textContent = "";
             card.textContent = "";
             depart.textContent = "";
-           
+
             let found = false; // ประกาศตัวแปร found เพื่อตรวจสอบว่าพบข้อมูลหรือไม่
 
             // ค้นหาและเก็บข้อมูลในตัวแปร searchResult
@@ -237,7 +236,6 @@ function searchDataKey() {
                         age.textContent = row[5];
                         birthday.textContent = row[6];
                         program.textContent = row[7];
-                        
                         found = true; // เปลี่ยนค่า found เป็น true
 
                         // เก็บค่าผลลัพธ์ในตัวแปร searchResult
@@ -247,8 +245,7 @@ function searchDataKey() {
                             "idcard": row[2],
                             "age": row[3],
                             "birthday": row[4],
-                            "program": row[5],
-                            
+                            "program": row[5]
                         };
 
                         setTimeout(() => {
@@ -397,9 +394,10 @@ async function addRegistrationData() {
     var birth = document.getElementById('birthday').textContent.trim();
     var prog = document.getElementById('program').textContent.trim();
     var date = document.getElementById('datetime').textContent.trim();
-    var desc= document.getElementById('desc').textContent.trim();
+
+    // สร้าง object ที่จะส่งไปยัง Google Sheets
     var data = {
-        values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
+        values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date]]
     };
 
     checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
@@ -756,6 +754,96 @@ function loadAllCount() {
 }
 
 
+function loadAllCountOpen() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+    checkAndRefreshToken();
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            // ตรวจสอบว่ามีข้อมูลใน data.values หรือไม่
+            if (!data.values || data.values.length === 0) {
+                console.error('No data found.');
+                return;
+            }
+
+            // ประกาศตัวนับนอกลูป
+            let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l = 0;
+
+            data.values.forEach(row => {
+                const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
+
+                // นับจำนวนการเกิดของแต่ละ `barcodemethod`
+                switch (barcodemethod) {
+                    case "10":
+                        l++;
+                        break;
+                    case "11":
+                        a++;
+                        break;
+                    case "12":
+                        b++;
+                        break;
+                    case "13":
+                        c++;
+                        break;
+                    case "14":
+                        d++;
+                        break;
+                    case "15":
+                        e++;
+                        break;
+                    case "16":
+                        f++;
+                        break;
+                    case "17":
+                        g++;
+                        break;
+                    case "18":
+                        h++;
+                        break;
+                    case "19":
+                        i++;
+                        break;
+                    case "20":
+                        j++;
+                        break;
+                    case "21":
+                        k++;
+                        break;
+                    default:
+                        console.log("Unrecognized barcode method:", barcodemethod);
+                        break;
+                }
+            });
+
+
+            document.getElementById('PE').textContent = a;
+            document.getElementById('EDTA').textContent = b;
+            document.getElementById('urine').textContent = c;
+            document.getElementById('xray').textContent = d;
+            document.getElementById('ekg').textContent = e;
+            document.getElementById('ear').textContent = f;
+            document.getElementById('lung').textContent = g;
+            document.getElementById('eye').textContent = h;
+            document.getElementById('muscle').textContent = i;
+            document.getElementById('naf').textContent = j;
+            document.getElementById('clot').textContent = k;
+            document.getElementById('register').textContent = l;
+
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+}
+
+
 
 
 
@@ -823,7 +911,7 @@ function addNewData(access_token) {
     var newdepart = document.getElementById('newdepart').value.trim();
     var newage = document.getElementById('newage').textContent.trim(); // ใช้ innerText หรือ textContent ให้เหมาะสมกับ HTML
     var newprogram = document.getElementById('newprogram').value.trim();
-    
+
     // ตรวจสอบว่าข้อมูลทั้งหมดถูกกรอก
     if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
         alert('กรุณากรอกข้อมูลให้ครบถ้วน');
@@ -1303,8 +1391,7 @@ function buildSticker() {
                     const n1 = document.getElementById('newidcard').value.trim();
                     const n2 = document.getElementById('idcard');
                     n2.innerText = n1;
-                    const d1 = document.getElementById('desc');
-                     d1.innerText ='เพิ่มรายชื่อ';
+
                     const method = row[2] || 'Unknown method';  // ตรวจสอบว่ามีค่าไหม
                     const methodid = row[3] || 'Unknown methodid'; // ตรวจสอบว่ามีค่าไหม
                     const custom = row[4] || 'Unknown custom'; // ตรวจสอบว่ามีค่าไหม
@@ -1614,5 +1701,5 @@ window.onload = function () {
     getNextNumber();
     updateDateTime();
     loadDataTable();
-   
+    loadAllCountOpen();
 }
