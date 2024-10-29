@@ -76,12 +76,7 @@ div {
     flex-direction: row;
 }
 
-.container-count {
-    width: 30%;
 
-    flex-direction: row;
-
-}
 
 .container-report {
     width: 50%;
@@ -170,9 +165,9 @@ div {
 
 .container-count {
     width: 20%;
-    background-color: #FFFF33;
+   
     min-height: 700px;
-    max-height: 700px;
+    max-height: 500px;
 }
 
 .container-search {
