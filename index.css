@@ -84,7 +84,7 @@ div {
 }
 
 .container-report {
-    width: 60%;
+    width: 50%;
     background-color: darkorange;
     flex-direction: row;
 }
