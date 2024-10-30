@@ -508,7 +508,7 @@
 
 </modal>
 
-  <modal class="modalpivot">
+  <modal class="modalpivot" id="pivot">
     <div class="modal-header mb-2 fw-bold">
                <button type="button" class="btn-close" id="closeregis" onclick="closePivot()"  data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -518,10 +518,10 @@
 <script>
   
   functioin closePivot(){
-     $('.modalpivot').css('display', 'none')
+     $('#pivot').css('display', 'none')
   }
   functioin openPivot(){
-     $('.modalpivot').css('display', 'block')
+     $('#pivot').css('display', 'block')
   }
   
 </script>
