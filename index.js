@@ -1623,7 +1623,7 @@ function searchDataSearch(){
 <tr onclick="copyId"  style="cursor: pointer;">
 
           <th class="column-5 text-center">${row[0]}</th>
-          <td class="column-6 text-center">${row[1]}</th>
+          <td class="column-6">${row[1]}</th>
           <td id="copyid" class="column-5 text-center">${row[2]}</th>
           <td class="column-5 text-center">${row[4]}</th>
         
@@ -1670,7 +1670,7 @@ function filterRecords() {
                         resultDiv1.innerHTML += `
                             <tr onclick="copyId()" style="cursor: pointer;">
                                 <th class="column-5 text-center">${row[0]}</th>
-                                <td class="column-6 text-center">${row[1]}</td>
+                                <td class="column-6">${row[1]}</td>
                                 <td id="copyid" class="column-5 text-center">${row[2]}</td>
                                 <td class="column-5 text-center">${row[4]}</td>
                             </tr>
