@@ -444,20 +444,24 @@ body {
 #b1 {
     font-family: sarabun;
     font-size: 0.75rem;
+      min-width: 3cm;
+    max-width: 3cm;
    
 }
 
 #b2 {
     font-family: sarabun;
     font-size: 0.75rem;
-    min-width: 2.5cm;
-    max-width: 2.5cm;
+    min-width: 3cm;
+    max-width: 3cm;
   
 }
 
 #b3 {
     font-family: sarabun;
     font-size: 0.75rem;
+      min-width: 3cm;
+    max-width: 3cm;
   
 }
 
