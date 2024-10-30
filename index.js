@@ -1721,7 +1721,7 @@ async function fetchData() {
 
         
         fetchData().then(data => {
-            $("#output").pivotUI(data, {
+            $("#chartoutput").pivotUI(data, {
                 rows: ["Register ID", "ชื่อ นามสกุล"], 
                 cols: ["Specimen"],
                 vals: ["Specimen"],
