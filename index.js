@@ -30,6 +30,7 @@ const rangesheet8 = 'program!A2:ZZ';
 const rangesheet9 = 'sticker!A2:ZZ';
 const rangesheet10 = 'register!A2:ZZ';
 const rangesheet11 = 'register!K2:KK';
+const rangesheet12 = 'specimencount!B2:EE';
 
 const clientId = "306673689070-g56jn6bs6acs9k9oklrpvh4v3gepfqo6.apps.googleusercontent.com";
 const clientSecret = "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";
@@ -1700,6 +1701,34 @@ function deleteAllFilter(){
     search2.value = '';
 }
 
+async function fetchData() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet12}?key=${apiKey}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            
+           
+            const formattedData = [];
+            const headers = data.values[0];
+            for (let i = 1; i < data.values.length; i++) {
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = data.values[i][index];
+                });
+                formattedData.push(row);
+            }
+            return formattedData;
+        }
+
+        
+        fetchData().then(data => {
+            $("#output").pivotUI(data, {
+                rows: ["Register ID", "ชื่อ นามสกุล"], 
+                cols: ["Specimen"],
+                vals: ["Specimen"],
+                aggregatorName: "Count",
+                rendererName: "Table"
+            });
+        });
 
 
 window.onload = function () {
