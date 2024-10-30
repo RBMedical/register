@@ -861,6 +861,7 @@ function loadDataTable() {
             return response.json();
         })
         .then(data => {
+            
             const resultDiv1 = document.getElementById('specimenresult');
             resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
 
@@ -870,7 +871,7 @@ function loadDataTable() {
                 return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
             }
 
-            // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
+        
             const sortedData = data.values.sort((a, b) => {
                 const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
                 const valueB = parseInt(b[0], 10);
@@ -879,6 +880,7 @@ function loadDataTable() {
 
             // แสดงข้อมูลใน resultDiv1
             sortedData.forEach(row => {
+                if(row[3] !== 10){
                 resultDiv1.innerHTML +=
                     `<tr>
                  <th scope="row" class="col-3 text-center">${row[0]}</th>
@@ -886,7 +888,7 @@ function loadDataTable() {
                  <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
                  <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
                </tr>`;
-            });
+                } });
 
             // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
 
