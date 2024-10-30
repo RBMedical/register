@@ -29,7 +29,7 @@ const rangesheet7 = 'specimencount!A:A';
 const rangesheet8 = 'program!A2:ZZ';
 const rangesheet9 = 'sticker!A2:ZZ';
 const rangesheet10 = 'register!A2:ZZ';
-const rangesheet11 = 'register!K2:KK;
+const rangesheet11 = 'register!K2:KK';
 
 const clientId = "306673689070-g56jn6bs6acs9k9oklrpvh4v3gepfqo6.apps.googleusercontent.com";
 const clientSecret = "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";
