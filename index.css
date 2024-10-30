@@ -251,7 +251,7 @@ div {
     max-height: 700px;
 
 
-    background-color: rgb(240, 248, 255);
+    background-color: #E0FFFF;
 
     padding: 20px;
 
@@ -559,8 +559,7 @@ body {
 
     min-height: 5cm;
 
-    background-color: rgb(240, 248, 255);
-
+    background-color: #E0FFFF;
     padding: 20px;
 
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -590,7 +589,7 @@ body {
 
 
 
-    background-color: rgb(240, 248, 255);
+    background-color: #E0FFFF;
 
     padding: 20px;
 
