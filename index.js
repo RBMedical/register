@@ -1697,42 +1697,6 @@ function deleteAllFilter(){
     search2.value = '';
 }
 
-function loadMoreRigister() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet11}?key=${apiKey}`;
-    
-    // เรียกใช้งานฟังก์ชัน checkAndRefreshToken เพื่อ refresh token ก่อน
-    checkAndRefreshToken();
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            // ตรวจสอบว่ามีข้อมูลใน data.values หรือไม่
-            if (!data.values || data.values.length === 0) {
-                console.error('No data found.');
-                return;
-            }
-
-            // นับจำนวนรายการที่มีค่าเป็น "เพิ่มรายชื่อ" ในคอลัมน์ที่ 10 (index 10)
-            let M = 0;
-            const datavalue = "เพิ่มรายชื่อ";
-            data.values.forEach(row => {
-                if (row[10] && row[10].trim() === datavalue) {
-                    M++;
-                }
-            });
-        
-            // แสดงผลจำนวน M ใน element ที่มี id refill
-            document.getElementById('refill').textContent = M;
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-}
 
 
 window.onload = function () {
