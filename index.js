@@ -29,6 +29,7 @@ const rangesheet7 = 'specimencount!A:A';
 const rangesheet8 = 'program!A2:ZZ';
 const rangesheet9 = 'sticker!A2:ZZ';
 const rangesheet10 = 'register!A2:ZZ';
+const rangesheet11 = 'register!K2:KK;
 
 const clientId = "306673689070-g56jn6bs6acs9k9oklrpvh4v3gepfqo6.apps.googleusercontent.com";
 const clientSecret = "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";
@@ -454,6 +455,7 @@ async function addRegistrationData() {
                     .then(data => {
                         loadAllRecords();
                         addRegistrationDataInner();
+                        loadMoreRigister();
                         Swal.fire({
                             position: "center",
                             icon: "success",
@@ -1693,6 +1695,40 @@ function deleteAllFilter(){
      var search2 = document.getElementById('datasearchname');
     search1.value = '';
     search2.value = '';
+}
+
+function loadMoreRigister(){
+const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet11}?key=${apiKey}`;
+    checkAndRefreshToken();
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            // ตรวจสอบว่ามีข้อมูลใน data.values หรือไม่
+            if (!data.values || data.values.length === 0) {
+                console.error('No data found.');
+                return;
+            }
+
+             
+              let M = 0;
+              const datavalue = "เพิ่มรายชื่อ";
+             data.values.forEach(row => {
+               if (row[10] === datavalue) {
+                        M++;
+               }});
+        
+           document.getElementById('refill').textContent = M;
+             })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+                   
 }
 
 window.onload = function () {
