@@ -444,7 +444,8 @@ body {
 #b1 {
     font-family: sarabun;
     font-size: 0.75rem;
-    width: 3.2cm;
+    max-width: 3.2cm;
+    min-wigth: 3.2m;
     max-height: 2cm;
     min-height: 2cm;
 }
@@ -452,7 +453,8 @@ body {
 #b2 {
     font-family: sarabun;
     font-size: 0.75rem;
-    width: 3.2cm;
+    max-width: 3.2cm;
+    min-wigth: 3.2m;
     max-height: 2cm;
     min-height: 2cm;
 }
@@ -460,7 +462,8 @@ body {
 #b3 {
     font-family: sarabun;
     font-size: 0.75rem;
-    width: 3.3cm;
+    max-width: 3.2cm;
+    min-wigth: 3.2m;
     max-height: 2cm;
     min-height: 2cm;
 }
