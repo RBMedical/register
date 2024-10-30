@@ -444,7 +444,7 @@ body {
 #b1 {
     font-family: sarabun;
     font-size: 0.75rem;
-  width: 3.2cm;
+    width: 3.2cm;
     max-height: 2cm;
     min-height: 2cm;
 }
@@ -452,7 +452,7 @@ body {
 #b2 {
     font-family: sarabun;
     font-size: 0.75rem;
-    width: 2cm;
+    width: 3.2cm;
     max-height: 2cm;
     min-height: 2cm;
 }
