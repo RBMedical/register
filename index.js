@@ -1697,8 +1697,10 @@ function deleteAllFilter(){
     search2.value = '';
 }
 
-function loadMoreRigister(){
-const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet11}?key=${apiKey}`;
+function loadMoreRigister() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet11}?key=${apiKey}`;
+    
+    // เรียกใช้งานฟังก์ชัน checkAndRefreshToken เพื่อ refresh token ก่อน
     checkAndRefreshToken();
 
     fetch(url)
@@ -1715,21 +1717,23 @@ const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/valu
                 return;
             }
 
-             
-              let M = 0;
-              const datavalue = "เพิ่มรายชื่อ";
-             data.values.forEach(row => {
-               if (row[10] === datavalue) {
-                        M++;
-               }});
+            // นับจำนวนรายการที่มีค่าเป็น "เพิ่มรายชื่อ" ในคอลัมน์ที่ 10 (index 10)
+            let M = 0;
+            const datavalue = "เพิ่มรายชื่อ";
+            data.values.forEach(row => {
+                if (row[10] && row[10].trim() === datavalue) {
+                    M++;
+                }
+            });
         
-           document.getElementById('refill').textContent = M;
-             })
+            // แสดงผลจำนวน M ใน element ที่มี id refill
+            document.getElementById('refill').textContent = M;
+        })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
-                   
 }
+
 
 window.onload = function () {
     loadAllRecords();
