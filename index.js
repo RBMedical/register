@@ -1572,7 +1572,7 @@ fetch(url)
 <tr>
 
           <th class="column-5 text-center">${row[0]}</th>
-          <td class="column-6 text-center">${row[1]}</th>
+          <td class="column-6">${row[1]}</th>
           <td class="column-5 text-center">${row[2]}</th>
           <td class="column-5 text-center">${row[4]}</th>
         
