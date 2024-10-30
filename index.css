@@ -450,6 +450,8 @@ body {
 #b2 {
     font-family: sarabun;
     font-size: 0.75rem;
+    min-width: 2.5cm;
+    max-width: 2.5cm;
   
 }
 
