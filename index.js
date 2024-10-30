@@ -1700,9 +1700,10 @@ function deleteAllFilter(){
 
 
 window.onload = function () {
-    loadAllRecords();
+   loadAllRecords();
    getNextNumber(); 
    updateDateTime();
    loadDataTable();
+   loadAllCount();
  
 }
