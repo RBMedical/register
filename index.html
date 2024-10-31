@@ -549,42 +549,11 @@
     fetchData();
   }
 
-  async function fetchData() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangsheet12}?key=${apiKey}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            const formattedData = [];
-            const headers = data.values[0];
-            for (let i = 1; i < data.values.length; i++) {
-                const row = {};
-                headers.forEach((header, index) => {
-                    row[header] = data.values[i][index];
-                });
-                formattedData.push(row);
-            }
-            return formattedData;
-        }
+     
+      
 
-        function renderPivotTable(data) {
-            $("#output").pivotUI(data, {
-                rows: ["Register ID", "ชื่อ นามสกุล"], 
-                cols: ["Specimen"], 
-                vals: ["จำนวน"],
-                aggregatorName: "Count",
-                rendererName: "Table"
-            });
-        }
-
-        fetchData().then(data => {
-            renderPivotTable(data);
-
-          var textvalue = document.getElementById('selectfilter').value;
-            $("#select").on("click", function() {
-                const filteredData = data.filter(row => !row[${textvalue}]); 
-                renderPivotTable(filteredData);
-            });
-        });
+         
+      
   
 </script>
  
