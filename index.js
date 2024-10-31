@@ -1708,7 +1708,7 @@ async function fetchData() {
             
             const formattedData = [];
             const headers = data.values[0];
-            for (let i = 0; i < data.values.length; i++) {
+            for (let i = 1; i < data.values.length; i++) {
                 const row = {};
                 headers.forEach((header, index) => {
                     row[header] = data.values[i][index];
