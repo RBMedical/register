@@ -1728,9 +1728,6 @@ async function fetchData() {
             });
         });
 
-
-
-
 window.onload = function () {
    loadAllRecords();
    getNextNumber(); 
