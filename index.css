@@ -950,3 +950,6 @@ td {
             margin: 20px auto;
             padding: 10px;
         }
+.pvtRowLabel { 
+            width: 200px;
+        }
