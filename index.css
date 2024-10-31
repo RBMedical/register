@@ -943,8 +943,8 @@ td {
   }
 
 #output {
-            width: 80%; /* กำหนดความกว้าง */
-            height: 80%; /* กำหนดความยาว */
+            width: 1000px; /* กำหนดความกว้าง */
+            height: 500px; /* กำหนดความยาว */
             overflow: auto; /* ถ้ามีข้อมูลเยอะ ให้มี scroll bar */
             border: 1px solid #ddd;
             margin: 20px auto;
