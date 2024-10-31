@@ -579,7 +579,7 @@
         fetchData().then(data => {
             renderPivotTable(data);
 
-          var textvalue = document.getElementById('selectfilter').selectValue;
+          var textvalue = document.getElementById('selectfilter').value;
             $("#select").on("click", function() {
                 const filteredData = data.filter(row => !row[${textvalue}]); 
                 renderPivotTable(filteredData);
