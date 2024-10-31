@@ -1728,20 +1728,8 @@ async function fetchData() {
             });
         });
 
-  function renderPivotTable(data) {
-            $("#output").pivotUI(data, {
-                rows: ["Register ID", "ชื่อ นามสกุล"], 
-                cols: ["Specimen"], 
-                vals: ["จำนวน"],
-                aggregatorName: "Count",
-                rendererName: "Table"
-            });
-        }
-    var textvalue = document.getElementById('selectfilter').value;
-            $("#select").on("click", function() {
-                const filteredData = data.filter(row => !row[${textvalue}]); 
-                renderPivotTable(filteredData);
-            }
+
+
 
 window.onload = function () {
    loadAllRecords();
