@@ -506,6 +506,14 @@
 
 </modal>
 
+  <modal class="modalpivot" stile="display: block;">
+    <div class="modal-header mb-2 fw-bold">
+               <button type="button" class="btn-close" id="closeregis" onclick="closePivot()"  data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+         <div id="output"></div>
+  </modal>
+
+
   <modal class="modalpivot" id="pivot">
     <div class="modal-header mb-2 fw-bold">
                <button type="button" class="btn-close" id="closeregis" onclick="closePivot()"  data-bs-dismiss="modal" aria-label="Close"></button>
@@ -513,6 +521,7 @@
   <iframe class="ms-1" src="https://docs.google.com/spreadsheets/d/1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw/edit?gid=579028264#gid=579028264" width="1100px" height="550px" style="border: 1px solid black;"></iframe>
     
   </modal>
+  
 <script>
   
   function closePivot(){
@@ -520,6 +529,10 @@
   }
   function openPivot(){
      $('#pivot').css('display', 'block')
+  }
+
+  window.onload = function(){
+    fetchData();
   }
   
 </script>
