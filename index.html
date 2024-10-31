@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -45,7 +46,7 @@
         <a class="nav-link active" aria-current="page"  aria-disabled="true">Register</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"  onclick="openPivot()"  style="cursor: pointer;">Database</a>
+        <a class="nav-link"  onclick="openSheet()"  style="cursor: pointer;">Database</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" onclick="openSpecimen()" style="cursor: pointer;">Specimen</a>
@@ -510,32 +511,9 @@
     <div class="modal-header mb-2 fw-bold">
                <button type="button" class="btn-close" id="closeregis" onclick="closePivot()"  data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-    <div style="display: flex; font-size: 0.75rem; max-height: 1.5cm;">
-       <select class="form-select form-select-sm mb-3 pt-2" style="max-width: 5cm; min-width: 5cm; font-size: 0.75rem; font-family: sarabun;" id="selectfilter">
-  <option selected></option>
-  <option value="3">1ลงทะเบียน</option>       
-  <option value="1">PE</option>
-  <option value="2">EDTA</option>
-  <option value="3">Naf</option>
-  <option value="3">Clot</option>
-  <option value="3">Urine</option>
-  <option value="3">X Ray</option>
-  <option value="3">EKG</option>
-  <option value="3">Lung</option>
-  <option value="3">Audiogram</option>  
-  <option value="3">ตา(Bio)</option>
-  <option value="3">Muscel</option>
- </select>
- <div class="fs-3 mb-3 ms-3">
-              <svg id="select" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
-  <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"/>
-</svg>            
-     </div>
-    </div>
-                                  
-         <div id="output" class="ms-2 mt-5"></div>
+  <iframe class="ms-1" src="https://docs.google.com/spreadsheets/d/1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw/edit?gid=579028264#gid=579028264" width="1100px" height="550px" style="border: 1px solid black;"></iframe>
+    
   </modal>
-
 <script>
   
   function closePivot(){
@@ -544,16 +522,6 @@
   function openPivot(){
      $('#pivot').css('display', 'block')
   }
-
-  window.onload = function(){
-    fetchData();
-  }
-
-     
-      
-
-         
-      
   
 </script>
  
