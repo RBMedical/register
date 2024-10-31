@@ -941,3 +941,12 @@ td {
   .center{
     text-justify: center;
   }
+
+#output {
+            width: 80%; /* กำหนดความกว้าง */
+            height: 80%; /* กำหนดความยาว */
+            overflow: auto; /* ถ้ามีข้อมูลเยอะ ให้มี scroll bar */
+            border: 1px solid #ddd;
+            margin: 20px auto;
+            padding: 10px;
+        }
