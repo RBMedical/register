@@ -527,7 +527,7 @@
   <option value="3">Muscel</option>
  </select>
  <div class="fs-3 mb-3 ms-3">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+              <svg id="select" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
   <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"/>
 </svg>            
      </div>
@@ -548,6 +548,43 @@
   window.onload = function(){
     fetchData();
   }
+
+  async function fetchData() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangsheet12}?key=${apiKey}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            const formattedData = [];
+            const headers = data.values[0];
+            for (let i = 1; i < data.values.length; i++) {
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = data.values[i][index];
+                });
+                formattedData.push(row);
+            }
+            return formattedData;
+        }
+
+        function renderPivotTable(data) {
+            $("#output").pivotUI(data, {
+                rows: ["Register ID", "ชื่อ นามสกุล"], 
+                cols: ["Specimen"], 
+                vals: ["จำนวน"],
+                aggregatorName: "Count",
+                rendererName: "Table"
+            });
+        }
+
+        fetchData().then(data => {
+            renderPivotTable(data);
+
+          var textvalue = document.getElementById('selectfilter').selectValue;
+            $("#select").on("click", function() {
+                const filteredData = data.filter(row => !row[${textvalue}]); 
+                renderPivotTable(filteredData);
+            });
+        });
   
 </script>
  
