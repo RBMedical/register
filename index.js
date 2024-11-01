@@ -1475,8 +1475,8 @@ function buildSticker() {
 
 
 function printSticker() {
-    closeAlert();
-    $('#sticker').css('display', 'block')
+    
+    $('#modalsticker').css('display', 'block')
 
 }
 
