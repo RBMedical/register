@@ -858,7 +858,7 @@ td {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 58%;
+      width: 50%;
       max-height: 700px;
       min-height: 700px;
       padding: 20px;
@@ -933,7 +933,7 @@ td {
 
 #searchtable {
     width: 100%;
-    /* กำหนดความกว้างของตารางเป็น 80% ของพื้นที่ที่มีอยู่ */
+    /* กำหนดความกว้างของตารางเป็น 100% ของพื้นที่ที่มีอยู่ */
     margin: auto;
     /* จัดกลางตารางในหน้า */
     border-collapse: collapse;
