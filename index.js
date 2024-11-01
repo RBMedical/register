@@ -1570,7 +1570,7 @@ fetch(url)
         if (data.values && data.values.length > 0) { // ตรวจสอบว่ามีข้อมูลใน data.values
             data.values.forEach(row => {
                 resultDiv1.innerHTML += `
-<tr>
+<tr onclick="copyId" style="cursor: pointer;">
 
           <th class="column-5 text-center">${row[0]}</th>
           <td class="column-6">${row[1]}</th>
