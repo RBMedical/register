@@ -276,7 +276,7 @@ div {
 
 .modalsheet {
 
-    display: flex;
+    display: none;
     position: fixed;
     flex-direction: column;
     top: 50%;
@@ -285,7 +285,7 @@ div {
 
     transform: translate(-50%, -50%);
 
-    width: 100%;
+    width: 80%;
     flex-direction: column;
     min-height: 700px;
     max-height: 700px;
