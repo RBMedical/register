@@ -444,26 +444,32 @@ body {
 #b1 {
     font-family: sarabun;
     font-size: 0.75rem;
-      min-width: 3cm;
-    max-width: 3cm;
+      min-width: 2cm;
+    max-width: 2;
    
 }
 
 #b2 {
     font-family: sarabun;
     font-size: 0.75rem;
-    min-width: 3cm;
-    max-width: 3cm;
+    min-width: 2cm;
+    max-width:23cm;
   
 }
 
 #b3 {
     font-family: sarabun;
     font-size: 0.75rem;
-      min-width: 3cm;
-    max-width: 3cm;
+      min-width: 2cm;
+    max-width: 2cm;
   
 }
+
+#b4 {
+    font-family: sarabun;
+    font-size: 0.75rem;
+      min-width: 2cm;
+    max-width: 2cm;
 
 
 .barcode-container {
