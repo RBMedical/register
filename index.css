@@ -904,8 +904,8 @@ td {
       left: 40%;
       transform: translate(-50%, -50%);
       width: 60%;
-      max-height: 700px;
-      min-height: 700px;
+      max-height: 800px;
+      min-height: 800px;
       padding: 20px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 1);
       z-index: 1000;
