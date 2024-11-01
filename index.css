@@ -953,3 +953,18 @@ td {
 .pvtRowLabel { 
             width: 200px;
         }
+
+#searchtable {
+    width: 100%;
+    /* กำหนดความกว้างของตารางเป็น 80% ของพื้นที่ที่มีอยู่ */
+    margin: auto;
+    /* จัดกลางตารางในหน้า */
+    border-collapse: collapse;
+    /* ไม่มีระยะห่างระหว่างเซลล์ */
+    max-height: 400px;
+    /* กำหนดความสูงสูงสุดของตาราง */
+    overflow-y: auto;
+    /* อนุญาตให้เลื่อนแนวดิ่ง */
+    display: block;
+    /* ทำให้ตารางเป็น block element */
+}
