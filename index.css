@@ -47,12 +47,12 @@ div {
 }
 #desc{
     min-width: 3cm;
-    ax-width: 3cm;
+    max-width: 3cm;
 }
 
 #registernumber {
     min-width: 3cm;
-    ax-width: 3cm;
+    max-width: 3cm;
 }
 
 #specimenque {
