@@ -612,7 +612,7 @@ function searchPrint() {
 
 function printSticker() {
     closeAlert();
-    $('#sticker').css('display', 'block');
+    $('#modalsticker').css('display', 'block');
 }
 
 function closeModal() {
