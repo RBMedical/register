@@ -15,7 +15,12 @@ function hideLoading() {
     document.getElementById('loadingIcon').style.display = 'none';
 }
 
-
+function showLoadingSearch() {
+    document.getElementById('loadingIconSearch').style.display = 'block';
+}
+function hideLoadingSearch() {
+    document.getElementById('loadingIconSearch').style.display = 'none';
+}
 
 const apiKey = 'AIzaSyBxpc9yQw66EWefkTU9O7ITp-bvN72eESg';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
@@ -1552,7 +1557,7 @@ function loadAllRecordsSearch() {
 
 
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
-    showLoading();
+    showLoadingSearch();
 fetch(url)
     .then(response => {
         if (!response.ok) {
@@ -1587,7 +1592,7 @@ fetch(url)
         console.error('Error loading all records:', error);
         alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
     });
-    
+    hideLoadingSearch();
 }
 
 function openSearch() {
