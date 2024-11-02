@@ -236,15 +236,15 @@
           
           
        
-        <div class="modalrecieve" id="modalsticker" style="display: none;">
+        <div class="modalrecieve" id="sticker" style="display: none;">
+          
+          
            <button type="button" class="btn-close mb-2 noprint" id="closeregis" onclick="closeSticker()"  data-bs-dismiss="modal" aria-label="Close"></button>
-           <div id="sticker" onclick="printSspecimen()">
-             
-           </div>
-        </div>
+           <button type="button" class="btn mb-2 noprint" id="closeregis" onclick="printSspecimen()"  data-bs-dismiss="modal">print</button>
+         </div>
    <script>
         function closeSticker(){
-             $('#modalsticker').css('display' , 'none');
+             $('#sticker').css('display' , 'none');
           
         }
     </script>
