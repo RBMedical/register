@@ -611,7 +611,7 @@ function searchPrint() {
 
 
 function printSticker() {
-    closeAlert();
+    
     $('#sticker').css('display', 'block');
 }
 
@@ -1474,11 +1474,9 @@ function buildSticker() {
 
 
 
-function printSticker() {
-    
-    $('#modalsticker').css('display', 'block')
 
-}
+
+
 
 function printSspecimen() {
     printResult();
