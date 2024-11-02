@@ -559,7 +559,7 @@ function searchPrint() {
         .then(data => {
             const sticker = document.getElementById('sticker');
             const number = document.getElementById('numb').textContent.trim(); // ใช้ trim() เพื่อหลีกเลี่ยงช่องว่าง
-            const searchKey = document.getElementById('registernumber').textContent.trim();
+            const searchKey = document.getElementById('idcard').textContent.trim();
             sticker.innerHTML = ''; // เคลียร์ก่อนแสดงใหม่
 
             let found = false; // ตัวแปรเพื่อตรวจสอบว่าพบข้อมูลหรือไม่
