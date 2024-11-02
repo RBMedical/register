@@ -1552,7 +1552,7 @@ function loadAllRecordsSearch() {
 
 
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
-
+    showLoading();
 fetch(url)
     .then(response => {
         if (!response.ok) {
@@ -1578,7 +1578,7 @@ fetch(url)
 </tr>
 `;
 
-            });
+                 });
         } else {
             resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
         }
@@ -1587,6 +1587,7 @@ fetch(url)
         console.error('Error loading all records:', error);
         alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
     });
+    hideLoading();
 }
 
 function openSearch() {
@@ -1619,7 +1620,7 @@ function searchDataSearch(){
             if (data.values) {
                 data.values.forEach(row => {
                     if (row[2] === searchId){
-                         showLoading();
+                     
                           resultDiv1.innerHTML += `
 <tr onclick="copyId"  style="cursor: pointer;">
 
@@ -1631,7 +1632,7 @@ function searchDataSearch(){
 </tr>
 `;
 
-            hideLoading();         } });
+               } });
                  
         } else {
             resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
