@@ -945,3 +945,9 @@ td {
     display: block;
     /* ทำให้ตารางเป็น block element */
 }
+
+#loadingicon{
+    position: reactive;
+    z-index: 10000;
+
+}
