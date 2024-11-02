@@ -1258,7 +1258,7 @@ function getNextNumber() {
                 newNumber.innerText = parseInt(lastNumber) + 1;
             } else {
                 var newNumber = document.getElementById('numb');
-                newNum.innerText = 1;
+                newNumber.innerText = 1;
             }
         })
         .catch(error => {
