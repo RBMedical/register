@@ -617,11 +617,11 @@ function searchPrint() {
 
 function printSticker() {
     
-    $('#sticker').css('display', 'block');
+    $(".modalrecieve").css('display', 'block');
 }
 
-function closeModal() {
-    $('#sticker').css('display', 'none');
+function closeSticker() {
+    $(".modalrecieve").css('display', 'none');
 }
 
 function printSpecimen() {
