@@ -444,9 +444,9 @@ body {
 #b1 {
     font-family: sarabun;
     font-size: 0.75rem;
-      min-width: 2cm;
-    max-width: 2;
-   
+    min-width: 2cm;
+    max-width: 2cm;
+    background-color: rgb(206, 255, 255);
 }
 
 #b2 {
@@ -454,7 +454,7 @@ body {
     font-size: 0.75rem;
     min-width: 2cm;
     max-width:23cm;
-  
+    background-color: rgb(206, 255, 255);
 }
 
 #b3 {
@@ -462,14 +462,15 @@ body {
     font-size: 0.75rem;
       min-width: 3cm;
     max-width: 3cm;
-  
+    background-color: rgb(206, 255, 255);
 }
 
 #b4 {
     font-family: sarabun;
     font-size: 0.75rem;
-      min-width: 2cm;
+    min-width: 2cm;
     max-width: 2cm;
+    background-color: rgb(206, 255, 255);
 }
 
 .barcode-container {
