@@ -444,32 +444,32 @@ body {
 #b1 {
     font-family: sarabun;
     font-size: 0.75rem;
-    min-width: 3cm;
-    max-width: 3cm;
+    min-width: 2.5cm;
+    max-width: 2.5cm;
     background-color: rgb(206, 255, 255);
 }
 
 #b2 {
     font-family: sarabun;
     font-size: 0.75rem;
-    min-width: 2cm;
-    max-width:23cm;
+    min-width: 2.5cm;
+    max-width: 2.5cm;
     background-color: rgb(206, 255, 255);
 }
 
 #b3 {
     font-family: sarabun;
     font-size: 0.75rem;
-      min-width: 3cm;
-    max-width: 3cm;
+      min-width: 2.5cm;
+    max-width: 2.5cm;
     background-color: rgb(206, 255, 255);
 }
 
 #b4 {
     font-family: sarabun;
     font-size: 0.75rem;
-    min-width: 2cm;
-    max-width: 2cm;
+    min-width: 1.5cm;
+    max-width: 1.5cm;
     background-color: rgb(206, 255, 255);
 }
 
