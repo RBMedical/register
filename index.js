@@ -456,7 +456,7 @@ async function addRegistrationData() {
                     .then(data => {
                         loadAllRecords();
                         addRegistrationDataInner();
-                        loadMoreRigister();
+                       
                         Swal.fire({
                             position: "center",
                             icon: "success",
