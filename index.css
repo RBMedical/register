@@ -946,7 +946,7 @@ td {
     /* ทำให้ตารางเป็น block element */
 }
 
-#loadingicon {
+#loadingIcon {
     position: fixed;
     z-index: 1050;
 
