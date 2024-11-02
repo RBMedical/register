@@ -1601,7 +1601,7 @@ function closeSearch() {
 
 
 function searchDataSearch(){
-    showLoading();
+   
       const searchId = document.getElementById('datasearchid').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
 
      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
@@ -1618,7 +1618,8 @@ function searchDataSearch(){
                 resultDiv1.innerHTML = '';
             if (data.values) {
                 data.values.forEach(row => {
-                    if (row[2] === searchId)
+                    if (row[2] === searchId){
+                         showLoading();
                           resultDiv1.innerHTML += `
 <tr onclick="copyId"  style="cursor: pointer;">
 
@@ -1630,8 +1631,8 @@ function searchDataSearch(){
 </tr>
 `;
 
-            });
-                  hideLoading();
+            hideLoading();         } });
+                 
         } else {
             resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
         }
