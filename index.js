@@ -1606,7 +1606,7 @@ function searchDataSearch(){
       const searchId = document.getElementById('datasearchid').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
 
      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
-
+showLoading()
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -1640,6 +1640,7 @@ function searchDataSearch(){
         console.error('Error loading all records:', error);
         alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
     });
+    hideLoading();
 }
 
 function copyId(){
