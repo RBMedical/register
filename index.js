@@ -1587,7 +1587,7 @@ fetch(url)
         console.error('Error loading all records:', error);
         alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
     });
-    hideLoading();
+    
 }
 
 function openSearch() {
