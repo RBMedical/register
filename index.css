@@ -25,6 +25,9 @@ div {
 
 }
 
+#datetime{
+color: #003300;
+}
 .btn-3 {
     background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 51%, #ffecd2 100%);
 }
