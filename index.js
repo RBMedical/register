@@ -1,8 +1,8 @@
-window.onload = function () {
-    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSZOkFFZ75UEl-4LnaJqs7lBg-M_JDZUy6jfRPP3BD6vRmizYe-RLFaThS7-bCEow") +       "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/spreadsheets");
+//window.onload = function () {
+//    var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiSZOkFFZ75UEl-4LnaJqs7lBg-M_JDZUy6jfRPP3BD6vRmizYe-RLFaThS7-bCEow") +       "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/spreadsheets");
 
-    window.history.replaceState({ path: newURL }, '', newURL);
-}
+//    window.history.replaceState({ path: newURL }, '', newURL);
+//}
 
 
 
@@ -1736,11 +1736,13 @@ async function fetchData() {
             });
         });
 
-window.onload = function () {
-   loadAllRecords();
-   getNextNumber(); 
-   updateDateTime();
-   loadDataTable();
-   loadAllCount();
+//window.onload = function () {
+//  loadAllRecords();
+//   getNextNumber(); 
+//   updateDateTime();
+//   loadDataTable();
+//   loadAllCount();
  
-}
+ //}
+
+setInterval (checkAndRefreshToken, 2700000);
