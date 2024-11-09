@@ -628,6 +628,7 @@ function printSpecimen() {
     printResult();
     closeSticker();
     clearPage();
+    displayNextNumber();
 
 }
 
@@ -1483,12 +1484,6 @@ function buildSticker() {
 
 
 
-function printSspecimen() {
-    printResult();
-    closeModal();
-    clearPage();
-    closeModal();
-    displayNextNumber();
 
 
 
