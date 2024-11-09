@@ -585,7 +585,7 @@ function searchPrint() {
                          <div class="mt-2 ms-2"><span class="libre-barcode-39-extended-regular">${row[1]}</span></div>
                          </div>
                          <div class="sticker-inner">
-                             <div class="sticker-id fw-bold"><span>${number}</span></div>
+                             <div class="sticker-id fw-bold" style="font-size: 0.75rem;"><span>${number}</span></div>
                              <div class="sticker-right">
                                  <div class="sticker-name ms-2">${row[3]}</div>
                                  <div class="sticker-name">
