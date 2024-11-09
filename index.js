@@ -1667,10 +1667,10 @@ function filterRecords() {
                     // กรองเฉพาะแถวที่คอลัมน์ที่สอง (row[1]) มีข้อความที่คล้ายกับ searchValue
                     if (row[1] && row[1].toLowerCase().includes(searchValue)) {
                         resultDiv1.innerHTML += `
-                            <tr onclick="copyId()" style="cursor: pointer;">
+                            <tr onclick="copyId(this)" style="cursor: pointer;">
                                 <th class="column-5 text-center">${row[0]}</th>
                                 <td class="column-6">${row[1]}</td>
-                                <td id="copyid" class="column-5 text-center">${row[2]}</td>
+                                <td class="idCardCell column-5 text-center">${row[2]}</td>
                                 <td class="column-5 text-center">${row[4]}</td>
                             </tr>
                         `;
