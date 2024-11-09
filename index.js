@@ -626,7 +626,7 @@ function closeSticker() {
 
 function printSpecimen() {
     printResult();
-    closeRegist();
+    closeRegis();
     clearPage();
 
 }
