@@ -1634,12 +1634,18 @@ function searchDataSearch(){
   
 }
 
-function copyId(){
-    const copystart = document.getElementById('copyid').textContent;
+function copyId(element) {
+    // element คือแถวที่ถูกคลิก
+    const idcard = element.querySelector(".idCardCell").textContent.trim();
     const copyend = document.getElementById('idcard');
-    copyend.innerText = copystart;
+
+    if (copyend) {
+        copyend.textContent = idcard; 
+    }
+
     closeSearch();
 }
+
 
 function filterRecords() {
     const searchValue = document.getElementById('datasearchname').value.toLowerCase();
