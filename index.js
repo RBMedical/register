@@ -579,7 +579,7 @@ function searchPrint() {
 
                     sticker.innerHTML += `
                  <div class="sticker mb-2">
-                     <div class="sticker-id mx-2 my-2"><span>${row[0]}</span></div>
+                     <div class="sticker-id mx-2 my-2 text-center"><span>${row[0]}</span></div>
                      <div class="sticker-right">
                          <div class="barcode-container mt-1">
                          <div class="mt-2 ms-2"><span class="libre-barcode-39-extended-regular">${row[1]}</span></div>
@@ -592,7 +592,7 @@ function searchPrint() {
                                      <div class="sticker-method ms-2">${row[5]}</div>
                                      <div class="sticker-date mt-1">${updateDate()}</div>
                                  </div>
-                                 <div class="sticker-name ms-2" style="font-size: 0.5rem">${row[4]}</div>
+                                 <div class="sticker-name ms-4" style="font-size: 0.5rem">${row[4]}</div>
                              </div>
                          </div>
                      </div>
