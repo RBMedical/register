@@ -1479,17 +1479,6 @@ function buildSticker() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 function printResult() {
     var modalContent = document.querySelector('#sticker').innerHTML;
     var originalContent = document.body.innerHTML;
