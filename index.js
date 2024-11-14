@@ -37,67 +37,61 @@ const rangesheet10 = 'register!A2:ZZ';
 const rangesheet11 = 'register!K2:KK';
 const rangesheet12 = 'specimencount!B1:EE';
 
-const clientId = "306673689070-g56jn6bs6acs9k9oklrpvh4v3gepfqo6.apps.googleusercontent.com";
-const clientSecret = "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";
-const redirectUri = "https://rbmedical.github.io/register";
-const access_token = 'ya29.a0AeDClZCbzvO9da7oHdgXoD26k5OSZAJuwtDDky6Ewwznzo7ZpiD4i2qwiiXQDGnUrmFI9iMwGrf5USGNtUCIo37o5knbmVwtD4KtoiNBRzeT8cSNLakeeyrXOC-i0LDQGUy71ZzPXKVKirdidqEaJJI7-fp-e8oFbermt2XHaCgYKAWkSARESFQHGX2MiLXdqptKJp-YWWTbQe5PDmA0175';
-const refreshToken = '1//05G-jdzz-V1kzCgYIARAAGAUSNwF-L9IrqyYoZcHSVZhA3IJfV80KQXDBaBtg53d1zFxgOlUTgW0SuqCVqBA7eTowfrANq3oDIB0';
-const scope = 'https://www.googleapis.com/auth/spreadsheets';
+const CLIENT_EMAIL = 'sheetdatabase@registermain.iam.gserviceaccount.com';
+const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDZwbpuppgpynmW\nu/ImSDad+dv1KiWWCNBE/
+                     Uib5iLNY6+Mhn8JT7pr25i52OZjHF8paZfBJkozWCBY\n0rP1RKM1wfYz2mUwDQicRubtac/h8B9kA/JMmpx+OeR6lPtGowjVn/ha9JS/4fwd\
+                     n51yZxQINkg1mE2bRMOuv1XvXW/71p8GcWw3MiUKAIH1Es0LcN22Dsj8lrtowy4ze\n6il3gTz7tWz0yOhSW0CYk6TpBAsSDjlRRh00hRs49M37Om9AkiVxQTPt1MPHnDYI\
+                     ni9SSrOtIx/zIgTlCoVFTCHZKHw810G58AgahSRxatxI7fzy91fy9Ub2WYfCXDAog\nnoutVxRrAgMBAAECggEAD5H+Vym69dRs/XeCso5CULYMR/6Tmz1JF+dc33NFGzBc\
+                     n3cYpY9lbSDNDbrKELFaoghXZsu1rRW2W1OyuaN2K2aEWjis4Rgdm8+m1jgjqKbEm\nRXWeYZZ1yMH+xNPnSoWfPMsuxa4sZRk73xWE6QsNtDoa+PWh/SSrpzIZvbkg+DnW\
+                     nafuZBVseEwqGuYcZf+B65ePUegtX8/FlXvJmfI470vO2cX7piV2icr6YgU9SQD2r\nHFh/u3b8k1qBIV9UxEUX9HjOTXGG1t0/2/AD55E5+9ztWOPwtr53BYiTLgpUpC+x\
+                     nJ4vLCE+xtThuiecgvNwmPaPL9pm09W3eVZIVIXcV4QKBgQD9rgDwxDoMxFKsXBYP\nhrjcZZlm4wjZJmKyngzu4oYnTUXSjvGee07npsq2l3+5/nJaZzsKsRp6kPBE9pN0\
+                     nhVkRgZtVRXgZ5jtxLgaM5wm9vJG3vA0ApmB25MQtndCbml73bWQ8qbUUq09Lrdj7\nas2aluh56vjnFH1ZNQWS7QcJYQKBgQDbv5w4dYXdfhru4YhhMmP4FGd7AknEfAPF\
+                     nQyecWX5T/L7cLUpwxTPKDmn0Xv9+CIz/bG7J/S9aKPd1MFpFlFFhmXotqQ3d4gHB\ne9Dpk8o1QEVNoUg/3xrT0hSsZKi6Y9FHHK5PY4v8y/Phiz9f2LqFDE03oR0/B1gc\
+                     n0/8ib751SwKBgQC2nqwIp4qOpEpL0GMFPFwaNX3QZoJ5KLwGj+cJlcMzydoI8WSZ\nTXWJKDZoafnGIJmb4RLM6KACOhLt4oBWcqSjCKWVJlSGeIq0OIj4qF4H3BceqN7H\
+                     nZ/6ruJZNrH1/dwsEnhh530X/oi+McJNysvleX2LuWaxjVgnCzXu8wKu/IQKBgQCD\nfVkOE4yBZ4bYL826UzusYxE0cr8POiHLdI6MKKTFvrO57cPgTK/blNpjpkB8+sLb\
+                     nx9dXOA+QhHjl/4PUpJY5r2uDTOgGP8lLLDpquctCJ+4QMJSZ23cjDk7ehPDNbxL3\n2TqYOHm4T5Xj/L10LawWFrFRuy9T2qInxdahlXnClwKBgBdFN5Yf8dw+rGfvUU0Q\
+                     nk7bzrls36YpMTsuWs6zm9YLsy6wgUTOveaMNElH6iadT7HN4jrZt7huhkhANFzLm\n6+dkiUFCtu9ZxTV67VFnDbaAyMOhU/WdUCOibcnbRY48Vfzh0bIXeXMmSGyZYr4G\
+                     nfQglRejjUtp9LTkhLvx6/3RN\n-----END PRIVATE KEY-----\n`; 
+
+const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
 
-// ฟังก์ชันสำหรับรีเฟรช access token เมื่อมีการคลิก
-function refreshAccessToken() {
+function generateJWT() {
+    const header = {
+        alg: 'RS256',
+        typ: 'JWT',
+    };
 
+    const now = Math.floor(Date.now() / 1000);
+    const payload = {
+        iss: CLIENT_EMAIL,
+        scope: SCOPES,
+        aud: 'https://oauth2.googleapis.com/token',
+        exp: now + 3600, // 1 ชั่วโมง
+        iat: now,
+    };
 
-    if (!refreshToken) {
-        console.error("No refresh token found.");
-        return;
-    }
+    const sHeader = JSON.stringify(header);
+    const sPayload = JSON.stringify(payload);
 
-    const url = "https://oauth2.googleapis.com/token";
-
-    const params = new URLSearchParams();
-    params.append("grant_type", "refresh_token");
-    params.append("client_id", clientId);  // ใส่ clientId ของคุณที่นี่
-    params.append("client_secret", clientSecret);  // ใส่ clientSecret ของคุณที่นี่
-    params.append("refresh_token", refreshToken);
-
-    showLoading();
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to refresh access token');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // เก็บ access token ใหม่
-            sessionStorage.setItem("access_token", data.access_token);
-            console.log("Access token refreshed:", data.access_token);
-        })
-        .catch(error => {
-            console.error('Error refreshing access token:', error);
-        })
-        .finally(() => {
-            hideLoading();
-        });
+   
+    const jwt = KJUR.jws.JWS.sign(null, sHeader, sPayload, PRIVATE_KEY);
+    return jwt;
 }
 
 
-function checkAndRefreshToken() {
-    if (!access_token) {
-        console.error("No access token found.");
-        return;
-    }
-
-    console.log("Checking if access token needs refresh...");
-    refreshAccessToken();  // เรียกฟังก์ชันรีเฟรชเมื่อคลิก
+async function fetchAccessToken() {
+    const jwt = generateJWT();
+    const response = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            assertion: jwt,
+        }),
+    });
+    const data = await response.json();
+    return data.access_token;
 }
 
 
@@ -405,16 +399,10 @@ async function addRegistrationData() {
     var data = {
         values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
     };
+    const accessToken = await fetchAccessToken();
 
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`; 
 
-    // รอให้ access_token ถูกอัปเดตใน sessionStorage ก่อนทำการเพิ่มข้อมูล
-    const accessToken = sessionStorage.getItem("access_token");
-
-    // ตรวจสอบข้อมูล idcard ก่อน
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
-
-    // ดึงข้อมูลทั้งหมดจากแผ่นงาน Google Sheets
     fetch(url, {
         method: 'GET',
         headers: {
