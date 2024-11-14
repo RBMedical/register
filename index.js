@@ -394,7 +394,7 @@ async function addRegistrationData() {
     var data = {
         values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
     };
-    const accessToken = await fetchAccessToken();
+    const accessToken = fetchAccessToken();
 
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`; 
 
@@ -487,7 +487,7 @@ function addRegistrationDataInner() {
     };
 
    
-    const accessToken =  await fetchAccessToken() ;
+    const accessToken = fetchAccessToken() ;
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
 
    
@@ -912,7 +912,7 @@ function addNewData(access_token) {
 
     var newRow = [newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram];
    
-    const accessToken = await fetchAccessToken();
+    const accessToken = fetchAccessToken();
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     const body = {
@@ -1102,7 +1102,7 @@ function addRegistData() {
         values: [[inputdate, barcodenewid, barcodename, barinputmethod, specimen]]
     };
     console.log(data);
-    const accessToken = await fetchAccessToken();
+    const accessToken = fetchAccessToken();
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     fetch(url, {
