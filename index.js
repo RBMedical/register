@@ -491,13 +491,11 @@ function addRegistrationDataInner() {
         values: [[numr, regisid, name, spec, type]]
     };
 
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
-
-    // รอให้ access_token ถูกอัปเดตใน sessionStorage ก่อนทำการเพิ่มข้อมูล
-    const accessToken = sessionStorage.getItem("access_token");
+   
+    const accessToken =  await fetchAccessToken() ;
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
 
-    // ส่งข้อมูลไปยัง Google Sheets
+   
     fetch(url, {
         method: 'POST',
         headers: {
@@ -918,8 +916,8 @@ function addNewData(access_token) {
     }
 
     var newRow = [newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram];
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช OAuth token
-    const accessToken = sessionStorage.getItem("access_token");
+   
+    const accessToken = await fetchAccessToken();
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     const body = {
@@ -1051,7 +1049,7 @@ function sendBarcode() {
 
 
 function addRegistData() {
-    checkAndRefreshToken();
+  
 
 
 
@@ -1109,7 +1107,7 @@ function addRegistData() {
         values: [[inputdate, barcodenewid, barcodename, barinputmethod, specimen]]
     };
     console.log(data);
-    const accessToken = sessionStorage.getItem("access_token");
+    const accessToken = await fetchAccessToken();
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
     fetch(url, {
