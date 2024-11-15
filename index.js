@@ -1197,7 +1197,8 @@ function loadAllData() {
 
 function displayNextNumber() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+     const accessToken = fetchAccessToken();
+
 
     return fetch(url)
         .then(response => {
