@@ -52,26 +52,18 @@ const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
 
 function generateJWT() {
-    const header = {
-        alg: 'RS256',
-        typ: 'JWT',
-    };
-
+    const header = { alg: 'RS256', typ: 'JWT' };
     const now = Math.floor(Date.now() / 1000);
     const payload = {
         iss: CLIENT_EMAIL,
         scope: SCOPES,
         aud: 'https://oauth2.googleapis.com/token',
-        exp: now + 3600, // 1 ชั่วโมง
-        iat: now,
+        exp: now + 3600, 
+        iat: now
     };
-
     const sHeader = JSON.stringify(header);
     const sPayload = JSON.stringify(payload);
-
-   
-    const jwt = KJUR.jws.JWS.sign(null, sHeader, sPayload, PRIVATE_KEY);
-    return jwt;
+    return KJUR.jws.JWS.sign(null, sHeader, sPayload, PRIVATE_KEY);
 }
 
 
@@ -83,12 +75,11 @@ async function fetchAccessToken() {
         body: new URLSearchParams({
             grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
             assertion: jwt,
-        }),
+        })
     });
     const data = await response.json();
     return data.access_token;
 }
-
 
 function searchData() {
     const searchKeyElement = document.getElementById('searchKey');
@@ -123,7 +114,7 @@ function searchDataFromId() {
             const birthday = document.getElementById("birthday");
             const program = document.getElementById("program");
 
-            // ล้างผลลัพธ์ก่อนหน้า
+            
             regisid.textContent = "";
             name.textContent = "";
 
@@ -377,59 +368,42 @@ setInterval(updateDateTime, 1000);
 
 
 async function addRegistrationData() {
-    await displayNextNumber();
+    const regisData = [
+        document.getElementById('numb').textContent.trim(),
+        document.getElementById('registernumber').textContent.trim(),
+        document.getElementById('name').textContent.trim(),
+        document.getElementById('idcard').textContent.trim(),
+        document.getElementById('card').textContent.trim(),
+        document.getElementById('depart').textContent.trim(),
+        document.getElementById('age').textContent.trim(),
+        document.getElementById('birthday').textContent.trim(),
+        document.getElementById('program').textContent.trim(),
+        document.getElementById('datetime').textContent.trim(),
+        document.getElementById('desc').textContent.trim()
+    ];
 
-    
-    const number = document.getElementById('numb').textContent.trim();
-    const regisid = document.getElementById('registernumber').textContent.trim();
-    const name = document.getElementById('name').textContent.trim();
-    const idcard = document.getElementById('idcard').textContent.trim();
-    const sexage = document.getElementById('age').textContent.trim();
-    const card = document.getElementById('card').textContent.trim();
-    const depart = document.getElementById('depart').textContent.trim();
-    const birth = document.getElementById('birthday').textContent.trim();
-    const prog = document.getElementById('program').textContent.trim();
-    const date = document.getElementById('datetime').textContent.trim();
-    const desc = document.getElementById('desc').textContent.trim();
-
-
-    const data = {
-        values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
-    };
+    const data = { values: [regisData] };
 
     try {
-        // ดึง access token ด้วย await
         const accessToken = await fetchAccessToken();
 
         // ตรวจสอบข้อมูลซ้ำ
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
-        const response = await fetch(url, {
+        const checkUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheetRegister}?key=${apiKey}`;
+        const checkResponse = await fetch(checkUrl, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            }
+            headers: { 'Authorization': `Bearer ${accessToken}` }
         });
-
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-
-        const sheetData = await response.json();
+        const sheetData = await checkResponse.json();
         const rows = sheetData.values || [];
-        const isDuplicate = rows.some(row => row[3] === idcard); // ตรวจสอบ idcard ที่ index 3
+        const isDuplicate = rows.some(row => row[3] === regisData[3]);
 
         if (isDuplicate) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'ID นี้ลงทะเบียนแล้ว!'
-            });
+            Swal.fire({ icon: 'error', title: 'Oops...', text: 'ID นี้ลงทะเบียนแล้ว!' });
             return;
         }
 
-        // ส่งข้อมูลใหม่ถ้าไม่มีข้อมูลซ้ำ
-        const postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+        // ส่งข้อมูลใหม่
+        const postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheetRegister}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
         const postResponse = await fetch(postUrl, {
             method: 'POST',
             headers: {
@@ -439,55 +413,40 @@ async function addRegistrationData() {
             body: JSON.stringify(data)
         });
 
-        if (!postResponse.ok) {
-            throw new Error(`Network response was not ok: ${postResponse.statusText}`);
+        if (postResponse.ok) {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "ลงทะเบียนสำเร็จ",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else {
+            throw new Error('Error in adding data');
         }
 
-        await postResponse.json();
-        loadAllRecords();
-        addRegistrationDataInner();
-
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "ลงทะเบียนสำเร็จ",
-            showConfirmButton: false,
-            timer: 1500
-        });
-
-        loadDataTable();
-
     } catch (error) {
+        Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถเพิ่มข้อมูลได้!' });
         console.error('Error:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
-        });
     }
 }
 
-
-
+// Function เพิ่มข้อมูล specimen count
 async function addRegistrationDataInner() {
-    const numr = document.getElementById('datetime').textContent.trim();
-    const regisid = document.getElementById('registernumber').textContent.trim();
-    const name = document.getElementById('name').textContent.trim();
-    const type = "1ลงทะเบียน";
-    const spec = 10;
+    const innerData = [
+        document.getElementById('datetime').textContent.trim(),
+        document.getElementById('registernumber').textContent.trim(),
+        document.getElementById('name').textContent.trim(),
+        "10",
+        "1ลงทะเบียน"
+    ];
 
-    
-    const data = {
-        values: [[numr, regisid, name, spec, type]]
-    };
+    const data = { values: [innerData] };
 
     try {
-        
         const accessToken = await fetchAccessToken();
-
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
-        
-        const response = await fetch(url, {
+        const postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheetSpecimenCount}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+        const postResponse = await fetch(postUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -496,21 +455,20 @@ async function addRegistrationDataInner() {
             body: JSON.stringify(data)
         });
 
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.statusText}`);
+        if (postResponse.ok) {
+            console.log("Data added to specimen count successfully");
+        } else {
+            throw new Error('Error in adding specimen count data');
         }
 
     } catch (error) {
+        Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถเพิ่มข้อมูล specimen ได้!' });
         console.error('Error:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
-        });
-    } finally {
-        loadAllRecords(); 
     }
 }
+
+
+
 
 
 
