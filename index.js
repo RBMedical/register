@@ -653,8 +653,7 @@ function clearPage() {
 
 function loadAllCount() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-    checkAndRefreshToken();
-
+    
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -745,7 +744,7 @@ function loadAllCount() {
 
 function loadAllCountOpen() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-    checkAndRefreshToken();
+   
 
     fetch(url)
         .then(response => {
@@ -894,7 +893,7 @@ function loadDataTable() {
 
 
 function addNewData(access_token) {
-    // ดึงข้อมูลจาก input elements
+
     var newid = document.getElementById('newid').value.trim();
     var newname = document.getElementById('newname').value.trim();
     var newidcard = document.getElementById('newidcard').value.trim();
@@ -904,7 +903,7 @@ function addNewData(access_token) {
     var newage = document.getElementById('newage').textContent.trim(); // ใช้ innerText หรือ textContent ให้เหมาะสมกับ HTML
     var newprogram = document.getElementById('newprogram').value.trim();
 
-    // ตรวจสอบว่าข้อมูลทั้งหมดถูกกรอก
+
     if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
         alert('กรุณากรอกข้อมูลให้ครบถ้วน');
         return; // ออกจากฟังก์ชันถ้ามีข้อมูลไม่ครบ
