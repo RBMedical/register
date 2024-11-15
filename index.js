@@ -1625,6 +1625,10 @@ function copyId(element) {
     }
 
     closeSearch();
+     setTimeout(() => {
+                       searchDataFromId();
+                                    }, 5000);
+   
 }
 
 
