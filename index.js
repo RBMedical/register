@@ -467,8 +467,12 @@ async function addRegistrationDataInner() {
     }
 }
 
-
-
+     
+             async function addDatabase(){
+                      await addRegistrationData();
+                         await addRegistrationDataInner();
+          
+             }
 
 
 
