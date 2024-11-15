@@ -1228,7 +1228,7 @@ function displayNextNumber() {
 
 function getNextNumber() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+    
 
     return fetch(url)
         .then(response => {
@@ -1716,4 +1716,4 @@ window.onload = function () {
  
 }
 
-setInterval (checkAndRefreshToken, 2700000);
+
