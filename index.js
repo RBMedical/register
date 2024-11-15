@@ -379,145 +379,139 @@ setInterval(updateDateTime, 1000);
 async function addRegistrationData() {
     await displayNextNumber();
 
-    var number = document.getElementById('numb').textContent.trim();
-    var regisid = document.getElementById('registernumber').textContent.trim();
-    var name = document.getElementById('name').textContent.trim();
-    var idcard = document.getElementById('idcard').textContent.trim();
-    var sexage = document.getElementById('age').textContent.trim();
-    var card = document.getElementById('card').textContent.trim();
-    var depart = document.getElementById('depart').textContent.trim();
-    var birth = document.getElementById('birthday').textContent.trim();
-    var prog = document.getElementById('program').textContent.trim();
-    var date = document.getElementById('datetime').textContent.trim();
-    var desc =  document.getElementById('desc').textContent.trim();
-    // สร้าง object ที่จะส่งไปยัง Google Sheets
-    var data = {
+    
+    const number = document.getElementById('numb').textContent.trim();
+    const regisid = document.getElementById('registernumber').textContent.trim();
+    const name = document.getElementById('name').textContent.trim();
+    const idcard = document.getElementById('idcard').textContent.trim();
+    const sexage = document.getElementById('age').textContent.trim();
+    const card = document.getElementById('card').textContent.trim();
+    const depart = document.getElementById('depart').textContent.trim();
+    const birth = document.getElementById('birthday').textContent.trim();
+    const prog = document.getElementById('program').textContent.trim();
+    const date = document.getElementById('datetime').textContent.trim();
+    const desc = document.getElementById('desc').textContent.trim();
+
+
+    const data = {
         values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
     };
-    const accessToken = fetchAccessToken();
 
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`; 
+    try {
+        // ดึง access token ด้วย await
+        const accessToken = await fetchAccessToken();
 
-    fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken
+        // ตรวจสอบข้อมูลซ้ำ
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
         }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(sheetData => {
-            // ตรวจสอบว่ามี idcard ซ้ำหรือไม่
-            const rows = sheetData.values || [];
-            const isDuplicate = rows.some(row => row[3] === idcard); // สมมุติว่า idcard อยู่ในคอลัมน์ที่ 4 (index 3)
 
-            if (isDuplicate) {
-                // แจ้งเตือนว่ามี idcard นี้ลงทะเบียนแล้ว
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'ID นี้ลงทะเบียนแล้ว!'
-                });
-            } else {
-                // ถ้าไม่มี idcard ซ้ำ ให้ทำการโพสต์ข้อมูลใหม่
-                var postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+        const sheetData = await response.json();
+        const rows = sheetData.values || [];
+        const isDuplicate = rows.some(row => row[3] === idcard); // ตรวจสอบ idcard ที่ index 3
 
-                fetch(postUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + accessToken
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok: ' + response.statusText);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        loadAllRecords();
-                        addRegistrationDataInner();
-                       
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "ลงทะเบียนสำเร็จ",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        loadDataTable();
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
-                        });
-                    });
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching sheet data:', error);
+        if (isDuplicate) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'เกิดข้อผิดพลาดในการตรวจสอบข้อมูล!'
+                text: 'ID นี้ลงทะเบียนแล้ว!'
             });
+            return;
+        }
+
+        // ส่งข้อมูลใหม่ถ้าไม่มีข้อมูลซ้ำ
+        const postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+        const postResponse = await fetch(postUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify(data)
         });
+
+        if (!postResponse.ok) {
+            throw new Error(`Network response was not ok: ${postResponse.statusText}`);
+        }
+
+        await postResponse.json();
+        loadAllRecords();
+        addRegistrationDataInner();
+
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "ลงทะเบียนสำเร็จ",
+            showConfirmButton: false,
+            timer: 1500
+        });
+
+        loadDataTable();
+
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
+        });
+    }
 }
 
 
-function addRegistrationDataInner() {
-    var numr = document.getElementById('datetime').textContent;
-    var regisid = document.getElementById('registernumber').textContent.trim();
-    var name = document.getElementById('name').textContent.trim();
+
+async function addRegistrationDataInner() {
+    const numr = document.getElementById('datetime').textContent.trim();
+    const regisid = document.getElementById('registernumber').textContent.trim();
+    const name = document.getElementById('name').textContent.trim();
     const type = "1ลงทะเบียน";
     const spec = 10;
-    // สร้าง object ที่จะส่งไปยัง Google Sheets
-    var data = {
+
+    
+    const data = {
         values: [[numr, regisid, name, spec, type]]
     };
 
-   
-    const accessToken = fetchAccessToken() ;
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
+    try {
+        
+        const accessToken = await fetchAccessToken();
 
-   
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
-        },
-
-        body: JSON.stringify(data)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
-            });
-            loadAllRecords(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
-
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify(data)
         });
+
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
+        });
+    } finally {
+        loadAllRecords(); 
+    }
 }
+
 
 
 
