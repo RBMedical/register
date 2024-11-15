@@ -32,7 +32,13 @@ const rangesheet10 = 'register!A2:ZZ';
 const rangesheet11 = 'register!K2:KK';
 const rangesheet12 = 'specimencount!B1:EE';
 
-const CLIENT_EMAIL = 'sheetdatabase@registermain.iam.gserviceaccount.com';
+const { google } = require('googleapis');
+const fs = require('fs');
+const path = require('path');
+
+// กำหนดไฟล์ JSON Key ที่ได้จาก Service Account
+const keyPath = path.join(__dirname, 'your-service-account-key.json');
+const key = JSON.parse(fs.readFileSync(keyPath));
 const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDZwbpuppgpynmW\nu/ImSDad+dv1KiWWCNBE/
                      Uib5iLNY6+Mhn8JT7pr25i52OZjHF8paZfBJkozWCBY\n0rP1RKM1wfYz2mUwDQicRubtac/h8B9kA/JMmpx+OeR6lPtGowjVn/ha9JS/4fwd\
                      n51yZxQINkg1mE2bRMOuv1XvXW/71p8GcWw3MiUKAIH1Es0LcN22Dsj8lrtowy4ze\n6il3gTz7tWz0yOhSW0CYk6TpBAsSDjlRRh00hRs49M37Om9AkiVxQTPt1MPHnDYI\
