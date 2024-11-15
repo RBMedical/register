@@ -51,7 +51,7 @@ const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAA
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
 
-function generateJWT() {
+async function generateJWT() {
     const header = { alg: 'RS256', typ: 'JWT' };
     const now = Math.floor(Date.now() / 1000);
     const payload = {
@@ -66,9 +66,8 @@ function generateJWT() {
     return KJUR.jws.JWS.sign(null, sHeader, sPayload, PRIVATE_KEY);
 }
 
-
 async function fetchAccessToken() {
-    const jwt = generateJWT();
+    const jwt = await generateJWT();
     const response = await fetch('https://oauth2.googleapis.com/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -80,6 +79,7 @@ async function fetchAccessToken() {
     const data = await response.json();
     return data.access_token;
 }
+
 
 
 async function addRegistrationData() {
