@@ -392,8 +392,8 @@ setInterval(updateDateTime, 1000);
 
 
 
-async function addRegistrationData() {
-    await displayNextNumber();
+ function addRegistrationData() {
+   displayNextNumber();
 
     var number = document.getElementById('numb').textContent.trim();
     var regisid = document.getElementById('registernumber').textContent.trim();
@@ -411,9 +411,9 @@ async function addRegistrationData() {
         values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
     };
 
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
+   
 
-    // รอให้ access_token ถูกอัปเดตใน sessionStorage ก่อนทำการเพิ่มข้อมูล
+  
     const accessToken = sessionStorage.getItem("access_token");
 
     // ตรวจสอบข้อมูล idcard ก่อน
