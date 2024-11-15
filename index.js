@@ -143,6 +143,7 @@ function addRegistrationData() {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                     addRegistrationDataInner();
                 } else {
                     throw new Error('Error in adding data');
                 }
@@ -166,6 +167,117 @@ function addRegistrationData() {
         });
     });
 }
+
+function addRegistrationDataInner() {
+    const innerData = [
+        document.getElementById('datetime').textContent.trim(),
+        document.getElementById('registernumber').textContent.trim(),
+        document.getElementById('name').textContent.trim(),
+        "10",
+        "1ลงทะเบียน"
+    ];
+
+    const data = { values: [innerData] };
+
+    fetchAccessToken()
+        .then(accessToken => {
+            const postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+            return fetch(postUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(data)
+            });
+        })
+        .then(postResponse => {
+            if (!postResponse.ok) {
+                throw new Error('Error in adding specimen count data');
+            }
+            console.log("Data added to specimen count successfully");
+        })
+        .catch(error => {
+            Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถเพิ่มข้อมูล specimen ได้!' });
+            console.error('Error:', error);
+        });
+}
+
+function addNewData() {
+    var newid = document.getElementById('newid').value.trim();
+    var newname = document.getElementById('newname').value.trim();
+    var newidcard = document.getElementById('newidcard').value.trim();
+    var birthdate = document.getElementById('birthdate').value.trim();
+    var newcard = document.getElementById('newcard').value.trim();
+    var newdepart = document.getElementById('newdepart').value.trim();
+    var newage = document.getElementById('newage').textContent.trim();
+    var newprogram = document.getElementById('newprogram').value.trim();
+
+    if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
+        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+        return;
+    }
+
+    var newRow = [newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram];
+
+    fetchAccessToken()
+        .then(accessToken => {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+            const body = { values: [newRow] };
+
+            return fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + accessToken,
+                },
+                body: JSON.stringify(body)
+            });
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok " + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Data added successfully", data);
+            buildSticker();
+        })
+        .catch(error => {
+            console.error("Error adding data:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถเพิ่มข้อมูลได้!'
+            });
+        });
+}
+function getNextNumber() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
+    
+    return fetchAccessToken()
+        .then(accessToken => {
+            return fetch(url, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok " + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const values = data.values;
+            return values ? values.length + 1 : 1;
+        })
+        .catch(error => {
+            console.error("Error getting next number:", error);
+        });
+}
+
+
 
 function displayNextNumber() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
