@@ -39,62 +39,9 @@ const path = require('path');
 // กำหนดไฟล์ JSON Key ที่ได้จาก Service Account
 const keyPath = path.join(__dirname, 'your-service-account-key.json');
 const key = JSON.parse(fs.readFileSync(keyPath));
-const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDZwbpuppgpynmW\nu/ImSDad+dv1KiWWCNBE/
-                     Uib5iLNY6+Mhn8JT7pr25i52OZjHF8paZfBJkozWCBY\n0rP1RKM1wfYz2mUwDQicRubtac/h8B9kA/JMmpx+OeR6lPtGowjVn/ha9JS/4fwd\
-                     n51yZxQINkg1mE2bRMOuv1XvXW/71p8GcWw3MiUKAIH1Es0LcN22Dsj8lrtowy4ze\n6il3gTz7tWz0yOhSW0CYk6TpBAsSDjlRRh00hRs49M37Om9AkiVxQTPt1MPHnDYI\
-                     ni9SSrOtIx/zIgTlCoVFTCHZKHw810G58AgahSRxatxI7fzy91fy9Ub2WYfCXDAog\nnoutVxRrAgMBAAECggEAD5H+Vym69dRs/XeCso5CULYMR/6Tmz1JF+dc33NFGzBc\
-                     n3cYpY9lbSDNDbrKELFaoghXZsu1rRW2W1OyuaN2K2aEWjis4Rgdm8+m1jgjqKbEm\nRXWeYZZ1yMH+xNPnSoWfPMsuxa4sZRk73xWE6QsNtDoa+PWh/SSrpzIZvbkg+DnW\
-                     nafuZBVseEwqGuYcZf+B65ePUegtX8/FlXvJmfI470vO2cX7piV2icr6YgU9SQD2r\nHFh/u3b8k1qBIV9UxEUX9HjOTXGG1t0/2/AD55E5+9ztWOPwtr53BYiTLgpUpC+x\
-                     nJ4vLCE+xtThuiecgvNwmPaPL9pm09W3eVZIVIXcV4QKBgQD9rgDwxDoMxFKsXBYP\nhrjcZZlm4wjZJmKyngzu4oYnTUXSjvGee07npsq2l3+5/nJaZzsKsRp6kPBE9pN0\
-                     nhVkRgZtVRXgZ5jtxLgaM5wm9vJG3vA0ApmB25MQtndCbml73bWQ8qbUUq09Lrdj7\nas2aluh56vjnFH1ZNQWS7QcJYQKBgQDbv5w4dYXdfhru4YhhMmP4FGd7AknEfAPF\
-                     nQyecWX5T/L7cLUpwxTPKDmn0Xv9+CIz/bG7J/S9aKPd1MFpFlFFhmXotqQ3d4gHB\ne9Dpk8o1QEVNoUg/3xrT0hSsZKi6Y9FHHK5PY4v8y/Phiz9f2LqFDE03oR0/B1gc\
-                     n0/8ib751SwKBgQC2nqwIp4qOpEpL0GMFPFwaNX3QZoJ5KLwGj+cJlcMzydoI8WSZ\nTXWJKDZoafnGIJmb4RLM6KACOhLt4oBWcqSjCKWVJlSGeIq0OIj4qF4H3BceqN7H\
-                     nZ/6ruJZNrH1/dwsEnhh530X/oi+McJNysvleX2LuWaxjVgnCzXu8wKu/IQKBgQCD\nfVkOE4yBZ4bYL826UzusYxE0cr8POiHLdI6MKKTFvrO57cPgTK/blNpjpkB8+sLb\
-                     nx9dXOA+QhHjl/4PUpJY5r2uDTOgGP8lLLDpquctCJ+4QMJSZ23cjDk7ehPDNbxL3\n2TqYOHm4T5Xj/L10LawWFrFRuy9T2qInxdahlXnClwKBgBdFN5Yf8dw+rGfvUU0Q\
-                     nk7bzrls36YpMTsuWs6zm9YLsy6wgUTOveaMNElH6iadT7HN4jrZt7huhkhANFzLm\n6+dkiUFCtu9ZxTV67VFnDbaAyMOhU/WdUCOibcnbRY48Vfzh0bIXeXMmSGyZYr4G\
-                     nfQglRejjUtp9LTkhLvx6/3RN\n-----END PRIVATE KEY-----\n`; 
-
-const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
 
-function generateJWT() {
-    const header = { alg: 'RS256', typ: 'JWT' };
-    const now = Math.floor(Date.now() / 1000);
-    const payload = {
-        iss: CLIENT_EMAIL,
-        scope: SCOPES,
-        aud: 'https://oauth2.googleapis.com/token',
-        exp: now + 3600,
-        iat: now
-    };
-    const sHeader = JSON.stringify(header);
-    const sPayload = JSON.stringify(payload);
-    return KJUR.jws.JWS.sign(null, sHeader, sPayload, PRIVATE_KEY);
-}
 
-function fetchAccessToken(callback) {
-    const jwt = generateJWT();
-    fetch('https://oauth2.googleapis.com/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-            grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-            assertion: jwt,
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        callback(data.access_token);
-    })
-    .catch(error => {
-        console.error('Error fetching access token:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: 'ไม่สามารถดึง Access Token ได้!'
-        });
-    });
-}
 
 function addRegistrationData() {
     const regisData = [
@@ -113,15 +60,12 @@ function addRegistrationData() {
 
     const data = { values: [regisData] };
 
-    fetchAccessToken(function(accessToken) {
-        const checkUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
-        
-        fetch(checkUrl, {
-            method: 'GET',
-            headers: { 'Authorization': `Bearer ${accessToken}` }
-        })
-        .then(checkResponse => checkResponse.json())
-        .then(sheetData => {
+     sheets.spreadsheets.values.get({
+    spreadsheetId,
+    rangesheet3,
+                     })
+     
+       .then((res) => {
             const rows = sheetData.values || [];
             const isDuplicate = rows.some(row => row[3] === regisData[3]);
 
@@ -130,17 +74,13 @@ function addRegistrationData() {
                 return;
             }
 
-            const postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
-            
-            fetch(postUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
-                body: JSON.stringify(data)
-            })
-            .then(postResponse => {
+            sheets.spreadsheets.values.update({
+    spreadsheetId,
+    rangesheet3
+    valueInputOption: 'RAW',
+    resource,
+  })
+            .then((res) =>{
                 if (postResponse.ok) {
                     Swal.fire({
                         position: "center",
@@ -185,19 +125,11 @@ function addRegistrationDataInner() {
 
     const data = { values: [innerData] };
 
-    fetchAccessToken()
-        .then(accessToken => {
-            const postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
-            return fetch(postUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
-                body: JSON.stringify(data)
-            });
-        })
-        .then(postResponse => {
+   sheets.spreadsheets.values.get({
+    spreadsheetId,
+    rangesheet6,
+                     })
+        .then((res) => {
             if (!postResponse.ok) {
                 throw new Error('Error in adding specimen count data');
             }
