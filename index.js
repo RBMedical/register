@@ -441,7 +441,7 @@ function addRegistrationDataInner() {
 
  
    
-    };
+  
 
   
     const url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount`;
@@ -463,7 +463,7 @@ function addRegistrationDataInner() {
         body: JSON.stringify(data)
     })
     .then(response => {
-        // ตรวจสอบสถานะการตอบกลับ
+    
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
         }
@@ -485,17 +485,17 @@ function addRegistrationDataInner() {
         loadAllRecords();
     })
     .catch(error => {
-        // แสดงข้อความ Error ใน Console
+        
         console.error('Error in adding data:', error);
 
-        // แจ้งเตือนเมื่อเกิดข้อผิดพลาด
+      
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: `เกิดข้อผิดพลาดในการลงทะเบียน: ${error.message}`
         });
 
-        // โหลดข้อมูลใหม่
+        
         loadAllRecords();
     });
 }
