@@ -391,156 +391,180 @@ setInterval(updateDateTime, 1000);
 
 
 
+function addRegistrationData() {
+    // เรียกใช้ Access Token ก่อน
+    fetchAccessToken(function (accessToken) {
+        displayNextNumber();
+        
+        // รอให้เลขแสดงก่อนเริ่มทำการลงทะเบียน
+        setTimeout(() => {
+            var number = document.getElementById('numb').textContent.trim();
+            var regisid = document.getElementById('registernumber').textContent.trim();
+            var name = document.getElementById('name').textContent.trim();
+            var idcard = document.getElementById('idcard').textContent.trim();
+            var sexage = document.getElementById('age').textContent.trim();
+            var card = document.getElementById('card').textContent.trim();
+            var depart = document.getElementById('depart').textContent.trim();
+            var birth = document.getElementById('birthday').textContent.trim();
+            var prog = document.getElementById('program').textContent.trim();
+            var date = document.getElementById('datetime').textContent.trim();
+            var desc = document.getElementById('desc').textContent.trim();
 
- function addRegistrationData() {
-   displayNextNumber();
+            // สร้าง object ที่จะส่งไปยัง Google Sheets
+            var data = {
+                values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
+            };
 
-    var number = document.getElementById('numb').textContent.trim();
-    var regisid = document.getElementById('registernumber').textContent.trim();
-    var name = document.getElementById('name').textContent.trim();
-    var idcard = document.getElementById('idcard').textContent.trim();
-    var sexage = document.getElementById('age').textContent.trim();
-    var card = document.getElementById('card').textContent.trim();
-    var depart = document.getElementById('depart').textContent.trim();
-    var birth = document.getElementById('birthday').textContent.trim();
-    var prog = document.getElementById('program').textContent.trim();
-    var date = document.getElementById('datetime').textContent.trim();
-    var desc =  document.getElementById('desc').textContent.trim();
-    // สร้าง object ที่จะส่งไปยัง Google Sheets
-    var data = {
-        values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
-    };
+            // URL สำหรับดึงข้อมูลเพื่อตรวจสอบ idcard
+            var getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
-   
-
-  
-    const accessToken = sessionStorage.getItem("access_token");
-
-    // ตรวจสอบข้อมูล idcard ก่อน
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
-
-    // ดึงข้อมูลทั้งหมดจากแผ่นงาน Google Sheets
-    fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(sheetData => {
-            // ตรวจสอบว่ามี idcard ซ้ำหรือไม่
-            const rows = sheetData.values || [];
-            const isDuplicate = rows.some(row => row[3] === idcard); // สมมุติว่า idcard อยู่ในคอลัมน์ที่ 4 (index 3)
-
-            if (isDuplicate) {
-                // แจ้งเตือนว่ามี idcard นี้ลงทะเบียนแล้ว
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'ID นี้ลงทะเบียนแล้ว!'
-                });
-            } else {
-                // ถ้าไม่มี idcard ซ้ำ ให้ทำการโพสต์ข้อมูลใหม่
-                var postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
-
-                fetch(postUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + accessToken
-                    },
-                    body: JSON.stringify(data)
+            // ตรวจสอบ idcard ซ้ำ
+            fetch(getUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.json();
                 })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok: ' + response.statusText);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        loadAllRecords();
-                        addRegistrationDataInner();
-                       
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "ลงทะเบียนสำเร็จ",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        loadDataTable();
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
+                .then(sheetData => {
+                    // ตรวจสอบว่ามี idcard ซ้ำหรือไม่
+                    const rows = sheetData.values || [];
+                    const isDuplicate = rows.some(row => row[3] === idcard);
+
+                    if (isDuplicate) {
+                        // แจ้งเตือนว่ามี idcard นี้ลงทะเบียนแล้ว
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
+                            text: 'ID นี้ลงทะเบียนแล้ว!'
                         });
+                    } else {
+                        // URL สำหรับเพิ่มข้อมูล
+                        var postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+
+                        // เพิ่มข้อมูลใหม่
+                        fetch(postUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + accessToken
+                            },
+                            body: JSON.stringify(data)
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok: ' + response.statusText);
+                                }
+                                return response.json();
+                            })
+                            .then(result => {
+                                console.log("Data added successfully:", result);
+
+                                // โหลดข้อมูลใหม่ และเรียกใช้ฟังก์ชันเพิ่มเติม
+                                loadAllRecords();
+                                addRegistrationDataInner();
+
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "success",
+                                    title: "ลงทะเบียนสำเร็จ",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+
+                                loadDataTable();
+                            })
+                            .catch(error => {
+                                console.error('Error in adding data:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
+                                });
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching sheet data:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'เกิดข้อผิดพลาดในการตรวจสอบข้อมูล!'
                     });
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching sheet data:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'เกิดข้อผิดพลาดในการตรวจสอบข้อมูล!'
-            });
-        });
+                });
+        }, 2000);
+    });
 }
 
 
 function addRegistrationDataInner() {
-    var numr = document.getElementById('datetime').textContent;
+  
+    var numr = document.getElementById('datetime').textContent.trim();
     var regisid = document.getElementById('registernumber').textContent.trim();
     var name = document.getElementById('name').textContent.trim();
     const type = "1ลงทะเบียน";
     const spec = 10;
-    // สร้าง object ที่จะส่งไปยัง Google Sheets
+
+    
     var data = {
         values: [[numr, regisid, name, spec, type]]
     };
 
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token
+    
+    fetchAccessToken(function (accessToken) {
+      
+        var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
-    // รอให้ access_token ถูกอัปเดตใน sessionStorage ก่อนทำการเพิ่มข้อมูล
-    const accessToken = sessionStorage.getItem("access_token");
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`; // แทนที่ด้วย API Key ของคุณ
-
-    // ส่งข้อมูลไปยัง Google Sheets
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
-        },
-
-        body: JSON.stringify(data)
-    })
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
+            },
+            body: JSON.stringify(data)
+        })
         .then(response => {
+           
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
             }
             return response.json();
         })
+        .then(result => {
+            console.log('Data added successfully:', result);
 
+         
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "เพิ่มข้อมูลสำเร็จ",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+           
+            loadAllRecords();
+        })
         .catch(error => {
-            console.error('Error:', error);
+           
+            console.error('Error in adding data:', error);
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
             });
-            loadAllRecords(); // โหลดข้อมูลใหม่แม้เกิดข้อผิดพลาด
 
+         
+            loadAllRecords();
         });
+    });
 }
 
 
@@ -677,8 +701,7 @@ function clearPage() {
 
 function loadAllCount() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-    checkAndRefreshToken();
-
+   
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -769,7 +792,7 @@ function loadAllCount() {
 
 function loadAllCountOpen() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-    checkAndRefreshToken();
+   
 
     fetch(url)
         .then(response => {
@@ -916,58 +939,67 @@ function loadDataTable() {
 
 
 
+function addNewData() {
 
-function addNewData(access_token) {
-    // ดึงข้อมูลจาก input elements
     var newid = document.getElementById('newid').value.trim();
     var newname = document.getElementById('newname').value.trim();
     var newidcard = document.getElementById('newidcard').value.trim();
     var birthdate = document.getElementById('birthdate').value.trim();
     var newcard = document.getElementById('newcard').value.trim();
     var newdepart = document.getElementById('newdepart').value.trim();
-    var newage = document.getElementById('newage').textContent.trim(); // ใช้ innerText หรือ textContent ให้เหมาะสมกับ HTML
+    var newage = document.getElementById('newage').textContent.trim();
     var newprogram = document.getElementById('newprogram').value.trim();
 
-    // ตรวจสอบว่าข้อมูลทั้งหมดถูกกรอก
+   
     if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
         alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-        return; // ออกจากฟังก์ชันถ้ามีข้อมูลไม่ครบ
+        return;
     }
 
+ 
     var newRow = [newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram];
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช OAuth token
-    const accessToken = sessionStorage.getItem("access_token");
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
-    const body = {
-        "values": [newRow]
-    };
+ 
+    fetchAccessToken(function (accessToken) {
+    
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
-    // ส่งข้อมูลไปที่ Google Sheets API ด้วย OAuth Token
-    fetch(url, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken, // เพิ่มช่องว่างระหว่าง 'Bearer' และ accessToken
-        },
+        const body = {
+            "values": [newRow]
+        };
 
-
-        body: JSON.stringify(body)
-    })
+    
+        fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
+            },
+            body: JSON.stringify(body)
+        })
         .then(response => {
             if (!response.ok) {
-                throw new Error("Network response was not ok " + response.statusText);
+                throw new Error("Network response was not ok: " + response.statusText);
             }
             return response.json();
         })
         .then(data => {
-            console.log("Data added successfully", data);
-            buildSticker();
+            console.log("Data added successfully:", data);
+            
            
+            buildSticker();
 
-
+         
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "เพิ่มข้อมูลสำเร็จ",
+                showConfirmButton: false,
+                timer: 1500
+            });
         })
         .catch(error => {
+           
             console.error("Error adding data:", error);
             Swal.fire({
                 icon: 'error',
@@ -975,7 +1007,7 @@ function addNewData(access_token) {
                 text: 'ไม่สามารถเพิ่มข้อมูลได้!'
             });
         });
-
+    });
 }
 
 
@@ -1068,75 +1100,49 @@ function sendBarcode() {
 
 
 function addRegistData() {
-    checkAndRefreshToken();
-
-
-
     var barinput = document.getElementById('inputbar').value.trim();
     var barcodenewid = document.getElementById('barregisterid').textContent.trim();
     var barcodename = document.getElementById('barname').textContent.trim();
     var inputdate = document.getElementById('datetime').textContent;
-    var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
+   
+    var inputmethodbar = barinput.slice(-2);
     console.log(inputmethodbar);
-    var barinputmethod = inputmethodbar;
     var specimen;
 
-    switch (barinputmethod) {
-        case "11":
-            specimen = "PE";
-            break;
-        case "12":
-            specimen = "EDTA";
-            break;
-        case "13":
-            specimen = "Urine";
-            break;
-        case "14":
-            specimen = "X Ray";
-            break;
-        case "15":
-            specimen = "EKG";
-            break;
-        case "20":
-            specimen = "naf";
-            break;
-        case "21":
-            specimen = "Clot";
-            break;
-        case "16":
-            specimen = "Audiogram";
-            break;
-        case "17":
-            specimen = "Lung";
-            break;
-        case "18":
-            specimen = "Eyes";
-            break;
-        case "19":
-            specimen = "Muscle";
-            break;
-        default:
-            specimen = "ไม่พบข้อมูล";
-            break;
-    }
+   
+    const specimenMap = {
+        "11": "PE",
+        "12": "EDTA",
+        "13": "Urine",
+        "14": "X Ray",
+        "15": "EKG",
+        "20": "naf",
+        "21": "Clot",
+        "16": "Audiogram",
+        "17": "Lung",
+        "18": "Eyes",
+        "19": "Muscle"
+    };
 
-
+    
+    specimen = specimenMap[inputmethodbar] || "ไม่พบข้อมูล";
 
     var data = {
-        values: [[inputdate, barcodenewid, barcodename, barinputmethod, specimen]]
+        values: [[inputdate, barcodenewid, barcodename, inputmethodbar, specimen]]
     };
     console.log(data);
-    const accessToken = sessionStorage.getItem("access_token");
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken, // แก้ไขช่องว่างระหว่าง Bearer กับ token
-        },
-        body: JSON.stringify(data)
-    })
+    fetchAccessToken(function(accessToken) {
+        var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken, // แก้ไขช่องว่างระหว่าง Bearer และ accessToken
+            },
+            body: JSON.stringify(data)
+        })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -1145,15 +1151,24 @@ function addRegistData() {
         })
         .then(data => {
             console.log("Success:", data);
-            loadAllData();
-
+            loadAllData();  
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "เพิ่มข้อมูลสำเร็จ",
+                showConfirmButton: false,
+                timer: 1500
+            });
         })
         .catch(error => {
             console.error('Error:', error);
-            alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถเพิ่มข้อมูลได้!'
+            });
         });
-
-
+    });
 }
 
 
@@ -1222,7 +1237,7 @@ function loadAllData() {
 
 function displayNextNumber() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
+  
 
     return fetch(url)
         .then(response => {
@@ -1252,8 +1267,7 @@ function displayNextNumber() {
 
 function getNextNumber() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
-    checkAndRefreshToken(); // ตรวจสอบและรีเฟรช token ก่อนทำการ fetch
-
+  
     return fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -1356,7 +1370,7 @@ function updateDateTime() {
     document.getElementById('datetime').innerHTML = `${date} ${time}`;
 }
 
-// เรียกฟังก์ชันทุกวินาทีเพื่ออัปเดตวันที่และเวลา
+
 setInterval(updateDateTime, 1000);
 
 function openSheet() {
@@ -1380,6 +1394,7 @@ function buildSticker() {
     const program = document.getElementById('newprogram').value.trim();
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
+   
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -1392,7 +1407,6 @@ function buildSticker() {
 
             if (data.values) {
                 const matchingRows = data.values.filter(row => row[0] === program);
-
                 console.log('Matching rows:', matchingRows);
 
                 if (matchingRows.length === 0) {
@@ -1400,31 +1414,25 @@ function buildSticker() {
                     return;
                 }
 
+              
                 matchingRows.forEach(row => {
-                    const n1 = document.getElementById('newidcard').value.trim();
-                    const n2 = document.getElementById('idcard');
-                    const n3 = document.getElementById('desc');
-                    n2.innerText = n1;
-                    n3.innerText = "เพิ่มรายชื่อ";
+                    const newidcard = document.getElementById('newidcard').value.trim();
+                    const idcardElement = document.getElementById('idcard');
+                    const descElement = document.getElementById('desc');
 
-                    const method = row[2] || 'Unknown method';  // ตรวจสอบว่ามีค่าไหม
-                    const methodid = row[3] || 'Unknown methodid'; // ตรวจสอบว่ามีค่าไหม
-                    const custom = row[4] || 'Unknown custom'; // ตรวจสอบว่ามีค่าไหม
-                    const regisidInput = document.getElementById("newid");
-                    const nameInput = document.getElementById("newname");
-                    const programInput = document.getElementById("newprogram");
+                    idcardElement.innerText = newidcard;
+                    descElement.innerText = "เพิ่มรายชื่อ";
 
-                    if (!regisidInput || !nameInput || !programInput) {
-                        console.error('ไม่พบ element newid, newname หรือ newprogram');
-                        alert('ไม่พบข้อมูลการลงทะเบียน');
-                        return;
-                    }
+                    
+                    const method = row[2] || 'Unknown method';
+                    const methodid = row[3] || 'Unknown methodid';
+                    const custom = row[4] || 'Unknown custom';
 
-                    const regisid = regisidInput.value;
-                    const name = nameInput.value;
+                    const regisid = document.getElementById("newid").value.trim();
+                    const name = document.getElementById("newname").value.trim();
 
                     if (!regisid || !name) {
-                        console.error('ไม่สามารถดึงค่า regisid หรือ name');
+                        console.error('กรุณากรอกข้อมูลให้ครบ');
                         alert('กรุณากรอกข้อมูลให้ครบ');
                         return;
                     }
@@ -1436,19 +1444,18 @@ function buildSticker() {
                         values: [[regisid, barcodesticker, stickerid, name, custom, method]]
                     };
 
-                    checkAndRefreshToken();
-                    const accessToken = sessionStorage.getItem("access_token");
+                   
+                    fetchAccessToken(function(accessToken) {
+                        const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
-                    const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
-
-                    fetch(appendUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + accessToken,
-                        },
-                        body: JSON.stringify(dataToSave)
-                    })
+                        fetch(appendUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + accessToken,
+                            },
+                            body: JSON.stringify(dataToSave)
+                        })
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Network response was not ok');
@@ -1457,30 +1464,30 @@ function buildSticker() {
                         })
                         .then(result => {
                             console.log('Data saved successfully:', result);
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'เพิ่มข้อมูลสำเร็จ',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+                            setTimeout(() => {
+                                clearRegisterPage();
+                                closeNewRegister();
+                            }, 1000);
                         })
                         .catch(error => {
                             console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
                             alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
                         });
+                    });
                 });
             }
         })
         .catch(error => {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
         });
-
-    Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'เพิ่มข้อมูลสำเร็จ',
-        showConfirmButton: false,
-        timer: 1500
-    });
-
-    setTimeout(() => {
-        clearRegisterPage();
-    }, 1000);
-    closeNewRegister();
 }
 
 
@@ -1740,4 +1747,4 @@ window.onload = function () {
  
 }
 
-setInterval (checkAndRefreshToken, 2700000);
+
