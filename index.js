@@ -1,11 +1,3 @@
-window.onload = function () {
-var newURL = "register/?code=" + encodeURIComponent("4/0AVG7fiRlwIStUI_LVW9yw8eOH90xUIhqnqCeEopkAgVxwYo0G7WxgzTEjlBqJ-durVH73w") +       "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/spreadsheets");
-
- window.history.replaceState({ path: newURL }, '', newURL);
-}
-
-
-
 
 function showLoading() {
     document.getElementById('loadingIcon').style.display = 'block';
