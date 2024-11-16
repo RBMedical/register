@@ -324,36 +324,10 @@ function addRegistrationData() {
     displayNextNumber();
 
     setTimeout(() => {
-        const number = document.getElementById('numb').textContent.trim();
-        const regisid = document.getElementById('registernumber').textContent.trim();
-        const name = document.getElementById('name').textContent.trim();
-        const idcard = document.getElementById('idcard').textContent.trim();
-        const sexage = document.getElementById('age').textContent.trim();
-        const card = document.getElementById('card').textContent.trim();
-        const depart = document.getElementById('depart').textContent.trim();
-        const birth = document.getElementById('birthday').textContent.trim();
-        const prog = document.getElementById('program').textContent.trim();
-        const date = document.getElementById('datetime').textContent.trim();
-        const desc = document.getElementById('desc').textContent.trim();
-
-        // เตรียมข้อมูลตามรูปแบบของ Sheety
-        const data = {
-            "register": {
-                "number": number,
-                "regisid": regisid,
-                "name": name,
-                "idcard": idcard,
-                "card": card,
-                "depart": depart,
-                "sexage": sexage,
-                "birth": birth,
-                "prog": prog,
-                "date": date,
-                "desc": desc
-            }
+         const idcard = document.getElementById('idcard').textContent.trim();
         };
 
-        // URL สำหรับตรวจสอบข้อมูล idcard ว่าซ้ำหรือไม่
+       
         const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
         fetch(getUrl)
@@ -376,8 +350,36 @@ function addRegistrationData() {
                     text: 'ID นี้ลงทะเบียนแล้ว!'
                 });
             } else {
-                // URL สำหรับ POST ข้อมูลไปยัง Sheety
-                const url = 'https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register';
+                
+        const url = 'https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register';
+        const number = document.getElementById('numb').textContent.trim();
+        const regisid = document.getElementById('registernumber').textContent.trim();
+        const name = document.getElementById('name').textContent.trim();
+        const idcard = document.getElementById('idcard').textContent.trim();
+        const sexage = document.getElementById('age').textContent.trim();
+        const card = document.getElementById('card').textContent.trim();
+        const depart = document.getElementById('depart').textContent.trim();
+        const birth = document.getElementById('birthday').textContent.trim();
+        const prog = document.getElementById('program').textContent.trim();
+        const date = document.getElementById('datetime').textContent.trim();
+        const desc = document.getElementById('desc').textContent.trim();
+
+        
+        const data = {
+            "register": {
+                "number": number,
+                "regisid": regisid,
+                "name": name,
+                "idcard": idcard,
+                "card": card,
+                "depart": depart,
+                "sexage": sexage,
+                "birth": birth,
+                "prog": prog,
+                "date": date,
+                "desc": desc
+            }
+        }
 
                 fetch(url, {
                     method: 'POST',
@@ -395,7 +397,7 @@ function addRegistrationData() {
                 .then(json => {
                     console.log("Data added successfully:", json);
 
-                    // เรียกใช้ฟังก์ชันเพิ่มเติมหลังการลงทะเบียนสำเร็จ
+                    
                     loadAllRecords();
                     addRegistrationDataInner();
 
@@ -438,8 +440,13 @@ function addRegistrationDataInner() {
     const type = "1ลงทะเบียน";
     const spec = 10;
 
-    // เตรียมข้อมูลตามรูปแบบของ Sheety
-    const data = {
+ 
+   
+    };
+
+  
+    const url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount`;
+      const data = {
         specimencount: {
             numr: numr,
             regisid: regisid,
@@ -447,12 +454,8 @@ function addRegistrationDataInner() {
             spec: spec,
             type: type
         }
-    };
-
-    // URL สำหรับ POST ข้อมูลไปยัง Sheety
-    const url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount`;
-
-    // เรียกใช้ API เพื่อ POST ข้อมูล
+      }
+  
     fetch(url, {
         method: 'POST',
         headers: {
