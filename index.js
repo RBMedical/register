@@ -336,11 +336,25 @@ function addRegistrationData() {
         var date = document.getElementById('datetime').textContent.trim();
         var desc = document.getElementById('desc').textContent.trim();
 
+        // เตรียมข้อมูลตามรูปแบบของ Sheety
         var data = {
-            values: [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]]
+            "register": {
+                "number": number,
+                "regisid": regisid,
+                "name": name,
+                "idcard": idcard,
+                "card": card,
+                "depart": depart,
+                "sexage": sexage,
+                "birth": birth,
+                "prog": prog,
+                "date": date,
+                "desc": desc
+            }
         };
 
-        var getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+        // URL สำหรับตรวจสอบข้อมูล idcard ว่าซ้ำหรือไม่
+        var getUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register`;
 
         fetch(getUrl)
         .then(response => {
@@ -351,8 +365,8 @@ function addRegistrationData() {
         })
         .then(sheetData => {
             // ตรวจสอบว่ามี idcard ซ้ำหรือไม่
-            const rows = sheetData.values || [];
-            const isDuplicate = rows.some(row => row[3] === idcard);
+            const rows = sheetData.register || [];
+            const isDuplicate = rows.some(row => row.idcard === idcard);
 
             if (isDuplicate) {
                 // แจ้งเตือนว่ามี idcard นี้ลงทะเบียนแล้ว
@@ -362,12 +376,15 @@ function addRegistrationData() {
                     text: 'ID นี้ลงทะเบียนแล้ว!'
                 });
             } else {
-                var postUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register!A2:ZZ`;
+                var postUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register`;
 
-              fetch(postUrl, {
-                method: 'POST',
-                 body: JSON.stringify(data)
-             })
+                fetch(postUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok: ' + response.statusText);
@@ -410,7 +427,7 @@ function addRegistrationData() {
             });
         });
     }, 2000); // ปิด setTimeout
-} // ปิดฟังก์ชัน addRegistrationData
+}
 
 function addRegistrationDataInner() {
     var numr = document.getElementById('datetime').textContent.trim();
@@ -419,16 +436,26 @@ function addRegistrationDataInner() {
     const type = "1ลงทะเบียน";
     const spec = 10;
 
+    // เตรียมข้อมูลตามรูปแบบของ Sheety
     var data = {
-        values: [[numr, regisid, name, spec, type]]
+        "specimencount": {
+            "numr": numr,
+            "regisid": regisid,
+            "name": name,
+            "spec": spec,
+            "type": type
+        }
     };
 
-    var url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount!A2:ZZ`;
+    var url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount`;
 
     fetch(url, {
-                method: 'POST',
-                 body: JSON.stringify(data)
-             })
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok: ' + response.statusText);
@@ -463,10 +490,7 @@ function addRegistrationDataInner() {
         // โหลดข้อมูลใหม่
         loadAllRecords();
     });
-} // ปิดฟังก์ชัน addRegistrationDataInner
-
-
-
+}
 
 function updateDate() {
     const now = new Date();
@@ -879,16 +903,27 @@ function buildSticker() {
                     const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
                     const stickerid = String(regisid) + String(program);
 
+                    // เตรียมข้อมูลตามรูปแบบของ Sheety API
                     const dataToSave = {
-                        values: [[regisid, barcodesticker, stickerid, name, custom, method]]
+                        "sticker": {
+                            "regisid": regisid,
+                            "barcodesticker": barcodesticker,
+                            "stickerid": stickerid,
+                            "name": name,
+                            "custom": custom,
+                            "method": method
+                        }
                     };
 
-                    const appendUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/sticker!A2:ZZ`;
+                    const appendUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/sticker`;
 
                     fetch(appendUrl, {
-                method: 'POST',
-                 body: JSON.stringify(dataToSave)
-             })
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(dataToSave)
+                    })
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
@@ -924,7 +959,8 @@ function buildSticker() {
         .catch(error => {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
         });
-} // ปิดฟังก์ชัน buildSticker
+}
+
 
 
 
@@ -946,21 +982,30 @@ function addNewData() {
     }
 
     // เตรียมข้อมูลใหม่ที่จะเพิ่ม
-    var newRow = [newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram];
-
-    // URL สำหรับส่งข้อมูลไปยัง Google Sheets
-    const url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/data!A2:ZZ`;
-
-  
-    const body = {
-        "values": [newRow]
+    var dataToSave = {
+        "data": {
+            "regisid": newid,
+            "name": newname,
+            "idcard": newidcard,
+            "card": newcard,
+            "depart": newdepart,
+            "age": newage,
+            "birthdate": birthdate,
+            "program": newprogram
+        }
     };
 
+    // URL สำหรับส่งข้อมูลไปยัง Google Sheets ผ่าน Sheety
+    const url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/data`;
+
     // การเรียกใช้ API เพื่อเพิ่มข้อมูลลงใน Google Sheets
-   fetch(url, {
-                method: 'POST',
-                 body: JSON.stringify(body)
-             })
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToSave)
+    })
     .then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok: " + response.statusText);
@@ -991,9 +1036,7 @@ function addNewData() {
             text: 'ไม่สามารถเพิ่มข้อมูลได้!'
         });
     });
-} // ปิดฟังก์ชัน addNewData
-
-
+}
 
 function openSheet() {
     $('#sheet').css('display', 'flex');
