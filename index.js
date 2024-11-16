@@ -325,7 +325,6 @@ function addRegistrationData() {
 
     setTimeout(() => {
          const idcard = document.getElementById('idcard').textContent.trim();
-        };
 
        
         const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
