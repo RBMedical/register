@@ -354,7 +354,7 @@ function addRegistrationData() {
         };
 
         // URL สำหรับตรวจสอบข้อมูล idcard ว่าซ้ำหรือไม่
-        var getUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register`;
+        var getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
         fetch(getUrl)
         .then(response => {
