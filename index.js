@@ -928,6 +928,109 @@ function loadDataTable() {
 
 }
 
+function buildSticker() {
+    const program = document.getElementById('newprogram').value.trim();
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
+
+   
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data received from API:', data);
+
+            if (data.values) {
+                const matchingRows = data.values.filter(row => row[0] === program);
+                console.log('Matching rows:', matchingRows);
+
+                if (matchingRows.length === 0) {
+                    alert('ไม่พบข้อมูลที่ตรงกับโปรแกรม');
+                    return;
+                }
+
+              
+                matchingRows.forEach(row => {
+                    const newidcard = document.getElementById('newidcard').value.trim();
+                    const idcardElement = document.getElementById('idcard');
+                    const descElement = document.getElementById('desc');
+
+                    idcardElement.innerText = newidcard;
+                    descElement.innerText = "เพิ่มรายชื่อ";
+
+                    
+                    const method = row[2] || 'Unknown method';
+                    const methodid = row[3] || 'Unknown methodid';
+                    const custom = row[4] || 'Unknown custom';
+
+                    const regisid = document.getElementById("newid").value.trim();
+                    const name = document.getElementById("newname").value.trim();
+
+                    if (!regisid || !name) {
+                        console.error('กรุณากรอกข้อมูลให้ครบ');
+                        alert('กรุณากรอกข้อมูลให้ครบ');
+                        return;
+                    }
+
+                    const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
+                    const stickerid = String(regisid) + String(program);
+
+                    const dataToSave = {
+                        values: [[regisid, barcodesticker, stickerid, name, custom, method]]
+                    };
+
+                   
+                    fetchAccessToken(function(accessToken) {
+                        const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+
+                        fetch(appendUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + accessToken,
+                            },
+                            body: JSON.stringify(dataToSave)
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(result => {
+                            console.log('Data saved successfully:', result);
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'เพิ่มข้อมูลสำเร็จ',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+                            setTimeout(() => {
+                                clearRegisterPage();
+                                closeNewRegister();
+                                 }, 1000);
+                             setTimeout(() => {
+                                searchDataFromId();
+                                
+                                 }, 1000);
+                        })
+                        .catch(error => {
+                            console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
+                            alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                        });
+                    });
+                });
+            }
+        })
+        .catch(error => {
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+        });
+}
 
 
 
@@ -1382,105 +1485,6 @@ function closeSearch() {
     $(".modalsearch").css('display', 'none');
 }
 
-function buildSticker() {
-    const program = document.getElementById('newprogram').value.trim();
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
-
-   
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Data received from API:', data);
-
-            if (data.values) {
-                const matchingRows = data.values.filter(row => row[0] === program);
-                console.log('Matching rows:', matchingRows);
-
-                if (matchingRows.length === 0) {
-                    alert('ไม่พบข้อมูลที่ตรงกับโปรแกรม');
-                    return;
-                }
-
-              
-                matchingRows.forEach(row => {
-                    const newidcard = document.getElementById('newidcard').value.trim();
-                    const idcardElement = document.getElementById('idcard');
-                    const descElement = document.getElementById('desc');
-
-                    idcardElement.innerText = newidcard;
-                    descElement.innerText = "เพิ่มรายชื่อ";
-
-                    
-                    const method = row[2] || 'Unknown method';
-                    const methodid = row[3] || 'Unknown methodid';
-                    const custom = row[4] || 'Unknown custom';
-
-                    const regisid = document.getElementById("newid").value.trim();
-                    const name = document.getElementById("newname").value.trim();
-
-                    if (!regisid || !name) {
-                        console.error('กรุณากรอกข้อมูลให้ครบ');
-                        alert('กรุณากรอกข้อมูลให้ครบ');
-                        return;
-                    }
-
-                    const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
-                    const stickerid = String(regisid) + String(program);
-
-                    const dataToSave = {
-                        values: [[regisid, barcodesticker, stickerid, name, custom, method]]
-                    };
-
-                   
-                    fetchAccessToken(function(accessToken) {
-                        const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet9}:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
-
-                        fetch(appendUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + accessToken,
-                            },
-                            body: JSON.stringify(dataToSave)
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(result => {
-                            console.log('Data saved successfully:', result);
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'เพิ่มข้อมูลสำเร็จ',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-
-                            setTimeout(() => {
-                                clearRegisterPage();
-                                closeNewRegister();
-                            }, 1000);
-                        })
-                        .catch(error => {
-                            console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
-                            alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-                        });
-                    });
-                });
-            }
-        })
-        .catch(error => {
-            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
-        });
-}
 
 
 function printResult() {
