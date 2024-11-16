@@ -28,75 +28,75 @@ const rangesheet9 = 'sticker!A2:ZZ';
 const rangesheet10 = 'register!A2:ZZ';
 const rangesheet11 = 'register!K2:KK';
 const rangesheet12 = 'specimencount!B1:EE';
-const serviceAccountEmail = 'sheetdatabase@registermain.iam.gserviceaccount.com';
-const privateKey = `-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDZwbpuppgpynmW\nu/
-    ImSDad+dv1KiWWCNBE/Uib5iLNY6+Mhn8JT7pr25i52OZjHF8paZfBJkozWCBY\n0rP1RKM1wfYz2mUwDQicRubtac/h8B9kA/JMmpx+OeR6lPtGowjVn/
-    ha9JS/4fwd\n51yZxQINkg1mE2bRMOuv1XvXW/71p8GcWw3MiUKAIH1Es0LcN22Dsj8lrtowy4ze\n6il3gTz7tWz0yOhSW0CYk6TpBAsSDjlRRh00hRs49M37Om9AkiVxQTPt1MPHnDYI\ni9SSrOtIx/
-    zIgTlCoVFTCHZKHw810G58AgahSRxatxI7fzy91fy9Ub2WYfCXDAog\nnoutVxRrAgMBAAECggEAD5H+Vym69dRs/XeCso5CULYMR/
-    6Tmz1JF+dc33NFGzBc\n3cYpY9lbSDNDbrKELFaoghXZsu1rRW2W1OyuaN2K2aEWjis4Rgdm8+m1jgjqKbEm\nRXWeYZZ1yMH+xNPnSoWfPMsuxa4sZRk73xWE6QsNtDoa+PWh/
-    SSrpzIZvbkg+DnW\nafuZBVseEwqGuYcZf+B65ePUegtX8/FlXvJmfI470vO2cX7piV2icr6YgU9SQD2r\nHFh/u3b8k1qBIV9UxEUX9HjOTXGG1t0/2/
-    AD55E5+9ztWOPwtr53BYiTLgpUpC+x\nJ4vLCE+xtThuiecgvNwmPaPL9pm09W3eVZIVIXcV4QKBgQD9rgDwxDoMxFKsXBYP\nhrjcZZlm4wjZJmKyngzu4oYnTUXSjvGee07npsq2l3+5/
-    nJaZzsKsRp6kPBE9pN0\nhVkRgZtVRXgZ5jtxLgaM5wm9vJG3vA0ApmB25MQtndCbml73bWQ8qbUUq09Lrdj7\nas2aluh56vjnFH1ZNQWS7QcJYQKBgQDbv5w4dYXdfhru4YhhMmP4FGd7AknEfAPF\nQyecWX5T/
-    L7cLUpwxTPKDmn0Xv9+CIz/bG7J/S9aKPd1MFpFlFFhmXotqQ3d4gHB\ne9Dpk8o1QEVNoUg/3xrT0hSsZKi6Y9FHHK5PY4v8y/Phiz9f2LqFDE03oR0/
-    B1gc\n0/8ib751SwKBgQC2nqwIp4qOpEpL0GMFPFwaNX3QZoJ5KLwGj+cJlcMzydoI8WSZ\nTXWJKDZoafnGIJmb4RLM6KACOhLt4oBWcqSjCKWVJlSGeIq0OIj4qF4H3BceqN7H\nZ/
-    6ruJZNrH1/dwsEnhh530X/oi+McJNysvleX2LuWaxjVgnCzXu8wKu/IQKBgQCD\nfVkOE4yBZ4bYL826UzusYxE0cr8POiHLdI6MKKTFvrO57cPgTK/blNpjpkB8+sLb\nx9dXOA+QhHjl/
-    4PUpJY5r2uDTOgGP8lLLDpquctCJ+4QMJSZ23cjDk7ehPDNbxL3\n2TqYOHm4T5Xj/L10LawWFrFRuy9T2qInxdahlXnClwKBgBdFN5Yf8dw+rGfvUU0Q\nk7bzrls36YpMTsuWs6zm9YLsy6wgUTOveaMNElH6iadT7HN4jrZt7huhkhANFzLm\n6+dkiUFCtu9ZxTV67VFnDbaAyMOhU/
-    WdUCOibcnbRY48Vfzh0bIXeXMmSGyZYr4G\nfQglRejjUtp9LTkhLvx6/3RN\n-----END PRIVATE KEY-----\n`;
-  
 
 
 
-
-function generateJWT() {
+function generateJWT(serviceAccount) {
     const header = {
-        "alg": "RS256",
-        "typ": "JWT"
+        alg: "RS256",
+        typ: "JWT"
     };
 
-    const iat = Math.floor(Date.now() / 1000);
-    const exp = iat + 3600; // Token มีอายุ 1 ชั่วโมง
+    const now = Math.floor(Date.now() / 1000);
     const payload = {
-        "iss": serviceAccountEmail,
-        "scope": "https://www.googleapis.com/auth/spreadsheets",
-        "aud": "https://oauth2.googleapis.com/token",
-        "exp": exp,
-        "iat": iat
+        iss: serviceAccount.client_email,
+        scope: "https://www.googleapis.com/auth/spreadsheets",
+        aud: "https://oauth2.googleapis.com/token",
+        exp: now + 3600, // หมดอายุใน 1 ชั่วโมง
+        iat: now
     };
 
-    const key = privateKey;
+    const privateKey = serviceAccount.private_key;
     const sHeader = JSON.stringify(header);
     const sPayload = JSON.stringify(payload);
 
-    return KJUR.jws.JWS.sign("RS256", sHeader, sPayload, key);
+   
+    const jwt = KJUR.jws.JWS.sign("RS256", sHeader, sPayload, privateKey);
+    return jwt;
 }
 
-
 function fetchAccessToken(callback) {
-    const jwtToken = generateJWT();
+    const serviceAccount = {
+  "type": "service_account",
+  "project_id": "registermain",
+  "private_key_id": "0f76971e5820e8df3431c4eae80fc8d619f55959",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDZwbpuppgpynmW\nu/ImSDad+dv1KiWWCNBE/Uib5iLNY6+Mhn8JT7pr25i52OZjHF8paZfBJkozWCBY\n0rP1RKM1wfYz2mUwDQicRubtac/h8B9kA/JMmpx+OeR6lPtGowjVn/ha9JS/4fwd\n51yZxQINkg1mE2bRMOuv1XvXW/71p8GcWw3MiUKAIH1Es0LcN22Dsj8lrtowy4ze\n6il3gTz7tWz0yOhSW0CYk6TpBAsSDjlRRh00hRs49M37Om9AkiVxQTPt1MPHnDYI\ni9SSrOtIx/zIgTlCoVFTCHZKHw810G58AgahSRxatxI7fzy91fy9Ub2WYfCXDAog\nnoutVxRrAgMBAAECggEAD5H+Vym69dRs/XeCso5CULYMR/6Tmz1JF+dc33NFGzBc\n3cYpY9lbSDNDbrKELFaoghXZsu1rRW2W1OyuaN2K2aEWjis4Rgdm8+m1jgjqKbEm\nRXWeYZZ1yMH+xNPnSoWfPMsuxa4sZRk73xWE6QsNtDoa+PWh/SSrpzIZvbkg+DnW\nafuZBVseEwqGuYcZf+B65ePUegtX8/FlXvJmfI470vO2cX7piV2icr6YgU9SQD2r\nHFh/u3b8k1qBIV9UxEUX9HjOTXGG1t0/2/AD55E5+9ztWOPwtr53BYiTLgpUpC+x\nJ4vLCE+xtThuiecgvNwmPaPL9pm09W3eVZIVIXcV4QKBgQD9rgDwxDoMxFKsXBYP\nhrjcZZlm4wjZJmKyngzu4oYnTUXSjvGee07npsq2l3+5/nJaZzsKsRp6kPBE9pN0\nhVkRgZtVRXgZ5jtxLgaM5wm9vJG3vA0ApmB25MQtndCbml73bWQ8qbUUq09Lrdj7\nas2aluh56vjnFH1ZNQWS7QcJYQKBgQDbv5w4dYXdfhru4YhhMmP4FGd7AknEfAPF\nQyecWX5T/L7cLUpwxTPKDmn0Xv9+CIz/bG7J/S9aKPd1MFpFlFFhmXotqQ3d4gHB\ne9Dpk8o1QEVNoUg/3xrT0hSsZKi6Y9FHHK5PY4v8y/Phiz9f2LqFDE03oR0/B1gc\n0/8ib751SwKBgQC2nqwIp4qOpEpL0GMFPFwaNX3QZoJ5KLwGj+cJlcMzydoI8WSZ\nTXWJKDZoafnGIJmb4RLM6KACOhLt4oBWcqSjCKWVJlSGeIq0OIj4qF4H3BceqN7H\nZ/6ruJZNrH1/dwsEnhh530X/oi+McJNysvleX2LuWaxjVgnCzXu8wKu/IQKBgQCD\nfVkOE4yBZ4bYL826UzusYxE0cr8POiHLdI6MKKTFvrO57cPgTK/blNpjpkB8+sLb\nx9dXOA+QhHjl/4PUpJY5r2uDTOgGP8lLLDpquctCJ+4QMJSZ23cjDk7ehPDNbxL3\n2TqYOHm4T5Xj/L10LawWFrFRuy9T2qInxdahlXnClwKBgBdFN5Yf8dw+rGfvUU0Q\nk7bzrls36YpMTsuWs6zm9YLsy6wgUTOveaMNElH6iadT7HN4jrZt7huhkhANFzLm\n6+dkiUFCtu9ZxTV67VFnDbaAyMOhU/WdUCOibcnbRY48Vfzh0bIXeXMmSGyZYr4G\nfQglRejjUtp9LTkhLvx6/3RN\n-----END PRIVATE KEY-----\n",
+  "client_email": "sheetdatabase@registermain.iam.gserviceaccount.com",
+  "client_id": "106958883894923260455",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sheetdatabase%40registermain.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+};
+
+    const jwt = generateJWT(serviceAccount);
 
     const url = "https://oauth2.googleapis.com/token";
-    const data = {
-        grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-        assertion: jwtToken
-    };
+    const params = new URLSearchParams();
+    params.append("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer");
+    params.append("assertion", jwt);
 
     fetch(url, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: JSON.stringify(data)
+        body: params
     })
-    .then(response => response.json())
-    .then(result => {
-        if (result.access_token) {
-            callback(result.access_token);
-        } else {
-            console.error("Error fetching access token:", result);
-        }
-    })
-    .catch(error => console.error("Fetch error:", error));
+        .then(response => response.json())
+        .then(data => {
+            if (data.access_token) {
+                callback(data.access_token);
+            } else {
+                console.error("Error fetching access token:", data);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching access token:", error);
+        });
 }
+
 
 function searchData() {
     const searchKeyElement = document.getElementById('searchKey');
