@@ -324,20 +324,20 @@ function addRegistrationData() {
     displayNextNumber();
 
     setTimeout(() => {
-        var number = document.getElementById('numb').textContent.trim();
-        var regisid = document.getElementById('registernumber').textContent.trim();
-        var name = document.getElementById('name').textContent.trim();
-        var idcard = document.getElementById('idcard').textContent.trim();
-        var sexage = document.getElementById('age').textContent.trim();
-        var card = document.getElementById('card').textContent.trim();
-        var depart = document.getElementById('depart').textContent.trim();
-        var birth = document.getElementById('birthday').textContent.trim();
-        var prog = document.getElementById('program').textContent.trim();
-        var date = document.getElementById('datetime').textContent.trim();
-        var desc = document.getElementById('desc').textContent.trim();
+        const number = document.getElementById('numb').textContent.trim();
+        const regisid = document.getElementById('registernumber').textContent.trim();
+        const name = document.getElementById('name').textContent.trim();
+        const idcard = document.getElementById('idcard').textContent.trim();
+        const sexage = document.getElementById('age').textContent.trim();
+        const card = document.getElementById('card').textContent.trim();
+        const depart = document.getElementById('depart').textContent.trim();
+        const birth = document.getElementById('birthday').textContent.trim();
+        const prog = document.getElementById('program').textContent.trim();
+        const date = document.getElementById('datetime').textContent.trim();
+        const desc = document.getElementById('desc').textContent.trim();
 
         // เตรียมข้อมูลตามรูปแบบของ Sheety
-        var data = {
+        const data = {
             "register": {
                 "number": number,
                 "regisid": regisid,
@@ -354,7 +354,7 @@ function addRegistrationData() {
         };
 
         // URL สำหรับตรวจสอบข้อมูล idcard ว่าซ้ำหรือไม่
-        var getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+        const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
 
         fetch(getUrl)
         .then(response => {
@@ -365,8 +365,8 @@ function addRegistrationData() {
         })
         .then(sheetData => {
             // ตรวจสอบว่ามี idcard ซ้ำหรือไม่
-            const rows = sheetData.register || [];
-            const isDuplicate = rows.some(row => row.idcard === idcard);
+            const rows = sheetData.values || [];
+            const isDuplicate = rows.some(row => row[3] === idcard);
 
             if (isDuplicate) {
                 // แจ้งเตือนว่ามี idcard นี้ลงทะเบียนแล้ว
@@ -376,9 +376,10 @@ function addRegistrationData() {
                     text: 'ID นี้ลงทะเบียนแล้ว!'
                 });
             } else {
-                var postUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register`;
+                // URL สำหรับ POST ข้อมูลไปยัง Sheety
+                const url = 'https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register';
 
-                fetch(postUrl, {
+                fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -391,10 +392,10 @@ function addRegistrationData() {
                     }
                     return response.json();
                 })
-                .then(result => {
-                    console.log("Data added successfully:", result);
+                .then(json => {
+                    console.log("Data added successfully:", json);
 
-                    // โหลดข้อมูลใหม่ และเรียกใช้ฟังก์ชันเพิ่มเติม
+                    // เรียกใช้ฟังก์ชันเพิ่มเติมหลังการลงทะเบียนสำเร็จ
                     loadAllRecords();
                     addRegistrationDataInner();
 
@@ -429,26 +430,29 @@ function addRegistrationData() {
     }, 2000); // ปิด setTimeout
 }
 
+
 function addRegistrationDataInner() {
-    var numr = document.getElementById('datetime').textContent.trim();
-    var regisid = document.getElementById('registernumber').textContent.trim();
-    var name = document.getElementById('name').textContent.trim();
+    const numr = document.getElementById('datetime').textContent.trim();
+    const regisid = document.getElementById('registernumber').textContent.trim();
+    const name = document.getElementById('name').textContent.trim();
     const type = "1ลงทะเบียน";
     const spec = 10;
 
     // เตรียมข้อมูลตามรูปแบบของ Sheety
-    var data = {
-        "specimencount": {
-            "numr": numr,
-            "regisid": regisid,
-            "name": name,
-            "spec": spec,
-            "type": type
+    const data = {
+        specimencount: {
+            numr: numr,
+            regisid: regisid,
+            name: name,
+            spec: spec,
+            type: type
         }
     };
 
-    var url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount`;
+    // URL สำหรับ POST ข้อมูลไปยัง Sheety
+    const url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount`;
 
+    // เรียกใช้ API เพื่อ POST ข้อมูล
     fetch(url, {
         method: 'POST',
         headers: {
@@ -457,8 +461,9 @@ function addRegistrationDataInner() {
         body: JSON.stringify(data)
     })
     .then(response => {
+        // ตรวจสอบสถานะการตอบกลับ
         if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
+            throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
         }
         return response.json();
     })
@@ -478,13 +483,14 @@ function addRegistrationDataInner() {
         loadAllRecords();
     })
     .catch(error => {
+        // แสดงข้อความ Error ใน Console
         console.error('Error in adding data:', error);
 
         // แจ้งเตือนเมื่อเกิดข้อผิดพลาด
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
+            text: `เกิดข้อผิดพลาดในการลงทะเบียน: ${error.message}`
         });
 
         // โหลดข้อมูลใหม่
