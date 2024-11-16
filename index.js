@@ -31,29 +31,6 @@ const rangesheet12 = 'specimencount!B1:EE';
 
 
 
-function generateJWT(serviceAccount) {
-    const header = {
-        alg: "RS256",
-        typ: "JWT"
-    };
-
-    const now = Math.floor(Date.now() / 1000);
-    const payload = {
-        iss: serviceAccount.client_email,
-        scope: "https://www.googleapis.com/auth/spreadsheets",
-        aud: "https://oauth2.googleapis.com/token",
-        exp: now + 3600,
-        iat: now
-    };
-
-    const sHeader = JSON.stringify(header);
-    const sPayload = JSON.stringify(payload);
-    const privateKey = serviceAccount.private_key;
-
-    // สร้าง JWT โดยใช้ jsrsasign
-    const jwt = KJUR.jws.JWS.sign("RS256", sHeader, sPayload, privateKey);
-    return jwt;
-}
 
 function fetchAccessToken(callback) {
     const serviceAccount = {
@@ -96,6 +73,30 @@ function fetchAccessToken(callback) {
         .catch(error => {
             console.error("Error fetching access token:", error);
         });
+}
+
+function generateJWT(serviceAccount) {
+    const header = {
+        alg: "RS256",
+        typ: "JWT"
+    };
+
+    const now = Math.floor(Date.now() / 1000);
+    const payload = {
+        iss: serviceAccount.client_email,
+        scope: "https://www.googleapis.com/auth/spreadsheets",
+        aud: "https://oauth2.googleapis.com/token",
+        exp: now + 3600,
+        iat: now
+    };
+
+    const sHeader = JSON.stringify(header);
+    const sPayload = JSON.stringify(payload);
+    const privateKey = serviceAccount.private_key;
+
+    // สร้าง JWT โดยใช้ jsrsasign
+    const jwt = KJUR.jws.JWS.sign("RS256", sHeader, sPayload, privateKey);
+    return jwt;
 }
 
 
