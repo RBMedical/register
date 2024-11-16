@@ -1594,6 +1594,20 @@ function closeSearch() {
 }
 
 
+function copyId(element) {
+    // element คือแถวที่ถูกคลิก
+    const idcard = element.querySelector(".idCardCell").textContent.trim();
+    const copyend = document.getElementById('idcard');
+
+    if (copyend) {
+        copyend.textContent = idcard; 
+    }
+
+    closeSearch();
+    searchDataFromId();
+}
+
+
 function searchDataSearch(){
    
       const searchId = document.getElementById('datasearchid').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
@@ -1638,18 +1652,6 @@ function searchDataSearch(){
   
 }
 
-function copyId(element) {
-    // element คือแถวที่ถูกคลิก
-    const idcard = element.querySelector(".idCardCell").textContent.trim();
-    const copyend = document.getElementById('idcard');
-
-    if (copyend) {
-        copyend.textContent = idcard; 
-    }
-
-    closeSearch();
-    searchDataFromId();
-}
 
 
 function filterRecords() {
