@@ -370,14 +370,10 @@ function addRegistrationData() {
             } else {
                 var postUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register!A2:ZZ`;
 
-                fetch(postUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + accessToken
-                    },
-                    body: JSON.stringify(data)
-                })
+              fetch(posturl, {
+                method: 'POST',
+                 body: JSON.stringify(data)
+             })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok: ' + response.statusText);
@@ -435,14 +431,10 @@ function addRegistrationDataInner() {
 
     var url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount!A2:ZZ`;
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken // ตรวจสอบว่า accessToken ถูกกำหนดค่าไว้
-        },
-        body: JSON.stringify(data)
-    })
+    fetch(posturl, {
+                method: 'POST',
+                 body: JSON.stringify(data)
+             })
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok: ' + response.statusText);
@@ -900,13 +892,9 @@ function buildSticker() {
                     const appendUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/sticker!A2:ZZ`;
 
                     fetch(appendUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + accessToken,
-                        },
-                        body: JSON.stringify(dataToSave)
-                    })
+                method: 'POST',
+                 body: JSON.stringify(dataToSave)
+             })
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
@@ -969,20 +957,16 @@ function addNewData() {
     // URL สำหรับส่งข้อมูลไปยัง Google Sheets
     const url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/data!A2:ZZ`;
 
-    // ตัวแปร body ที่ส่งไปใน body ของ request
+  
     const body = {
         "values": [newRow]
     };
 
     // การเรียกใช้ API เพื่อเพิ่มข้อมูลลงใน Google Sheets
-    fetch(url, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken // ตรวจสอบว่า accessToken ถูกกำหนดและได้รับค่าถูกต้อง
-        },
-        body: JSON.stringify(body)
-    })
+   fetch(url, {
+                method: 'POST',
+                 body: JSON.stringify(body)
+             })
     .then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok: " + response.statusText);
@@ -1135,13 +1119,9 @@ function addRegistData() {
     var url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount!A2:ZZ`;
 
     fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken, // แก้ไขช่องว่างระหว่าง Bearer และ accessToken
-        },
-        body: JSON.stringify(data)
-    })
+                method: 'POST',
+                 body: JSON.stringify(data)
+             })
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok: ' + response.statusText);
