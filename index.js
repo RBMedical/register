@@ -396,7 +396,7 @@ function addRegistrationData() {
                 })
                 .then(json => {
                     console.log("Data added successfully:", json);
-
+                    console.log(data);
                     
                     loadAllRecords();
                     addRegistrationDataInner();
@@ -472,8 +472,8 @@ function addRegistrationDataInner() {
     })
     .then(result => {
         console.log('Data added successfully:', result);
-
-        // แสดงผลการลงทะเบียนสำเร็จ
+        console.log(data);
+      
         Swal.fire({
             position: "center",
             icon: "success",
