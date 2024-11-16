@@ -364,7 +364,7 @@ function addRegistrationData() {
             } else {
                 var postUrl = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/register!A2:ZZ`;
 
-              fetch(posturl, {
+              fetch(postUrl, {
                 method: 'POST',
                  body: JSON.stringify(data)
              })
@@ -425,7 +425,7 @@ function addRegistrationDataInner() {
 
     var url = `https://api.sheety.co/81d55fb83b505e97bc0b9ccde1a6b361/untitledSpreadsheet/specimencount!A2:ZZ`;
 
-    fetch(posturl, {
+    fetch(url, {
                 method: 'POST',
                  body: JSON.stringify(data)
              })
