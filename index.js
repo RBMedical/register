@@ -35,65 +35,43 @@ const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----
                      MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQChWXEJlA2BlL4l\nhUYHzmHYRf32n12k6a48KvQasv1S3oclYxTFtS56u7+n8Kn3C5w46MFUYJ+pHbuD\n1sI5OQrYXRwWbLF0gLB4gA83eZ8UTiYlq8mPsr1K7SOcupnA9vTnBEtDlTwxkMTN\nUoptvVoZnZdjf/4Jr/bikdOqy8QR7r5FzeDzGjLBh6X8sOSlhNbbsd6sQU8IuD3I\ndv0NrxYSP60SgzTa5adXHsbdWZ6iezTArQr/SDg/wJsOOs+vtUVrEXCUSLsgI/13\nHMfbL1SwoDlgaSwYxO5G3BWx02/j9tg9+CdAaHBfjb4Z4QBV2j7SloUG9EyJNWc6\nnQf1GVF3AgMBAAECggEATcuhS/v9sx/zuoWS6Yqh9LRyqinW7f/aCZqwTftFV2KC\nCQ3H4zfjrDvAQgow+TO45Fudc8CO2uzCD+RJi2ushfwG4e0Qdtrhu4gLTjUu9Yxk\nqj81FTsaN/k09YmnProUBRs16uUWu9NQgKsuoZDt03H/n3MEGsmkIUQsqapL5FTT\nl73s08YLs0+/Mur4DhSeuqaQd0nZg52TEj2u8SOf4oUN0zFsBJsvmD9Tg9iCBOwp\nFXzRbdcv9bXbzvVx9vdMrG3qiEw5wGU+ur4oE/umndUibtJ18vZ6QotkSSFJ8DdJ\nhhNMDdH1Pe68tB68dsBbNER/NVjHKnKUwl7iJ/FokQKBgQDOnhefFBD8Hytzmv8Z\nGRDwRuGk8JWFeLVecnd6uP/co5OMA8iBtTQ05cKZfodmlTP4Ed1+vta1mrpRow9D\n2PF7SPgWnHrP+/NnwkEUrFSZqUsg9bAOz+4RaTfQzrgRAeG9q179GIcjrFCkZlh5\nclIfV7cIeJcBXcGV9w74b3s8PwKBgQDH6Z0W4P9h5sxVfPy33I4cVSxtkVzCM90h\nRIJGOAyR5EQ3WdYlYvabrRGlKHnZQKHiikHo3O1qqCc5L0YDuM+zpUQYarXQ63iX\nEVBOfPJ6uRLfEx015tDG1mr+Id9zg3y7g7mw9MBTbvN8HJUJ/eVCKFQ5wqTG/dfH\nyyk9s7f8yQKBgH+R/OOrcBE67YkjWf4VC/BO02MTaD5QmSsHYd3T+6YvGRqJ+3Ka\nfvFqKwy6or8jwEKaRTfMfKUEM6XUF8i8WdzU4NiVJP7lgRO/TI+HF3UIoepnx5xd\npY/6dwvllqBpmQeSl8ONMWNFMUVQK7BQdYQElG4WhqXBTZVaRVP/AQfhAoGAGH9h\nN6+EvBuLSKKTWXiWlZQ+aILaqhWu8GezyyUNLUeasGm620QAUl1n/yQxolTQQbGN\nmBqSoXJPtCs92jDoiuwipxdUhnCEi4acn7GiCTXqwRlXiAZr6SHXZKMD/eTMATKI\nK84iT1cWUUwzW1EYqf3FLHrUtGng6mPT/vKqBjkCgYEAzpIOaNyqeGQ0y3QZE4YT\nAeiiqp1yFzrfRqlxGZFEGI70sGlQ32NM+ZjOVJruc/Y+28viDSoZgMGEZ7v0kGJx\ne4baH4lCf1ynR9e19EHEyIgyu7aJxn/ndKWWj88YDu3zabETXf6nq25Q5tymDHhE\nUntioDK+8oiExL9zHp5Mils=\n-----END PRIVATE KEY-----\n`;
 const SHEET_ID = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 
-function addRegistrationDataInner() {
-    const numr = document.getElementById('datetime').textContent.trim();
-    const regisid = document.getElementById('registernumber').textContent.trim();
-    const name = document.getElementById('name').textContent.trim();
-    const type = "1ลงทะเบียน";
-    const spec = 10;
+const { google } = require('googleapis');
+const sheets = google.sheets('v4');
+const path = require('path');
 
-    const rowData = [[numr, regisid, name, spec, type]];
 
-    addRegisterInnerToGoogleSheet(rowData);
-}
+const keyFile = path.join(__dirname, 'serviceAccount.json');'; 
+const auth = new google.auth.GoogleAuth({
+    keyFile,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+});
 
-function addRegisterInnerToGoogleSheet(rowData) {
-    c
 
-    const jwtHeader = { alg: 'RS256', typ: 'JWT' };
-    const jwtPayload = {
-        iss: CLIENT_EMAIL,
-        scope: 'https://www.googleapis.com/auth/spreadsheets',
-        aud: 'https://oauth2.googleapis.com/token',
-        exp: Math.floor(Date.now() / 1000) + 3600,
-        iat: Math.floor(Date.now() / 1000)
-    };
 
-    const sJWT = KJUR.jws.JWS.sign('RS256', JSON.stringify(jwtHeader), JSON.stringify(jwtPayload), PRIVATE_KEY);
 
-    // ขอ Access Token
-    fetch('https://oauth2.googleapis.com/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${sJWT}`
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error fetching access token: ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(tokenResponse => {
-        const accessToken = tokenResponse.access_token;
 
-        // ส่งข้อมูลไปยัง Google Sheets API
-        return fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${rangesheet6}:append?valueInputOption=USER_ENTERED`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
+async function addRegisterInnerToGoogleSheet(rowData) {
+    try {
+        // สร้าง client สำหรับการเชื่อมต่อ
+        const client = await auth.getClient();
+
+        // เรียกใช้ Google Sheets API
+        const request = {
+            spreadsheetId: spreadsheetId,
+            range: rangesheet6,
+            valueInputOption: 'USER_ENTERED',
+            insertDataOption: 'INSERT_ROWS',
+            resource: {
+                values: rowData,
             },
-            body: JSON.stringify({ values: rowData })
-        });
-    })
-    .then(sheetResponse => {
-        if (!sheetResponse.ok) {
-            throw new Error('Error in adding data to Google Sheets: ' + sheetResponse.statusText);
-        }
-        return sheetResponse.json();
-    })
-    .then(data => {
-        console.log("Data added successfully to Google Sheets:", data);
+            auth: client,
+        };
+
+        // ส่งคำขอ append ข้อมูลลงใน Google Sheets
+        const response = await sheets.spreadsheets.values.append(request);
+        console.log("Data added successfully to Google Sheets:", response.data);
+
+        // แจ้งเตือนว่าการเพิ่มข้อมูลสำเร็จ
         Swal.fire({
             position: "center",
             icon: "success",
@@ -103,36 +81,51 @@ function addRegisterInnerToGoogleSheet(rowData) {
         });
 
         loadAllRecords(); // โหลดข้อมูลใหม่
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Error in adding data to Google Sheets:', error);
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
         });
-
         loadAllRecords(); // โหลดข้อมูลใหม่
-    });
+    }
+}
+
+// ฟังก์ชันสำหรับเตรียมข้อมูลและเรียกใช้งาน
+function addRegistrationDataInner() {
+    const numr = document.getElementById('datetime').textContent.trim();
+    const regisid = document.getElementById('registernumber').textContent.trim();
+    const name = document.getElementById('name').textContent.trim();
+    const type = "1ลงทะเบียน";
+    const spec = 10;
+
+    // สร้างข้อมูลที่ต้องการเพิ่ม
+    const rowData = [[numr, regisid, name, spec, type]];
+
+
 }
 
 
-function addRegistrationData() {
+
+
+
+
+async function addRegistrationData() {
     displayNextNumber();
 
-    setTimeout(() => {
+    setTimeout(async () => {
         const idcard = document.getElementById('idcard').textContent.trim();
-        
+
         const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
-        
-        fetch(getUrl)
-        .then(response => {
+
+        try {
+            const response = await fetch(getUrl);
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
             }
-            return response.json();
-        })
-        .then(sheetData => {
+
+            const sheetData = await response.json();
             const rows = sheetData.values || [];
             const isDuplicate = rows.some(row => row[3] === idcard);
 
@@ -157,85 +150,31 @@ function addRegistrationData() {
 
                 const rowData = [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]];
 
-                // ส่งข้อมูลโดยใช้ POST request ไปยัง Google Sheets API
-                addRegisterToGoogleSheet(rowData);
+                // ใช้ auth client ของ Google Service Account
+                const client = await auth.getClient();
+
+                // ตั้งค่า request สำหรับการเพิ่มข้อมูล
+                const request = {
+                    spreadsheetId,
+                    range: rangesheet3,
+                    valueInputOption: 'RAW',
+                    resource: {
+                        values: rowData,
+                    },
+                    auth: client,
+                };
+
+                // เรียกใช้ `sheets.spreadsheets.values.append`
+                const result = await sheets.spreadsheets.values.append(request);
+                console.log('Data added successfully:', result.data.updates);
             }
-        })
-        .catch(error => {
-            console.error('Error fetching sheet data:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'เกิดข้อผิดพลาดในการตรวจสอบข้อมูล!'
-            });
-        });
-    }, 2000);
+        } catch (error) {
+            console.error('Error adding data to Google Sheets:', error);
+        }
+    }, 1000); // เพิ่ม timeout ให้การทำงานราบรื่น
 }
 
-function addRegisterToGoogleSheet(rowData) {
-  
-
-    const jwtHeader = { alg: 'RS256', typ: 'JWT' };
-    const jwtPayload = {
-        iss: CLIENT_EMAIL,
-        scope: 'https://www.googleapis.com/auth/spreadsheets',
-        aud: 'https://oauth2.googleapis.com/token',
-        exp: Math.floor(Date.now() / 1000) + 3600,
-        iat: Math.floor(Date.now() / 1000)
-    };
-
-    const sJWT = KJUR.jws.JWS.sign('RS256', JSON.stringify(jwtHeader), JSON.stringify(jwtPayload), PRIVATE_KEY);
-
-    fetch('https://oauth2.googleapis.com/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${sJWT}`
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error fetching access token: ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(tokenResponse => {
-        const accessToken = tokenResponse.access_token;
-
-        // ส่งข้อมูลไปยัง Google Sheets API
-        return fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ values: rowData })
-        });
-    })
-    .then(sheetResponse => {
-        if (!sheetResponse.ok) {
-            throw new Error('Error in adding data to Google Sheets: ' + sheetResponse.statusText);
-        }
-        return sheetResponse.json();
-    })
-    .then(data => {
-        console.log("Data added successfully to Google Sheets:", data);
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "ลงทะเบียนสำเร็จ",
-            showConfirmButton: false,
-            timer: 1500
-        });
-    })
-    .catch(error => {
-        console.error('Error in adding data to Google Sheets:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'เกิดข้อผิดพลาดในการลงทะเบียน!'
-        });
-    });
-}
-
+    
 
 
 
