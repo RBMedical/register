@@ -40,7 +40,7 @@ const sheets = google.sheets('v4');
 const path = require('path');
 
 
-const keyFile = path.join(__dirname, 'serviceAccount.json');'; 
+const keyFile = path.join(__dirname, 'serviceAccount.json'); 
 const auth = new google.auth.GoogleAuth({
     keyFile,
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
