@@ -1,15 +1,4 @@
-const { GoogleAuth } = require('google-auth-library');
-const auth = new GoogleAuth({
-    keyFile: 'https://github.com/RBMedical/register/blob/main/serviceAccount.json', // path ของ Service Account JSON
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-});
 
-async function getAuthToken() {
-    const client = await auth.getClient();
-    const token = await client.getAccessToken();
-    return token;
-    console.log(token);
-}
 
 function showLoading() {
     document.getElementById('loadingIcon').style.display = 'block';
@@ -1788,7 +1777,7 @@ window.onload = function () {
   updateDateTime();
   loadDataTable();
   loadAllCount();
-  getAuthToken();
+
 }
 
 
