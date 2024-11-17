@@ -172,12 +172,7 @@ function addRegistrationData() {
 }
 
 function addRegisterToGoogleSheet(rowData) {
-    const CLIENT_EMAIL = 'your-service-account-email@project-id.iam.gserviceaccount.com';
-    const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----
-YOUR_PRIVATE_KEY_HERE
------END PRIVATE KEY-----`;
-    const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID';
-    const RANGE = 'Sheet1!A1';
+  
 
     const jwtHeader = { alg: 'RS256', typ: 'JWT' };
     const jwtPayload = {
@@ -205,7 +200,7 @@ YOUR_PRIVATE_KEY_HERE
         const accessToken = tokenResponse.access_token;
 
         // ส่งข้อมูลไปยัง Google Sheets API
-        return fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}:append?valueInputOption=USER_ENTERED`, {
+        return fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${rangesheet3}:append?valueInputOption=USER_ENTERED`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -958,12 +953,7 @@ function buildSticker() {
 }
 
 function addStickerToGoogleSheet(rowData) {
-    const CLIENT_EMAIL = 'your-service-account-email@project-id.iam.gserviceaccount.com';
-    const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----
-YOUR_PRIVATE_KEY_HERE
------END PRIVATE KEY-----`;
-    const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID';
-    const RANGE = 'Sheet9!A1';
+    
 
     const jwtHeader = { alg: 'RS256', typ: 'JWT' };
     const jwtPayload = {
