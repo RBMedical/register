@@ -74,7 +74,7 @@ async function addRegistrationData() {
 
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec';
-
+        console.log(scriptURL);
         // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
         const postData = {
             action: 'addRegistration',
