@@ -35,48 +35,60 @@ const rangesheet12 = 'specimencount!B1:EE';
 
 
 async function addRegistrationData() {
-    displayNextNumber();
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`; 
+    try {
+        // เรียกฟังก์ชันแสดงลำดับถัดไป
+        displayNextNumber();
 
-    // ดึงข้อมูลทั้งหมดจากแผ่นงาน Google Sheets
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(sheetData => {
-            // ตรวจสอบว่ามี idcard ซ้ำหรือไม่
-            const rows = sheetData.values || [];
-            const isDuplicate = rows.some(row => row[3] === idcard); // สมมุติว่า idcard อยู่ในคอลัมน์ที่ 4 (index 3)
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+        
+        // ดึงข้อมูลทั้งหมดจาก Google Sheets
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
 
-            if (isDuplicate) {
-                // แจ้งเตือนว่ามี idcard นี้ลงทะเบียนแล้ว
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'ID นี้ลงทะเบียนแล้ว!'
-                });
-            } else {
+        const sheetData = await response.json();
+
+        // ตรวจสอบว่ามี idcard ซ้ำหรือไม่
+        const rows = sheetData.values || [];
+        const isDuplicate = rows.some(row => row[3] === idcard); // สมมุติว่า idcard อยู่ในคอลัมน์ที่ 4 (index 3)
+
+        if (isDuplicate) {
+            // แจ้งเตือนว่ามี idcard นี้ลงทะเบียนแล้ว
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'ID นี้ลงทะเบียนแล้ว!'
+            });
+            return;
+        }
+
+        // สร้างข้อมูลที่ต้องการเพิ่ม
+        const numr = document.getElementById('datetime').textContent.trim();
+        const regisid = document.getElementById('registernumber').textContent.trim();
+        const name = document.getElementById('name').textContent.trim();
+        const type = "1ลงทะเบียน";
+        const spec = 10;
+
+        const rowData = [[numr, regisid, name, spec, type]];
+
+        // URL ของ Google Apps Script Web App ที่ Deploy ไว้
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec';
+
+        // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
         const postData = {
             action: 'addRegistration',
             rowData: rowData
         };
 
-        const postResponse = fetch(scriptURL, {
+        // ส่งข้อมูลไปยัง Google Apps Script
+        const postResponse = await fetch(scriptURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(postData)
         });
-        console.log("Fetching data from URL:", scriptUrl);
-        // ตรวจสอบ response
-        if (!postResponse.ok) {
-            throw new Error(`Failed to add data: ${postResponse.statusText}`);
-        }
 
-        const result =  postResponse.json();
+        const result = await postResponse.json();
         if (result.success) {
             Swal.fire({
                 position: "center",
@@ -85,8 +97,9 @@ async function addRegistrationData() {
                 showConfirmButton: false,
                 timer: 1500
             });
-            // เรียกฟังก์ชันภายในเพิ่มเติม (หากมี)
-            addRegistrationDataInner();
+
+            // เรียกฟังก์ชันภายในเพิ่มเติม
+            await addRegistrationDataInner();
         } else {
             throw new Error(result.error || 'Failed to add data');
         }
@@ -101,30 +114,26 @@ async function addRegistrationData() {
     }
 }
 
-
-
-
-
 async function addRegistrationDataInner() {
-    const numr = document.getElementById('datetime').textContent.trim();
-    const regisid = document.getElementById('registernumber').textContent.trim();
-    const name = document.getElementById('name').textContent.trim();
-    const type = "1ลงทะเบียน";
-    const spec = 10;
-
-    // สร้างข้อมูลที่ต้องการเพิ่ม
-    const rowData = [[numr, regisid, name, spec, type]];
-
-    // URL ของ Google Apps Script Web App ที่ Deploy ไว้
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec';
-    
-    // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
-    const postData = {
-        action: 'addRegistrationInner',
-        rowData: rowData
-    };
-
     try {
+        const numr = document.getElementById('datetime').textContent.trim();
+        const regisid = document.getElementById('registernumber').textContent.trim();
+        const name = document.getElementById('name').textContent.trim();
+        const type = "1ลงทะเบียน";
+        const spec = 10;
+
+        // สร้างข้อมูลที่ต้องการเพิ่ม
+        const rowData = [[numr, regisid, name, spec, type]];
+
+        // URL ของ Google Apps Script Web App ที่ Deploy ไว้
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec';
+
+        // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
+        const postData = {
+            action: 'addRegistrationInner',
+            rowData: rowData
+        };
+
         // ส่งข้อมูลไปยัง Google Apps Script
         const response = await fetch(scriptURL, {
             method: 'POST',
@@ -133,9 +142,8 @@ async function addRegistrationDataInner() {
         });
 
         const result = await response.json();
-        
+
         if (result.success) {
-            console.log("Data added successfully to Google Sheets:", result);
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -155,15 +163,6 @@ async function addRegistrationDataInner() {
         });
     }
 }
-
-
-
-
-    
-
-
-
-
 
 function searchData() {
     const searchKeyElement = document.getElementById('searchKey');
@@ -824,12 +823,22 @@ async function buildSticker() {
     const regisid = document.getElementById('newid').value.trim();
     const name = document.getElementById('newname').value.trim();
     
-    // ตรวจสอบข้อมูลว่าครบหรือไม่
+    // ตรวจสอบข้อมูลว่าครบถ้วนหรือไม่
     if (!program || !newidcard || !regisid || !name) {
         Swal.fire({
             icon: 'warning',
             title: 'ข้อมูลไม่ครบถ้วน',
             text: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+        });
+        return;
+    }
+
+    // ตรวจสอบเลขบัตรประชาชนว่ามีความยาว 13 หลัก
+    if (newidcard.length !== 13 || isNaN(newidcard)) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'เลขบัตรประชาชนไม่ถูกต้อง',
+            text: 'กรุณากรอกเลขบัตรประชาชนให้ถูกต้อง (13 หลัก)'
         });
         return;
     }
@@ -854,6 +863,11 @@ async function buildSticker() {
             body: JSON.stringify(postData)
         });
 
+        // ตรวจสอบสถานะการตอบกลับจากเซิร์ฟเวอร์
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const result = await response.json();
 
         if (result.success) {
@@ -872,10 +886,11 @@ async function buildSticker() {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'เกิดข้อผิดพลาดในการสร้างสติกเกอร์!'
+            text: 'เกิดข้อผิดพลาดในการสร้างสติกเกอร์! กรุณาลองใหม่อีกครั้ง.'
         });
     }
 }
+
 
 
 
@@ -893,12 +908,32 @@ async function addNewData() {
     const newage = document.getElementById('newage').textContent.trim();
     const newprogram = document.getElementById('newprogram').value.trim();
 
-    // ตรวจสอบว่าได้กรอกข้อมูลครบถ้วนหรือไม่
+    // ตรวจสอบข้อมูลว่าครบถ้วนหรือไม่
     if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
         Swal.fire({
             icon: 'warning',
             title: 'ข้อมูลไม่ครบถ้วน',
             text: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+        });
+        return;
+    }
+
+    // ตรวจสอบเลขบัตรประชาชนว่ามีความยาว 13 หลักและเป็นตัวเลข
+    if (newidcard.length !== 13 || isNaN(newidcard)) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'เลขบัตรประชาชนไม่ถูกต้อง',
+            text: 'กรุณากรอกเลขบัตรประชาชนให้ถูกต้อง (13 หลัก)'
+        });
+        return;
+    }
+
+    // ตรวจสอบค่าอายุว่าเป็นตัวเลข
+    if (isNaN(newage)) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'อายุไม่ถูกต้อง',
+            text: 'กรุณากรอกอายุให้ถูกต้อง'
         });
         return;
     }
@@ -923,6 +958,11 @@ async function addNewData() {
             body: JSON.stringify(postData)
         });
 
+        // ตรวจสอบสถานะการตอบกลับจากเซิร์ฟเวอร์
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const result = await response.json();
         
         if (result.success) {
@@ -933,6 +973,7 @@ async function addNewData() {
                 showConfirmButton: false,
                 timer: 1500
             });
+
             // ล้างฟอร์มหลังจากเพิ่มข้อมูลสำเร็จ
             document.getElementById('newid').value = '';
             document.getElementById('newname').value = '';
@@ -954,7 +995,6 @@ async function addNewData() {
         });
     }
 }
-
 
 
 function openSheet() {
