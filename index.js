@@ -63,14 +63,19 @@ async function addRegistrationData() {
             return;
         }
 
-        // สร้างข้อมูลที่ต้องการเพิ่ม
-        const numr = document.getElementById('datetime').textContent.trim();
-        const regisid = document.getElementById('registernumber').textContent.trim();
-        const name = document.getElementById('name').textContent.trim();
-        const type = "1ลงทะเบียน";
-        const spec = 10;
+     var number = document.getElementById('numb').textContent.trim();
+    var regisid = document.getElementById('registernumber').textContent.trim();
+    var name = document.getElementById('name').textContent.trim();
+    var idcard = document.getElementById('idcard').textContent.trim();
+    var sexage = document.getElementById('age').textContent.trim();
+    var card = document.getElementById('card').textContent.trim();
+    var depart = document.getElementById('depart').textContent.trim();
+    var birth = document.getElementById('birthday').textContent.trim();
+    var prog = document.getElementById('program').textContent.trim();
+    var date = document.getElementById('datetime').textContent.trim();
 
-        const rowData = [[numr, regisid, name, spec, type]];
+
+        const rowData = [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date]];
         console.log(rowData);
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec';
