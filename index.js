@@ -822,78 +822,109 @@ function loadDataTable() {
 
 async function buildSticker() {
     const program = document.getElementById('newprogram').value.trim();
-    const newidcard = document.getElementById('newidcard').value.trim();
-    const regisid = document.getElementById('newid').value.trim();
-    const name = document.getElementById('newname').value.trim();
-    const barcode ="*"&newid
-    
-    // ตรวจสอบข้อมูลว่าครบถ้วนหรือไม่
-    if (!program || !newidcard || !regisid || !name) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'ข้อมูลไม่ครบถ้วน',
-            text: 'กรุณากรอกข้อมูลให้ครบถ้วน'
-        });
-        return;
-    }
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
-    // ตรวจสอบเลขบัตรประชาชนว่ามีความยาว 13 หลัก
-    if (newidcard.length !== 13 || isNaN(newidcard)) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'เลขบัตรประชาชนไม่ถูกต้อง',
-            text: 'กรุณากรอกเลขบัตรประชาชนให้ถูกต้อง (13 หลัก)'
-        });
-        return;
-    }
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data received from API:', data);
 
-    // URL ของ Google Apps Script Web App
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec';
-    
-    // เตรียมข้อมูลสำหรับการ POST
-    const postData = {
-        action: 'buildSticker',
-        program: program,
-        newidcard: newidcard,
-        regisid: regisid,
-        name: name
-    };
+            if (data.values) {
+                const matchingRows = data.values.filter(row => row[0] === program);
 
-    try {
-        // ส่งข้อมูลไปยัง Google Apps Script
-        const response = await fetch(scriptURL, {
+                console.log('Matching rows:', matchingRows);
+
+                if (matchingRows.length === 0) {
+                    alert('ไม่พบข้อมูลที่ตรงกับโปรแกรม');
+                    return;
+                }
+
+                matchingRows.forEach(row => {
+                    const n1 = document.getElementById('newidcard').value.trim();          
+                    const n2 = document.getElementById('idcard');
+                    n2.innerText = n1;
+
+                    const method = row[2] || 'Unknown method';  // ตรวจสอบว่ามีค่าไหม
+                    const methodid = row[3] || 'Unknown methodid'; // ตรวจสอบว่ามีค่าไหม
+                    const custom = row[4] || 'Unknown custom'; // ตรวจสอบว่ามีค่าไหม
+                    const regisidInput = document.getElementById("newid");
+                    const nameInput = document.getElementById("newname");
+                    const programInput = document.getElementById("newprogram");
+
+                    if (!regisidInput || !nameInput || !programInput) {
+                        console.error('ไม่พบ element newid, newname หรือ newprogram');
+                        alert('ไม่พบข้อมูลการลงทะเบียน');
+                        return;
+                    }
+
+                    const regisid = regisidInput.value;
+                    const name = nameInput.value;
+
+                    if (!regisid || !name) {
+                        console.error('ไม่สามารถดึงค่า regisid หรือ name');
+                        alert('กรุณากรอกข้อมูลให้ครบ');
+                        return;
+                    }
+
+                    const barcodesticker = "*" + String(regisid) + String(methodid) + "*";
+                    const stickerid = String(regisid) + String(program);
+
+                    const dataToSave = {
+                        values: [[regisid, barcodesticker, stickerid, name, custom, method]]
+                    };
+                    console.log(dataToSave);
+                    
+                    const appendUrl = `https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec`;
+
+                    const postData = {
+            action: 'buildSticker',
+            rowData: dataToSave
+        };
+
+       
+        const response = await fetch(appendUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(postData)
         });
-
-        // ตรวจสอบสถานะการตอบกลับจากเซิร์ฟเวอร์
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.success) {
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "สร้างสติกเกอร์สำเร็จ",
-                showConfirmButton: false,
-                timer: 1500
-            });
-        } else {
-            throw new Error(result.error || 'Failed to build sticker');
-        }
-    } catch (error) {
-        console.error('Error in building sticker:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'เกิดข้อผิดพลาดในการสร้างสติกเกอร์! กรุณาลองใหม่อีกครั้ง.'
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        console.log('Data saved successfully:', result);
+                    })
+                    .catch(error => {
+                        console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
+                        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                    });
+                });
+            }
+        })
+        .catch(error => {
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
         });
-    }
+
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'เพิ่มข้อมูลสำเร็จ',
+        showConfirmButton: false,
+        timer: 1500
+    });
+
+    setTimeout(() => { 
+        clearRegisterPage(); 
+    }, 1000);
+    closeNewRegister();
 }
+
 
 
 
@@ -946,7 +977,7 @@ async function addNewData() {
     const rowData = [[newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram]];
 
     // URL ของ Google Apps Script Web App
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec';
+    const scriptURL2 = 'https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec';
     
     // เตรียมข้อมูลสำหรับการ POST
     const postData = {
@@ -956,9 +987,8 @@ async function addNewData() {
 
     try {
         // ส่งข้อมูลไปยัง Google Apps Script
-        const response = await fetch(scriptURL, {
+        const response = await fetch(scriptURL2, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(postData)
         });
 
