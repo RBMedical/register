@@ -71,7 +71,7 @@ async function addRegistrationData() {
         const spec = 10;
 
         const rowData = [[numr, regisid, name, spec, type]];
-
+        console.log(rowData);
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec';
         console.log(scriptURL);
