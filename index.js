@@ -89,7 +89,6 @@ async function addRegistrationData() {
         // ส่งข้อมูลไปยัง Google Apps Script
         const postResponse = await fetch(url1, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(postData)
         });
 
