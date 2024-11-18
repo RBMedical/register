@@ -78,7 +78,7 @@ async function addRegistrationData() {
         const rowData = [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date]];
         console.log(rowData);
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
-        const url1 = 'https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec';
+        const url1 = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
         console.log(url1);
         // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
         const postData = {
@@ -130,7 +130,7 @@ async function addRegistrationDataInner() {
         const rowData = [[numr, regisid, name, spec, type]];
 
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
-        const url2 = 'https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec';
+        const url2 = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
 
         // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
         const postData = {
@@ -879,7 +879,7 @@ async function buildSticker() {
                     };
                     console.log(dataToSave);
                     
-                    const appendUrl = `https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec`;
+                    const appendUrl = `https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec`;
 
                     const postData = {
             action: 'buildSticker',
@@ -977,7 +977,7 @@ async function addNewData() {
     const rowData = [[newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram]];
 
     // URL ของ Google Apps Script Web App
-    const scriptURL2 = 'https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec';
+    const scriptURL2 = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
     
     // เตรียมข้อมูลสำหรับการ POST
     const postData = {
@@ -1116,122 +1116,88 @@ function sendBarcode() {
 
 
 async function addRegistData() {
-    const barinput = document.getElementById('inputbar').value.trim();
-    const barcodenewid = document.getElementById('barregisterid').textContent.trim();
-    const barcodename = document.getElementById('barname').textContent.trim();
-    const inputdate = document.getElementById('datetime').textContent;
-
-    const inputmethodbar = barinput.slice(-2);
+   
+    var barinput = document.getElementById('inputbar').value.trim();
+    var barcodenewid = document.getElementById('barregisterid').textContent.trim();
+    var barcodename = document.getElementById('barname').textContent.trim();
+    var inputdate = document.getElementById('datetime').textContent;
+    var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
     console.log(inputmethodbar);
-    let specimen;
+    var barinputmethod = inputmethodbar;
+    var specimen;
 
-    const specimenMap = {
-        "11": "PE",
-        "12": "EDTA",
-        "13": "Urine",
-        "14": "X Ray",
-        "15": "EKG",
-        "20": "naf",
-        "21": "Clot",
-        "16": "Audiogram",
-        "17": "Lung",
-        "18": "Eyes",
-        "19": "Muscle"
+    switch (barinputmethod) {
+        case "11":
+            specimen = "PE";
+            break;
+        case "12":
+            specimen = "EDTA";
+            break;
+        case "13":
+            specimen = "Urine";
+            break;
+        case "14":
+            specimen = "X Ray";
+            break;
+        case "15":
+            specimen = "EKG";
+            break;
+        case "20":
+            specimen = "naf";
+            break;
+        case "21":
+            specimen = "Clot";
+            break;
+        case "16":
+            specimen = "Audiogram";
+            break;
+        case "17":
+            specimen = "Lung";
+            break;
+        case "18":
+            specimen = "Eyes";
+            break;
+        case "19":
+            specimen = "Muscle";
+            break;
+        default:
+            specimen = "ไม่พบข้อมูล";
+            break;
+    }
+
+
+
+    var data = {
+        values: [[inputdate, barcodenewid, barcodename, barinputmethod, specimen]]
     };
+    console.log(data);
+    const url4 = `https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec`;
 
-    specimen = specimenMap[inputmethodbar] || "ไม่พบข้อมูล";
+      const postData = {
+            action: 'addRegistData',
+            rowData: data
+        };
 
-    const postData = {
-        action: 'addRegistData',
-        inputdate: inputdate,
-        barcodenewid: barcodenewid,
-        barcodename: barcodename,
-        inputmethodbar: inputmethodbar,
-        specimen: specimen
-    };
-
-    try {
-        const scriptURL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
-        const response = await fetch(scriptURL, {
+       
+        const response = await fetch(url4, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(postData)
         });
-
-        const result = await response.json();
-
-        if (result.success) {
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "เพิ่มข้อมูลสำเร็จ",
-                showConfirmButton: false,
-                timer: 1500
-            });
-        } else {
-            throw new Error(result.error || 'Failed to add data');
-        }
-    } catch (error) {
-        console.error('Error in adding data:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'เกิดข้อผิดพลาดในการเพิ่มข้อมูล!'
-        });
-    }
-}
-
-
-
-
-function loadAllData() {
-
-
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-
-    fetch(url)
+  
         .then(response => {
             if (!response.ok) {
-                throw new Error("Network response was not ok " + response.statusText);
+                throw new Error('Network response was not ok: ' + response.statusText);
             }
             return response.json();
         })
         .then(data => {
-            const resultDiv1 = document.getElementById('specimenresult');
-            resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
+            console.log("Success:", data);
+            loadAllData();
 
-            // ตรวจสอบว่ามีข้อมูลหรือไม่
-            if (!data.values || data.values.length === 0) {
-                resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
-                return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
-            }
-
-            // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
-            const sortedData = data.values.sort((a, b) => {
-                const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
-                const valueB = parseInt(b[0], 10);
-                return valueB - valueA; // เรียงจากมากไปน้อย
-            });
-
-            // แสดงข้อมูลใน resultDiv1
-            sortedData.forEach(row => {
-                if (row[4] !== "1ลงทะเบียน") {
-                    resultDiv1.innerHTML +=
-                        `<tr>
-                 <th scope="row" class="col-3 text-center">${row[0]}</th>
-                 <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
-                 <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
-                 <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
-               </tr>`;
-                }
-            });
-
-            // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
-            loadAllCount();
         })
         .catch(error => {
-            console.error("Error fetching data:", error);
-            alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+            console.error('Error:', error);
+            alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
         });
 
 
