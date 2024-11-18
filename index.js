@@ -825,6 +825,7 @@ async function buildSticker() {
     const newidcard = document.getElementById('newidcard').value.trim();
     const regisid = document.getElementById('newid').value.trim();
     const name = document.getElementById('newname').value.trim();
+    const barcode ="*"&newid
     
     // ตรวจสอบข้อมูลว่าครบถ้วนหรือไม่
     if (!program || !newidcard || !regisid || !name) {
