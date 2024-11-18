@@ -42,7 +42,7 @@ async function addRegistrationData() {
         const idcard = document.getElementById('idcard').textContent.trim();
 
         
-        const getUrl = `https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec?action=checkDuplicate&idcard=${idcard}`;
+        const getUrl = `https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec`;
         const response = await fetch(getUrl);
         
         if (!response.ok) {
