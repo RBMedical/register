@@ -130,7 +130,7 @@ async function addRegistrationDataInner() {
         const rowData = [[numr, regisid, name, spec, type]];
 
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec';
+        const url2 = 'https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec';
 
         // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
         const postData = {
@@ -139,9 +139,8 @@ async function addRegistrationDataInner() {
         };
 
         // ส่งข้อมูลไปยัง Google Apps Script
-        const response = await fetch(scriptURL, {
+        const response = await fetch(url2, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(postData)
         });
 
