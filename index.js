@@ -35,47 +35,30 @@ const rangesheet12 = 'specimencount!B1:EE';
 
 
 async function addRegistrationData() {
-    try {
-       
-        await displayNextNumber();
+    displayNextNumber();
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`; 
 
-        const idcard = document.getElementById('idcard').textContent.trim();
+    // ดึงข้อมูลทั้งหมดจากแผ่นงาน Google Sheets
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(sheetData => {
+            // ตรวจสอบว่ามี idcard ซ้ำหรือไม่
+            const rows = sheetData.values || [];
+            const isDuplicate = rows.some(row => row[3] === idcard); // สมมุติว่า idcard อยู่ในคอลัมน์ที่ 4 (index 3)
 
-        
-        const getUrl = `https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec`;
-        const response = await fetch(getUrl);
-        
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-
-        const checkData = await response.json();
-        const isDuplicate = checkData.isDuplicate;
-
-        if (isDuplicate) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'ID นี้ลงทะเบียนแล้ว!'
-            });
-            return; // ออกจากฟังก์ชันหากข้อมูลซ้ำ
-        }
-
-        // เตรียมข้อมูลที่ต้องการเพิ่มลง Google Sheets
-        const number = document.getElementById('numb').textContent.trim();
-        const regisid = document.getElementById('registernumber').textContent.trim();
-        const name = document.getElementById('name').textContent.trim();
-        const sexage = document.getElementById('age').textContent.trim();
-        const card = document.getElementById('card').textContent.trim();
-        const depart = document.getElementById('depart').textContent.trim();
-        const birth = document.getElementById('birthday').textContent.trim();
-        const prog = document.getElementById('program').textContent.trim();
-        const date = document.getElementById('datetime').textContent.trim();
-        const desc = document.getElementById('desc').textContent.trim();
-
-        const rowData = [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]];
-
-        // ส่งข้อมูลไปยัง Google Apps Script
+            if (isDuplicate) {
+                // แจ้งเตือนว่ามี idcard นี้ลงทะเบียนแล้ว
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'ID นี้ลงทะเบียนแล้ว!'
+                });
+            } else {
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyK9y-OP7ZFX2zO45Fk3vDE6LlFyC3E6QsZ9PmMZwVLGayiDn3LuFnNhAvHSxNLZ_0_1A/exec';
         const postData = {
             action: 'addRegistration',
