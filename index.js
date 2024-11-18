@@ -70,7 +70,7 @@ async function addRegistrationData() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(postData)
         });
-
+        console.log("Fetching data from URL:", scriptUrl);
         // ตรวจสอบ response
         if (!postResponse.ok) {
             throw new Error(`Failed to add data: ${postResponse.statusText}`);
