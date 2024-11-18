@@ -78,8 +78,8 @@ async function addRegistrationData() {
         const rowData = [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date]];
         console.log(rowData);
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec';
-        console.log(scriptURL);
+        const url1 = 'https://script.google.com/macros/s/AKfycbyaE6Bj0zt8WLTGr4tJnlDoMX_xsHo67JG-8pA9K2a7SrHvQc1tckC-NMwzuO010WLLBw/exec';
+        console.log(url1);
         // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
         const postData = {
             action: 'addRegistration',
@@ -87,7 +87,7 @@ async function addRegistrationData() {
         };
 
         // ส่งข้อมูลไปยัง Google Apps Script
-        const postResponse = await fetch(scriptURL, {
+        const postResponse = await fetch(url1, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(postData)
