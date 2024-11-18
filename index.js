@@ -65,7 +65,7 @@ async function addRegistrationData() {
             rowData: rowData
         };
 
-        const postResponse = await fetch(scriptURL, {
+        const postResponse = fetch(scriptURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(postData)
@@ -76,7 +76,7 @@ async function addRegistrationData() {
             throw new Error(`Failed to add data: ${postResponse.statusText}`);
         }
 
-        const result = await postResponse.json();
+        const result =  postResponse.json();
         if (result.success) {
             Swal.fire({
                 position: "center",
