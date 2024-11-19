@@ -973,27 +973,7 @@ async function addNewData() {
         return;
     }
 
-    // ตรวจสอบเลขบัตรประชาชนว่ามีความยาว 13 หลักและเป็นตัวเลข
-    if (newidcard.length !== 13 || isNaN(newidcard)) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'เลขบัตรประชาชนไม่ถูกต้อง',
-            text: 'กรุณากรอกเลขบัตรประชาชนให้ถูกต้อง (13 หลัก)'
-        });
-        return;
-    }
-
-    // ตรวจสอบค่าอายุว่าเป็นตัวเลข
-    if (isNaN(newage)) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'อายุไม่ถูกต้อง',
-            text: 'กรุณากรอกอายุให้ถูกต้อง'
-        });
-        return;
-    }
-
-    // เตรียมข้อมูลใหม่ที่จะเพิ่ม
+   
     const rowData = [[newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram]];
 
     // URL ของ Google Apps Script Web App
