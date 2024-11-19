@@ -895,13 +895,9 @@ function buildSticker() {
                         action: 'buildSticker',
                         rowData: dataToSave
                     };
-
-                    // POST ข้อมูลไปยัง Google Apps Script
+                  
                     fetch(appendUrl, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
                         body: JSON.stringify(postData)
                     })
                         .then(saveResponse => {
