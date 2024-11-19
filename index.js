@@ -233,7 +233,7 @@ async function buildSticker() {
         const postResponse = await fetch(scriptURL, {
             method: 'POST',
             body: JSON.stringify(postData)
-           },
+           
         });
 
         const result = await postResponse.json();
