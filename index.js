@@ -211,30 +211,32 @@ async function buildSticker() {
             return;
         }
 
-        // ใช้ข้อมูลแถวที่ตรงกันเพื่อสร้างข้อมูลสำหรับ Sticker
-        const row = matchingRows[0]; // เลือกแถวแรกที่ตรงกัน
-        const method = row[2] || 'Unknown method';
-        const methodid = row[3] || 'Unknown methodid';
-        const custom = row[4] || 'Unknown custom';
+        // สร้างข้อมูล Sticker สำหรับทุกแถวที่ตรงกัน
+        const rowData = matchingRows.map(row => {
+            const method = row[2] || 'Unknown method';
+            const methodid = row[3] || 'Unknown methodid';
+            const custom = row[4] || 'Unknown custom';
 
-        // สร้าง Barcode และ Sticker ID
-        const barcodesticker = `*${regisid}${methodid}*`;
-        const stickerid = `${regisid}${program}`;
+            const barcodesticker = `*${regisid}${methodid}*`;
+            const stickerid = `${regisid}${program}`;
+
+            return [regisid, barcodesticker, stickerid, name, custom, method];
+        });
+
+        console.log('Prepared data for stickers:', rowData);
 
         // เตรียมข้อมูลสำหรับส่งไปยัง Google Apps Script
-        const rowData = [[regisid, barcodesticker, stickerid, name, custom, method]];
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
-      
         const postData = {
             action: 'buildSticker',
-            rowData: rowData   
+            rowData: rowData,
         };
 
-       
+        // ส่งข้อมูลไปยัง Google Apps Script
         const postResponse = await fetch(scriptURL, {
             method: 'POST',
-            body: JSON.stringify(postData)
-           
+            body: JSON.stringify(postData),
+            headers: { 'Content-Type': 'application/json' },
         });
 
         const result = await postResponse.json();
@@ -248,7 +250,7 @@ async function buildSticker() {
                 timer: 1500,
             });
 
-            // ล้างฟอร์มหลังจากบันทึกสำเร็จ
+            
             clearRegisterPage();
             closeNewRegister();
         } else {
@@ -263,6 +265,7 @@ async function buildSticker() {
         });
     }
 }
+
 
 
 
@@ -325,7 +328,10 @@ async function addNewData() {
                 timer: 1500
             });
 
-            // เรียกฟังก์ชัน buildSticker
+           const a = document.getElementById('idcard');
+           const b = document.getElementById('newidcard').value;
+           a.innerText = b;
+            
             await buildSticker();
         } else {
             throw new Error(result.error || 'Failed to add data');
