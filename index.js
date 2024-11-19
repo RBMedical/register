@@ -820,7 +820,7 @@ function loadDataTable() {
 
 }
 
-async function buildSticker() {
+function buildSticker() {
     const program = document.getElementById('newprogram').value.trim();
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet8}?key=${apiKey}`;
 
@@ -836,29 +836,36 @@ async function buildSticker() {
 
             if (data.values) {
                 const matchingRows = data.values.filter(row => row[0] === program);
-
                 console.log('Matching rows:', matchingRows);
 
                 if (matchingRows.length === 0) {
-                    alert('ไม่พบข้อมูลที่ตรงกับโปรแกรม');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'ไม่พบข้อมูล',
+                        text: 'ไม่พบข้อมูลที่ตรงกับโปรแกรม'
+                    });
                     return;
                 }
 
                 matchingRows.forEach(row => {
-                    const n1 = document.getElementById('newidcard').value.trim();          
+                    const n1 = document.getElementById('newidcard').value.trim();
                     const n2 = document.getElementById('idcard');
                     n2.innerText = n1;
 
-                    const method = row[2] || 'Unknown method';  // ตรวจสอบว่ามีค่าไหม
-                    const methodid = row[3] || 'Unknown methodid'; // ตรวจสอบว่ามีค่าไหม
-                    const custom = row[4] || 'Unknown custom'; // ตรวจสอบว่ามีค่าไหม
+                    const method = row[2] || 'Unknown method';
+                    const methodid = row[3] || 'Unknown methodid';
+                    const custom = row[4] || 'Unknown custom';
+
                     const regisidInput = document.getElementById("newid");
                     const nameInput = document.getElementById("newname");
                     const programInput = document.getElementById("newprogram");
 
                     if (!regisidInput || !nameInput || !programInput) {
-                        console.error('ไม่พบ element newid, newname หรือ newprogram');
-                        alert('ไม่พบข้อมูลการลงทะเบียน');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'ไม่พบข้อมูลการลงทะเบียน',
+                            text: 'ไม่พบ element newid, newname หรือ newprogram'
+                        });
                         return;
                     }
 
@@ -866,8 +873,11 @@ async function buildSticker() {
                     const name = nameInput.value;
 
                     if (!regisid || !name) {
-                        console.error('ไม่สามารถดึงค่า regisid หรือ name');
-                        alert('กรุณากรอกข้อมูลให้ครบ');
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'ข้อมูลไม่ครบถ้วน',
+                            text: 'กรุณากรอกข้อมูลให้ครบ'
+                        });
                         return;
                     }
 
@@ -877,52 +887,62 @@ async function buildSticker() {
                     const dataToSave = {
                         values: [[regisid, barcodesticker, stickerid, name, custom, method]]
                     };
-                    console.log(dataToSave);
-                    
+                    console.log('Data to be saved:', dataToSave);
+
                     const appendUrl = `https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec`;
 
                     const postData = {
-            action: 'buildSticker',
-            rowData: dataToSave
-        };
+                        action: 'buildSticker',
+                        rowData: dataToSave
+                    };
 
-       
-        const response = fetch(appendUrl, {
-            method: 'POST',
-            body: JSON.stringify(postData)
-        });
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
+                    // POST ข้อมูลไปยัง Google Apps Script
+                    fetch(appendUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(postData)
                     })
-                    .then(result => {
-                        console.log('Data saved successfully:', result);
-                    })
-                    .catch(error => {
-                        console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
-                        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-                    });
+                        .then(saveResponse => {
+                            if (!saveResponse.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return saveResponse.json();
+                        })
+                        .then(result => {
+                            console.log('Data saved successfully:', result);
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'เพิ่มข้อมูลสำเร็จ',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(() => {
+                                clearRegisterPage();
+                                closeNewRegister();
+                            }, 1500);
+                        })
+                        .catch(error => {
+                            console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล'
+                            });
+                        });
                 });
             }
         })
         .catch(error => {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'เกิดข้อผิดพลาดในการดึงข้อมูลจาก API'
+            });
         });
-
-    Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'เพิ่มข้อมูลสำเร็จ',
-        showConfirmButton: false,
-        timer: 1500
-    });
-
-    setTimeout(() => { 
-        clearRegisterPage(); 
-    }, 1000);
-    closeNewRegister();
 }
 
 
