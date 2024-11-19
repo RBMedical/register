@@ -229,14 +229,14 @@ async function buildSticker() {
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
         const postData = {
             action: 'buildSticker',
-            rowData: rowData,
+            rowData: rowData
         };
 
         // ส่งข้อมูลไปยัง Google Apps Script
         const postResponse = await fetch(scriptURL, {
             method: 'POST',
-            body: JSON.stringify(postData),
-            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(postData)
+         
         });
 
         const result = await postResponse.json();
