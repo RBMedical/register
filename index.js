@@ -952,7 +952,7 @@ function buildSticker() {
 
 
 
-async function addNewData() {
+function addNewData() {
     // รับค่าจากฟอร์ม
     const newid = document.getElementById('newid').value.trim();
     const newname = document.getElementById('newname').value.trim();
@@ -973,62 +973,64 @@ async function addNewData() {
         return;
     }
 
-   
     const rowData = [[newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram]];
 
     // URL ของ Google Apps Script Web App
     const scriptURL2 = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
-    
+
     // เตรียมข้อมูลสำหรับการ POST
     const postData = {
         action: 'addNewData', // action ระบุว่าเป็นการเพิ่มข้อมูลใหม่
         rowData: rowData
     };
 
-    try {
-        // ส่งข้อมูลไปยัง Google Apps Script
-        const response = await fetch(scriptURL2, {
-            method: 'POST',
-            body: JSON.stringify(postData)
-        });
+    // ใช้ .then สำหรับการจัดการผลลัพธ์
+    fetch(scriptURL2, {
+        method: 'POST',
+        body: JSON.stringify(postData)
+    })
+        .then(response => {
+            // ตรวจสอบสถานะการตอบกลับจากเซิร์ฟเวอร์
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(result => {
+            if (result.success) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "เพิ่มข้อมูลสำเร็จ",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                buildSticker();
+              setTimeout(() => {  
+                  closeNewRegister(); }, 2000);
 
-        // ตรวจสอบสถานะการตอบกลับจากเซิร์ฟเวอร์
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        
-        if (result.success) {
+                setTimeout(() => {
+                    document.getElementById('newid').value = '';
+                    document.getElementById('newname').value = '';
+                    document.getElementById('newidcard').value = '';
+                    document.getElementById('birthdate').value = '';
+                    document.getElementById('newcard').value = '';
+                    document.getElementById('newdepart').value = '';
+                    document.getElementById('newage').textContent = '';
+                    document.getElementById('newprogram').value = '';
+                }, 1000);
+            } else {
+                throw new Error(result.error || 'Failed to add data');
+            }
+        })
+        .catch(error => {
+            console.error('Error in adding data to Google Sheets:', error);
             Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "เพิ่มข้อมูลสำเร็จ",
-                showConfirmButton: false,
-                timer: 1500
+                icon: 'error',
+                title: 'Oops...',
+                text: 'เกิดข้อผิดพลาดในการเพิ่มข้อมูล!'
             });
-
-           closeNewRegister();'
-           
-     setTimeout(() => {  document.getElementById('newid').value = '';
-            document.getElementById('newname').value = '';
-            document.getElementById('newidcard').value = '';
-            document.getElementById('birthdate').value = '';
-            document.getElementById('newcard').value = '';
-            document.getElementById('newdepart').value = '';
-            document.getElementById('newage').textContent = '';
-            document.getElementById('newprogram').value = '';},1000);
-        } else {
-            throw new Error(result.error || 'Failed to add data');
-        }
-    } catch (error) {
-        console.error('Error in adding data to Google Sheets:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'เกิดข้อผิดพลาดในการเพิ่มข้อมูล!'
         });
-    }
 }
 
 
