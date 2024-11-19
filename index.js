@@ -1008,15 +1008,16 @@ async function addNewData() {
                 timer: 1500
             });
 
-            // ล้างฟอร์มหลังจากเพิ่มข้อมูลสำเร็จ
-            document.getElementById('newid').value = '';
+           closeNewRegister();'
+           
+     setTimeout(() => {  document.getElementById('newid').value = '';
             document.getElementById('newname').value = '';
             document.getElementById('newidcard').value = '';
             document.getElementById('birthdate').value = '';
             document.getElementById('newcard').value = '';
             document.getElementById('newdepart').value = '';
             document.getElementById('newage').textContent = '';
-            document.getElementById('newprogram').value = '';
+            document.getElementById('newprogram').value = '';},1000);
         } else {
             throw new Error(result.error || 'Failed to add data');
         }
@@ -1048,6 +1049,9 @@ function closeAlert() {
 }
 
 function closeNewRegister() {
+    var n1 = document.getElementByID('idcard');
+    var n2 = document.getElementById('newidcard').value;
+    n1.innerText = n2;
     $('.modalregister').css('display', 'none');
 }
 
