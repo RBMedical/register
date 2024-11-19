@@ -970,17 +970,17 @@ function addNewData() {
     }
 
     const rowData = [[newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram]];
-
-    // URL ของ Google Apps Script Web App
+    console.log(rowData);
+    
     const scriptURL2 = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
 
     // เตรียมข้อมูลสำหรับการ POST
     const postData = {
-        action: 'addNewData', // action ระบุว่าเป็นการเพิ่มข้อมูลใหม่
+        action: 'addNewData'
         rowData: rowData
     };
 
-    // ใช้ .then สำหรับการจัดการผลลัพธ์
+   
     fetch(scriptURL2, {
         method: 'POST',
         body: JSON.stringify(postData)
