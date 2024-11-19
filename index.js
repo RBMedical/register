@@ -887,7 +887,7 @@ async function buildSticker() {
         };
 
        
-        const response = await fetch(appendUrl, {
+        const response = fetch(appendUrl, {
             method: 'POST',
             body: JSON.stringify(postData)
         });
