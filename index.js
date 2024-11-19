@@ -1135,18 +1135,18 @@ function sendBarcode() {
 
 
 
-async function addRegistData() {
-   
+function addRegistData() {
+    // รับค่าจาก input และ element ต่าง ๆ
     var barinput = document.getElementById('inputbar').value.trim();
     var barcodenewid = document.getElementById('barregisterid').textContent.trim();
     var barcodename = document.getElementById('barname').textContent.trim();
     var inputdate = document.getElementById('datetime').textContent;
     var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
-    console.log(inputmethodbar);
-    var barinputmethod = inputmethodbar;
-    var specimen;
+    console.log("Method:", inputmethodbar);
 
-    switch (barinputmethod) {
+    // กำหนดค่า Specimen ตาม method
+    var specimen;
+    switch (inputmethodbar) {
         case "11":
             specimen = "PE";
             break;
@@ -1185,42 +1185,59 @@ async function addRegistData() {
             break;
     }
 
-
-
+    // เตรียมข้อมูลที่จะส่งไปยัง Google Apps Script
     var data = {
-        values: [[inputdate, barcodenewid, barcodename, barinputmethod, specimen]]
+        values: [[inputdate, barcodenewid, barcodename, inputmethodbar, specimen]]
     };
-    console.log(data);
+    console.log("Data to be sent:", data);
+
+    // URL ของ Google Apps Script
     const url4 = `https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec`;
 
-      const postData = {
-            action: 'addRegistData',
-            rowData: data
-        };
+    // เตรียมข้อมูลสำหรับ POST request
+    const postData = {
+        action: 'addRegistData',
+        rowData: data
+    };
 
-       
-        const response = await fetch(url4, {
-            method: 'POST',
-            body: JSON.stringify(postData)
-        });
-  
+    // ส่งข้อมูลไปยัง Google Apps Script โดยใช้ .then
+    fetch(url4, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+    })
         .then(response => {
+            // ตรวจสอบว่า response สำเร็จหรือไม่
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
             }
             return response.json();
         })
-        .then(data => {
-            console.log("Success:", data);
-            loadAllData();
+        .then(result => {
+            // เมื่อบันทึกข้อมูลสำเร็จ
+            console.log("Success:", result);
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'เพิ่มข้อมูลสำเร็จ',
+                showConfirmButton: false,
+                timer: 1500
+            });
 
+            // โหลดข้อมูลใหม่
+            loadAllData();
         })
         .catch(error => {
+            // เมื่อเกิดข้อผิดพลาดในการบันทึกข้อมูล
             console.error('Error:', error);
-            alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล!");
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถเพิ่มข้อมูลได้'
+            });
         });
-
-
 }
 
 
@@ -1289,15 +1306,6 @@ function getNextNumber() {
             throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
         });
 }
-
-
-
-
-
-
-
-
-
 
 
 
