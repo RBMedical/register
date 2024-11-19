@@ -961,7 +961,7 @@ function addNewData() {
 
     // เตรียมข้อมูลสำหรับการ POST
     const postData = {
-        action: 'addNewData'
+        action: 'addNewData',
         rowData: rowData
     };
 
