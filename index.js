@@ -305,8 +305,7 @@ async function addNewData() {
         const response = await fetch(scriptURL2, {
             method: 'POST',
             body: JSON.stringify(postData)
-           }
-        });
+                   });
 
         // ตรวจสอบสถานะการตอบกลับ
         if (!response.ok) {
