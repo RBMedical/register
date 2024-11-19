@@ -1047,7 +1047,7 @@ function closeAlert() {
 }
 
 function closeNewRegister() {
-    var n1 = document.getElementByID('idcard');
+    var n1 = document.getElementById('idcard');
     var n2 = document.getElementById('newidcard').value;
     n1.innerText = n2;
     $('.modalregister').css('display', 'none');
