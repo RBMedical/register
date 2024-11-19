@@ -1585,9 +1585,12 @@ function filterRecords() {
             resultDiv1.innerHTML = ''; // เคลียร์ข้อมูลเก่าออก
 
             if (data.values && data.values.length > 0) {
+                let found = false; // ใช้สำหรับตรวจสอบว่ามีข้อมูลที่ตรงกับการค้นหาหรือไม่
+
                 data.values.forEach(row => {
-                    // กรองเฉพาะแถวที่คอลัมน์ที่สอง (row[1]) มีข้อความที่คล้ายกับ searchValue
-                    if (row[1] && row[1].toLowerCase().includes(searchValue)) {
+                    // ตรวจสอบว่า row มีข้อมูลและ row[1] มีค่า
+                    if (row && row[1] && row[1].toLowerCase().includes(searchValue)) {
+                        found = true; // พบข้อมูลที่ตรงกับการค้นหา
                         resultDiv1.innerHTML += `
                             <tr onclick="copyId(this)" style="cursor: pointer;">
                                 <th class="column-5 text-center">${row[0]}</th>
@@ -1600,10 +1603,11 @@ function filterRecords() {
                 });
 
                 // หากไม่พบข้อมูลที่ตรงกับการค้นหา
-                if (resultDiv1.innerHTML === '') {
+                if (!found) {
                     resultDiv1.innerHTML = `<tr><td colspan="4" class="text-center">ไม่พบข้อมูลที่ตรงกับการค้นหา</td></tr>`;
                 }
             } else {
+                // กรณีไม่มีข้อมูลใน Google Sheets
                 resultDiv1.innerHTML = `<tr><td colspan="4" class="text-center">ไม่พบข้อมูล</td></tr>`;
             }
         })
@@ -1612,6 +1616,7 @@ function filterRecords() {
             alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
         });
 }
+
 
 function deleteAllFilter(){
      loadAllRecordsSearch();
