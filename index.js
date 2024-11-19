@@ -854,9 +854,9 @@ function buildSticker() {
                 matchingRows.forEach(row => {
                    
 
-                    const method = row[2] || 'Unknown method';  // ตรวจสอบว่ามีค่าไหม
-                    const methodid = row[3] || 'Unknown methodid'; // ตรวจสอบว่ามีค่าไหม
-                    const custom = row[4] || 'Unknown custom'; // ตรวจสอบว่ามีค่าไหม
+                    const method = row[0] || 'Unknown method';  // ตรวจสอบว่ามีค่าไหม
+                    const methodid = row[2] || 'Unknown methodid'; // ตรวจสอบว่ามีค่าไหม
+                    const custom = row[3] || 'Unknown custom'; // ตรวจสอบว่ามีค่าไหม
                     const regisidInput = document.getElementById("newid");
                     const nameInput = document.getElementById("newname");
                     const programInput = document.getElementById("newprogram");
