@@ -211,7 +211,7 @@ async function buildSticker() {
             return;
         }
 
-        // สร้างข้อมูล Sticker สำหรับทุกแถวที่ตรงกัน
+       
         const rowData = matchingRows.map(row => {
             const method = row[2] || 'Unknown method';
             const methodid = row[3] || 'Unknown methodid';
@@ -251,7 +251,7 @@ async function buildSticker() {
             });
 
             
-            clearRegisterPage();
+           
             closeNewRegister();
         } else {
             throw new Error(result.error || 'Failed to save data');
