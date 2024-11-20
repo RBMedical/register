@@ -226,7 +226,7 @@ async function buildSticker() {
         console.log('Prepared data for stickers:', rowData);
 
         // เตรียมข้อมูลสำหรับส่งไปยัง Google Apps Script
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwmsn50jXDf6ygVN6MkDf1Q139m-bj17w7AntkKt-x8YOnh46aGa9RIb6zDONLJp3ZhSQ/exec';
         const postData = {
             action: 'buildSticker',
             rowData: rowData,
