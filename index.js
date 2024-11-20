@@ -15,7 +15,7 @@ function hideLoadingSearch() {
     document.getElementById('loadingIconSearch').style.display = 'none';
 }
 
-const apiKey = 'AIzaSyBxpc9yQw66EWefkTU9O7ITp-bvN72eESg';
+const apiKey = 'AIzaSyCUkklmX-ewNdmcDfJCb5FImBwfN0F4wjg';
 const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 const rangesheet1 = 'data!A3:ZZ';
 const rangesheet2 = 'program!A2:ZZ';
