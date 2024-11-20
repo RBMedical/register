@@ -1168,12 +1168,9 @@ function addRegistData() {
         rowData: data
     };
 
-    // ส่งข้อมูลไปยัง Google Apps Script โดยใช้ .then
+   
     fetch(url4, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
         body: JSON.stringify(postData)
     })
         .then(response => {
