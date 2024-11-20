@@ -249,10 +249,9 @@ async function buildSticker() {
                 showConfirmButton: false,
                 timer: 1500,
             });
-
-            
+      
            
-            closeNewRegister();
+           
         } else {
             throw new Error(result.error || 'Failed to save data');
         }
@@ -264,6 +263,7 @@ async function buildSticker() {
             text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง.',
         });
     }
+     closeNewRegister();
 }
 
 
