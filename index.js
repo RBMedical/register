@@ -441,7 +441,7 @@ async function addRegistData() {
         });
 
         // โหลดข้อมูลใหม่
-        loadAllData();
+        loadDataTable();
 
     } catch (error) {
         // เมื่อเกิดข้อผิดพลาดในการบันทึกข้อมูล
