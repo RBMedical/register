@@ -63,7 +63,7 @@ async function addRegistrationData() {
             return;
         }
 
-     var number = document.getElementById('numb').textContent.trim();
+    var number = document.getElementById('numb').textContent.trim();
     var regisid = document.getElementById('registernumber').textContent.trim();
     var name = document.getElementById('name').textContent.trim();
     var idcard = document.getElementById('idcard').textContent.trim();
@@ -73,9 +73,10 @@ async function addRegistrationData() {
     var birth = document.getElementById('birthday').textContent.trim();
     var prog = document.getElementById('program').textContent.trim();
     var date = document.getElementById('datetime').textContent.trim();
+    var desc = document.getElementById('desc').textContent.trim();
 
 
-        const rowData = [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date]];
+        const rowData = [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]];
         console.log(rowData);
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
         const url1 = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
@@ -331,8 +332,9 @@ async function addNewData() {
 
            const a = document.getElementById('idcard');
            const b = document.getElementById('newidcard').value;
+           const c = document.getElementById('desc'); 
            a.innerText = b;
-            
+           c.innerText = "เพิ่มชื่อ";
             await buildSticker();
         } else {
             throw new Error(result.error || 'Failed to add data');
