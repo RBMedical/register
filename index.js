@@ -431,17 +431,7 @@ async function addRegistData() {
         const result = await response.json();
         console.log("Success:", result);
 
-        // แสดงผลสำเร็จ
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'เพิ่มข้อมูลสำเร็จ',
-            showConfirmButton: false,
-            timer: 1500
-        });
-
-        // โหลดข้อมูลใหม่
-        loadDataTable();
+       loadDataTable();
 
     } catch (error) {
         // เมื่อเกิดข้อผิดพลาดในการบันทึกข้อมูล
@@ -1099,8 +1089,7 @@ function loadDataTable() {
                 }
             });
 
-            // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
-
+         loadAllCount();
         })
         .catch(error => {
             console.error("Error fetching data:", error);
@@ -1108,15 +1097,6 @@ function loadDataTable() {
         });
 
 }
-
-
-
-
-
-
-
-
-
 
 
 function openSheet() {
@@ -1202,19 +1182,6 @@ function sendBarcode() {
         });
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function displayNextNumber() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
