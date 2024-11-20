@@ -217,7 +217,7 @@ async function buildSticker() {
             const methodid = row[3] || 'Unknown methodid';
             const custom = row[4] || 'Unknown custom';
 
-            const barcodesticker = `*${regisid}${methodid}*`;
+            const barcodesticker = `*${regisid}${method}*`;
             const stickerid = `${regisid}${program}`;
 
             return [regisid, barcodesticker, stickerid, name, custom, method];
@@ -227,7 +227,7 @@ async function buildSticker() {
 
         // เตรียมข้อมูลสำหรับส่งไปยัง Google Apps Script
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
-        const postData = {
+        const postData += {
             action: 'buildSticker',
             rowData: rowData
         };
