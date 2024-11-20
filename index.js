@@ -264,6 +264,7 @@ async function buildSticker() {
         });
     }
      closeNewRegister();
+     searchData();
 }
 
 
