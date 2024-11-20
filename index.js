@@ -456,228 +456,203 @@ function searchData() {
     }
 }
 
-function searchDataFromId() {
-    const searchId = document.getElementById('idcard').textContent.trim(); // ดึงค่าจาก input และลบช่องว่าง
+async function searchDataFromId() {
+    const searchId = document.getElementById('idcard').textContent.trim(); 
 
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
+    const url = `https://script.google.com/macros/s/AKfycbziwLwnJr7q1lh4XCnPKFNDHN3JWcvq3NyuzpLsZjSceNw1Xrl_enOxVuTia31-SDd8wA/exec`; 
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const numb = document.getElementById("numb");
-            const regisid = document.getElementById("registernumber");
-            const name = document.getElementById("name");
-
-            const card = document.getElementById("card");
-            const depart = document.getElementById("depart");
-            const age = document.getElementById("age");
-            const birthday = document.getElementById("birthday");
-            const program = document.getElementById("program");
-
-            // ล้างผลลัพธ์ก่อนหน้า
-            regisid.textContent = "";
-            name.textContent = "";
-
-            age.textContent = "";
-            birthday.textContent = "";
-            program.textContent = "";
-            card.textContent = "";
-            depart.textContent = "";
-
-            let found = false; // ประกาศตัวแปร found เพื่อตรวจสอบว่าพบข้อมูลหรือไม่
-
-            // ค้นหาและเก็บข้อมูลในตัวแปร searchResult
-            if (data.values) {
-                data.values.forEach(row => {
-                    if (row[2] === searchId) {
-                        // แสดงผลลัพธ์
-                        regisid.textContent = row[0];
-                        name.textContent = row[1];
-
-                        card.textContent = row[3];
-                        depart.textContent = row[4];;
-                        age.textContent = row[5];
-                        birthday.textContent = row[6];
-                        program.textContent = row[7];
-                        found = true; // เปลี่ยนค่า found เป็น true
-
-                        // เก็บค่าผลลัพธ์ในตัวแปร searchResult
-                        searchResult = {
-                            "regisid": row[0],
-                            "name": row[1],
-
-                            "age": row[3],
-                            "birthday": row[4],
-                            "program": row[5]
-                        };
-
-                        setTimeout(() => {
-                            searchProgram();
-                        }, 5000);
-                        searchPrint();
-                    }
-                });
-            }
-
-            // ถ้าไม่พบข้อมูลที่ค้นหา
-            if (!found) {
-                alert("ไม่พบข้อมูลในระบบ");
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("เกิดข้อผิดพลาดในการค้นหาข้อมูล");
+    try {
+        // ส่งคำขอไปยัง Apps Script
+        const response = await fetch(url, {
+            method: 'POST',
+           body: JSON.stringify({ action: 'searchData', searchId })
         });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        // อ้างอิง element UI
+        const regisid = document.getElementById("registernumber");
+        const name = document.getElementById("name");
+        const card = document.getElementById("card");
+        const depart = document.getElementById("depart");
+        const age = document.getElementById("age");
+        const birthday = document.getElementById("birthday");
+        const program = document.getElementById("program");
+        const desc = document.getElementById("desc");
+        // ล้างผลลัพธ์ก่อนหน้า
+        regisid.textContent = "";
+        name.textContent = "";
+        age.textContent = "";
+        birthday.textContent = "";
+        program.textContent = "";
+        card.textContent = "";
+        depart.textContent = "";
+         desc.textContent ="";
+        if (data.success) {
+            // แสดงผลลัพธ์
+            const row = data.result;
+
+            regisid.textContent = row[0];
+            name.textContent = row[1];
+            card.textContent = row[3];
+            depart.textContent = row[4];
+            age.textContent = row[5];
+            birthday.textContent = row[6];
+            program.textContent = row[7];
+            desc.textContent = row[8];
+
+            // เรียกฟังก์ชันเพิ่มเติม
+            setTimeout(() => {
+                searchProgram();
+            }, 5000);
+            searchPrint();
+        } else {
+            alert("ไม่พบข้อมูลในระบบ");
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert("เกิดข้อผิดพลาดในการค้นหาข้อมูล");
+    }
 }
 
 
 
 
-function searchDataKey() {
+
+async function searchDataKey() {
     displayNextNumber();
     const searchKey = document.getElementById('searchKey').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
 
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
+    const url = `https://script.google.com/macros/s/AKfycbzIt68Ot6cAniCQ610NQ0779fqWnAngLOZYWf2DmQTf-kld2kKh09zsBR7SXiCUuFBh/exec`; // URL ของ Apps Script
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const numb = document.getElementById("numb");
-            const regisid = document.getElementById("registernumber");
-            const name = document.getElementById("name");
-            const idcard = document.getElementById("idcard");
-            const card = document.getElementById("card");
-            const depart = document.getElementById("depart");
-            const age = document.getElementById("age");
-            const birthday = document.getElementById("birthday");
-            const program = document.getElementById("program");
-
-            // ล้างผลลัพธ์ก่อนหน้า
-            regisid.textContent = "";
-            name.textContent = "";
-            idcard.textContent = "";
-            age.textContent = "";
-            birthday.textContent = "";
-            program.textContent = "";
-            card.textContent = "";
-            depart.textContent = "";
-
-            let found = false; // ประกาศตัวแปร found เพื่อตรวจสอบว่าพบข้อมูลหรือไม่
-
-            // ค้นหาและเก็บข้อมูลในตัวแปร searchResult
-            if (data.values) {
-                data.values.forEach(row => {
-                    if (row[2] === searchKey) {
-                        // แสดงผลลัพธ์
-                        regisid.textContent = row[0];
-                        name.textContent = row[1];
-                        idcard.textContent = row[2];
-                        card.textContent = row[3];
-                        depart.textContent = row[4];;
-                        age.textContent = row[5];
-                        birthday.textContent = row[6];
-                        program.textContent = row[7];
-                        found = true; // เปลี่ยนค่า found เป็น true
-
-                        // เก็บค่าผลลัพธ์ในตัวแปร searchResult
-                        searchResult = {
-                            "regisid": row[0],
-                            "name": row[1],
-                            "idcard": row[2],
-                            "age": row[3],
-                            "birthday": row[4],
-                            "program": row[5]
-                        };
-
-                        setTimeout(() => {
-                            searchProgram();
-                        }, 5000);
-                        searchPrint();
-                    }
-                });
-            }
-
-            // ถ้าไม่พบข้อมูลที่ค้นหา
-            if (!found) {
-                alert("ไม่พบข้อมูลในระบบ");
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("เกิดข้อผิดพลาดในการค้นหาข้อมูล");
+    try {
+        // ส่งคำขอไปยัง Apps Script
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'searchDataKey', searchKey })
         });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        // อ้างอิง element UI
+        const regisid = document.getElementById("registernumber");
+        const name = document.getElementById("name");
+        const idcard = document.getElementById("idcard");
+        const card = document.getElementById("card");
+        const depart = document.getElementById("depart");
+        const age = document.getElementById("age");
+        const birthday = document.getElementById("birthday");
+        const program = document.getElementById("program");
+
+        // ล้างผลลัพธ์ก่อนหน้า
+        regisid.textContent = "";
+        name.textContent = "";
+        idcard.textContent = "";
+        age.textContent = "";
+        birthday.textContent = "";
+        program.textContent = "";
+        card.textContent = "";
+        depart.textContent = "";
+
+        if (data.success) {
+            // แสดงผลลัพธ์
+            const row = data.result;
+
+            regisid.textContent = row[0];
+            name.textContent = row[1];
+            idcard.textContent = row[2];
+            card.textContent = row[3];
+            depart.textContent = row[4];
+            age.textContent = row[5];
+            birthday.textContent = row[6];
+            program.textContent = row[7];
+
+            // เรียกฟังก์ชันเพิ่มเติม
+            setTimeout(() => {
+                searchProgram();
+            }, 5000);
+            searchPrint();
+        } else {
+            alert("ไม่พบข้อมูลในระบบ");
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert("เกิดข้อผิดพลาดในการค้นหาข้อมูล");
+    }
 }
 
-function searchProgram() {
 
-    const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?key=${apiKey}`;
+async function searchProgram() {
+    const url = `https://script.google.com/macros/s/AKfycbww7KY9wr-puN-mL5JvBcaz5t5PjwkJ8tP5LXlLNwE-zBGRRiOWVLWkaqI5sXOMTf3deA/exec`; // URL ของ Apps Script
+    const programName = document.getElementById('program').textContent.trim(); // ดึงชื่อโปรแกรม
+
+    const programdetail = document.getElementById('programdetail');
+    programdetail.textContent = ""; // ล้างข้อมูลก่อนหน้า
     showLoading();
-    fetch(url1)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const programdetail = document.getElementById('programdetail');
-            const programName = document.getElementById('program').textContent;
-            programdetail.textContent = ""; // ล้างข้อมูลก่อนหน้า
 
-            let found = false; // กำหนดค่า found เป็น false เริ่มต้น
+    try {
+        // ส่งคำขอไปยัง Apps Script
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'searchProgram', programName })
+        });
 
-            // ค้นหาโปรแกรมที่ตรงกับชื่อที่ให้มา
-            if (data.values && data.values.length > 0) { // ตรวจสอบว่ามีข้อมูลใน data.values
-                data.values.forEach(row => {
-                    if (row[0] === programName) {
-                        programdetail.innerHTML += `<p>- ${row[1]}</p>`; // แสดงรายละเอียดโปรแกรม
-                        found = true; // เปลี่ยนค่า found เป็น true ถ้าพบโปรแกรม
-                    }
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+            // แสดงรายละเอียดโปรแกรม
+            if (data.results && data.results.length > 0) {
+                data.results.forEach(detail => {
+                    programdetail.innerHTML += `<p>- ${detail}</p>`;
                 });
-                hideLoading();
-            }
-
-            // หากไม่พบโปรแกรมที่ค้นหา
-            if (!found) {
+            } else {
                 programdetail.innerHTML = `<p>ไม่พบโปรแกรมที่ต้องการ</p>`;
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            const programdetail = document.getElementById('programdetail');
-            programdetail.innerHTML = `<p>เกิดข้อผิดพลาดในการดึงข้อมูล</p>`;
-        });
+        } else {
+            programdetail.innerHTML = `<p>${data.message}</p>`;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        programdetail.innerHTML = `<p>เกิดข้อผิดพลาดในการดึงข้อมูล</p>`;
+    } finally {
+        hideLoading();
+    }
 }
 
 
-function loadAllRecords() {
 
+async function loadAllRecords() {
+    const url = `https://script.google.com/macros/s/AKfycbwVBHQfFeENyWwRLTnMNd6mmgYGpZ62dSjsOyWj2VRnk9ffL_DaOk3EiBntytAM3CjCqA/exec`; // URL ของ Apps Script
+    const resultDiv1 = document.getElementById('registeresult');
+    resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
 
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet10}?key=${apiKey}`;
+    try {
+        // ส่งคำขอไปยัง Apps Script
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'loadAllRecords' })
+        });
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const resultDiv1 = document.getElementById('registeresult');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
-            resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
+        const data = await response.json();
 
-            if (data.values && data.values.length > 0) { // ตรวจสอบว่ามีข้อมูลใน data.values
+        if (data.success) {
+            if (data.values && data.values.length > 0) {
                 data.values.forEach(row => {
                     resultDiv1.innerHTML += `
 <tr>
@@ -688,123 +663,395 @@ function loadAllRecords() {
  <td scope="col" class="col-3 text-center" style="font-family: sarabun;">${row[9]}</td>
 </tr>
 `;
-
                 });
             } else {
                 resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
             }
-        })
-        .catch(error => {
-            console.error('Error loading all records:', error);
-            alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
+        } else {
+            resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">${data.message}</td></tr>`;
+        }
+    } catch (error) {
+        console.error('Error loading all records:', error);
+        alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+}
+
+
+
+
+async function searchPrint() {
+    const url = `https://script.google.com/macros/s/AKfycby9NvpwxMa9lPbZmrelb3Awxb2LWNVUVyGSRFXlxoterdGTWFX074u72uthHCEv6ZGDbw/exec`; // URL ของ Apps Script
+    const sticker = document.getElementById('sticker');
+    const number = document.getElementById('numb').textContent.trim(); // ลบช่องว่าง
+    const searchKey = document.getElementById('registernumber').textContent.trim();
+    sticker.innerHTML = ''; // ล้างเนื้อหาก่อนแสดงใหม่
+
+    try {
+        // ส่งคำขอไปยัง Apps Script
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'searchPrint',
+                searchKey: searchKey
+            }),
         });
-}
 
-function formatDateTime() {
-    const now = new Date(); // ดึงวันที่และเวลาปัจจุบัน
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
-    // ดึงค่าวัน, เดือน, ปี
-    const day = String(now.getDate()).padStart(2, '0'); // เติมเลข 0 ถ้าวันน้อยกว่า 10
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // เดือนใน JavaScript เริ่มที่ 0
-    const year = String(now.getFullYear()).slice(2); // เอาสองหลักสุดท้ายของปี
+        const data = await response.json();
+        let found = false; // ตรวจสอบว่าพบข้อมูลหรือไม่
 
-    // ดึงค่า ชั่วโมงและนาที
-    const hours = String(now.getHours()).padStart(2, '0'); // เติมเลข 0 ถ้าชั่วโมงน้อยกว่า 10
-    const minutes = String(now.getMinutes()).padStart(2, '0'); // เติมเลข 0 ถ้านาทีน้อยกว่า 10
-
-    // รวมเป็นรูปแบบที่ต้องการ: dd/mm/yy, hh:mm
-    return `${day}/${month}/${year}, ${hours}:${minutes}`;
-}
-
-// แสดงวันที่และเวลาปัจจุบัน
-console.log(formatDateTime());
-
-function updateDateTime() {
-    const now = new Date();
-    const date = now.toLocaleDateString('th-TH');
-    const time = now.toLocaleTimeString('th-TH', { hour12: false }); // ใช้ 24 ชั่วโมง
-    document.getElementById('datetime').textContent = `${date} ${time}`;
-}
-
-// เรียกใช้ updateDateTime ทุก 1 วินาที
-setInterval(updateDateTime, 1000);
-
-
-
-
-
-
-
-function updateDate() {
-    const now = new Date();
-    const date = now.toLocaleDateString('th-TH');
-    const time = now.toLocaleTimeString('th-TH');
-    const current = `${date}`;
-    return current
-}
-
-function searchPrint() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet5}?key=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const sticker = document.getElementById('sticker');
-            const number = document.getElementById('numb').textContent.trim(); // ใช้ trim() เพื่อหลีกเลี่ยงช่องว่าง
-            const searchKey = document.getElementById('registernumber').textContent.trim();
-            sticker.innerHTML = ''; // เคลียร์ก่อนแสดงใหม่
-
-            let found = false; // ตัวแปรเพื่อตรวจสอบว่าพบข้อมูลหรือไม่
-
-            // ค้นหาข้อมูลที่ตรงกับ searchKey
+        if (data.success && data.values.length > 0) {
             data.values.forEach((row, index) => {
                 if (row[0] === searchKey) {
-                    found = true; // เปลี่ยนค่า found เป็น true
-
-                    // สร้าง ID ที่ไม่ซ้ำกันสำหรับแต่ละสติ๊กเกอร์
-                    const uniqueId = `barcode-${index}`;
+                    found = true; // พบข้อมูล
+                    const uniqueId = `barcode-${index}`; // ID ที่ไม่ซ้ำกัน
 
                     sticker.innerHTML += `
-                 <div class="sticker mb-2">
-                     <div class="sticker-id mx-2 my-2 text-center"><span>${row[0]}</span></div>
-                     <div class="sticker-right">
-                         <div class="barcode-container mt-1">
-                         <div class="mt-2 ms-2"><span class="libre-barcode-39-extended-regular">${row[1]}</span></div>
-                         </div>
-                         <div class="sticker-inner">
-                             <div class="sticker-id fw-bold" style="font-size: 0.75rem;"><span>${number}</span></div>
-                             <div class="sticker-right">
-                                 <div class="sticker-name ms-2">${row[3]}</div>
-                                 <div class="sticker-name">
-                                     <div class="sticker-method ms-2">${row[5]}</div>
-                                     <div class="sticker-date mt-1">${updateDate()}</div>
-                                 </div>
-                                 <div class="sticker-name ms-4" style="font-size: 0.5rem">${row[4]}</div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-                 `;
-
-                    const barcodeValue = row[1];
-                    console.log(barcodeValue);
+<div class="sticker mb-2">
+    <div class="sticker-id mx-2 my-2 text-center"><span>${row[0]}</span></div>
+    <div class="sticker-right">
+        <div class="barcode-container mt-1">
+            <div class="mt-2 ms-2"><span class="libre-barcode-39-extended-regular">${row[1]}</span></div>
+        </div>
+        <div class="sticker-inner">
+            <div class="sticker-id fw-bold" style="font-size: 0.75rem;"><span>${number}</span></div>
+            <div class="sticker-right">
+                <div class="sticker-name ms-2">${row[3]}</div>
+                <div class="sticker-name">
+                    <div class="sticker-method ms-2">${row[5]}</div>
+                    <div class="sticker-date mt-1">${updateDate()}</div>
+                </div>
+                <div class="sticker-name ms-4" style="font-size: 0.5rem">${row[4]}</div>
+            </div>
+        </div>
+    </div>
+</div>
+`;
                 }
             });
 
-            // หากไม่พบข้อมูล ให้แจ้งเตือนหรือจัดการในกรณีไม่พบข้อมูล
             if (!found) {
                 alert("ไม่พบข้อมูลที่ค้นหา");
             }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+        } else {
+            alert("ไม่พบข้อมูลที่ค้นหา");
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 }
+
+async function loadAllCount() {
+    const url = `https://script.google.com/macros/s/AKfycbwmG0sP6B0HBL_y_yI0BP-TSPL77b-a5YhQ5IIk4MyjAdFBv4nH34WmF-TsZPVRb7bOXQ/exec`; // URL ของ Apps Script
+
+    try {
+        // ส่งคำขอไปยัง Apps Script
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'loadAllCount',
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+            const counts = data.counts;
+
+            document.getElementById('PE').textContent = counts.a || 0;
+            document.getElementById('EDTA').textContent = counts.b || 0;
+            document.getElementById('urine').textContent = counts.c || 0;
+            document.getElementById('xray').textContent = counts.d || 0;
+            document.getElementById('ekg').textContent = counts.e || 0;
+            document.getElementById('ear').textContent = counts.f || 0;
+            document.getElementById('lung').textContent = counts.g || 0;
+            document.getElementById('eye').textContent = counts.h || 0;
+            document.getElementById('muscle').textContent = counts.i || 0;
+            document.getElementById('naf').textContent = counts.j || 0;
+            document.getElementById('clot').textContent = counts.k || 0;
+            document.getElementById('register').textContent = counts.l || 0;
+
+            clearSpecimen();
+            loadDataTable();
+        } else {
+            console.error('Failed to load counts:', data.message);
+        }
+    } catch (error) {
+        console.error('Error fetching counts:', error);
+    }
+}
+
+
+async function loadDataTable() {
+    const url = `https://script.google.com/macros/s/AKfycbzHTHNmxWOXrgnvIFrEjC05J0BBh8QQOtOb-nKiAqwM4joaqw_biTqU_Ew2t0UkY2dp1A/exec`; // URL ของ Apps Script
+
+    try {
+        // ส่งคำขอไปยัง Apps Script
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'loadDataTable',
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok: " + response.statusText);
+        }
+
+        const data = await response.json();
+
+        const resultDiv1 = document.getElementById('specimenresult');
+        resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
+
+        if (data.success && data.records.length > 0) {
+            const sortedData = data.records.sort((a, b) => {
+                return parseInt(b[0], 10) - parseInt(a[0], 10); // เรียงลำดับข้อมูล
+            });
+
+            sortedData.forEach(row => {
+                if (row[4] !== "1ลงทะเบียน") {
+                    resultDiv1.innerHTML += `
+                        <tr>
+                            <th scope="row" class="col-3 text-center">${row[0]}</th>
+                            <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
+                            <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
+                            <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
+                        </tr>`;
+                }
+            });
+        } else {
+            resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
+        }
+
+        loadAllCount(); // เรียกฟังก์ชัน loadAllCount หลังจากโหลดข้อมูลเสร็จ
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+    }
+}
+
+
+
+function sendBarcode() {
+    const barcode = document.getElementById('inputbar').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzhaijq29CYZzzoq9haj3hzwZc6Qwv1Eupu_4Oa7C0zZscb3E0ABg20ZlJVgIn1nL4MPg/exec"; // URL ของ Apps Script Web App
+
+    // ส่งคำขอ POST ไปยัง Apps Script
+    fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify({ barcode })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json();
+    })
+    .then(data => {
+        const baridElement = document.getElementById('barregisterid');
+        const barnameElement = document.getElementById('barname');
+
+        // ล้างค่าที่แสดงอยู่ก่อนหน้า
+        baridElement.textContent = '';
+        barnameElement.textContent = '';
+
+        if (data.status === 'success') {
+            // ถ้าพบข้อมูล
+            const record = data.record;
+            baridElement.textContent = record.barId;
+            barnameElement.textContent = record.barName;
+
+            // รอ 1 วินาทีเพื่อเรียก `addRegistData`
+            setTimeout(() => {
+                addRegistData();
+            }, 1000);
+        } else {
+            // ถ้าไม่พบข้อมูล แสดงแจ้งเตือน
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error in fetching barcode data:', error);
+        alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
+    });
+}
+
+
+
+async function loadAllRecordsSearch() {
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzyfS4ZEBGYy7En0Im4HQ6_k46z_0W7fUf6cYLPtaHyNlri-D27PP-yVj_TmUVsnO4hVQ/exec"; // URL ของ Apps Script Web App
+
+    try {
+        const response = await fetch(scriptURL); // รอการตอบกลับจาก Web App
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json(); // แปลงข้อมูลที่ได้รับเป็น JSON
+
+        const resultDiv1 = document.getElementById('searchdataload');
+        resultDiv1.innerHTML = ''; // ล้างข้อมูลก่อนหน้า
+
+        if (data && data.length > 0) { // ตรวจสอบว่ามีข้อมูลหรือไม่
+            data.forEach(row => {
+                resultDiv1.innerHTML += `
+<tr onclick="copyId(this)" style="cursor: pointer;">
+    <th class="column-5 text-center">${row[0]}</th>
+    <td class="column-6">${row[1]}</td>
+    <td class="column-5 text-center">${row[2]}</td>
+    <td class="column-5 text-center">${row[4]}</td>
+</tr>`;
+            });
+            hideLoadingSearch();
+        } else {
+            resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
+        }
+    } catch (error) {
+        console.error('Error loading all records:', error);
+        alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+}
+
+
+
+async function searchDataSearch() {
+    const searchId = document.getElementById('datasearchid').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
+
+    const scriptURL = "https://script.google.com/macros/s/AKfycbybx_krtf3wBb23RYZifPKT9yFLm-lBjipS5fJ11nvPJqw2Ua2FyrVQK6p0nKUNb0dZ/exec"; // URL ของ Apps Script Web App
+
+    try {
+        const response = await fetch(scriptURL); // ใช้ fetch เพื่อดึงข้อมูลจาก Web App
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json(); // แปลงข้อมูลที่ได้รับเป็น JSON
+
+        const resultDiv1 = document.getElementById('searchdataload');
+        resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
+
+        if (data && data.length > 0) {
+            data.forEach(row => {
+                if (row[2] === searchId) {
+                    resultDiv1.innerHTML += `
+<tr onclick="copyId(this)" style="cursor: pointer;">
+    <th class="column-5 text-center">${row[0]}</th>
+    <td class="column-6">${row[1]}</td>
+    <td id="copyid" class="column-5 text-center">${row[2]}</td>
+    <td class="column-5 text-center">${row[4]}</td>
+</tr>`;
+                }
+            });
+        } else {
+            resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
+        }
+    } catch (error) {
+        console.error('Error loading data:', error);
+        alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+}
+
+
+
+async function filterRecords() {
+    const searchValue = document.getElementById('datasearchname').value.toLowerCase();
+    const url = `https://script.google.com/macros/s/AKfycbyJ0LNyJ97NiI4ooMEZZItKh-GXy9dBy_zREkx4OwJ5hFF4Ubzl_3qml_l--wfagRg/exec?searchValue=${searchValue}`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        const resultDiv1 = document.getElementById('searchdataload');
+        resultDiv1.innerHTML = ''; // เคลียร์ข้อมูลเก่าออก
+
+        if (data.length > 0) {
+            let found = false; // ใช้สำหรับตรวจสอบว่ามีข้อมูลที่ตรงกับการค้นหาหรือไม่
+
+            data.forEach(row => {
+                if (row && row[1] && row[1].toLowerCase().includes(searchValue)) {
+                    found = true; // พบข้อมูลที่ตรงกับการค้นหา
+                    resultDiv1.innerHTML += `
+                        <tr onclick="copyId(this)" style="cursor: pointer;">
+                            <th class="column-5 text-center">${row[0]}</th>
+                            <td class="column-6">${row[1]}</td>
+                            <td class="idCardCell column-5 text-center">${row[2]}</td>
+                            <td class="column-5 text-center">${row[4]}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            // หากไม่พบข้อมูลที่ตรงกับการค้นหา
+            if (!found) {
+                resultDiv1.innerHTML = `<tr><td colspan="4" class="text-center">ไม่พบข้อมูลที่ตรงกับการค้นหา</td></tr>`;
+            }
+        } else {
+            // กรณีไม่มีข้อมูลใน Google Sheets
+            resultDiv1.innerHTML = `<tr><td colspan="4" class="text-center">ไม่พบข้อมูล</td></tr>`;
+        }
+    } catch (error) {
+        console.error('Error loading records:', error);
+        alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
+    }
+}
+
+
+async function displayNextNumber() {
+    const url = `https://script.google.com/macros/s/AKfycbwKa84I76sSFmTDSkqud8_C1yabELmATL4Hp1nhQyjiTaCdQ485ED8uMWh6vDeomBKt1g/exec`; // ใช้ URL ของ Web App
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        const data = await response.json();
+
+        if (data && data.length > 0) {
+            const lastNumber = data[data.length - 1][0]; // สมมติว่าเลขอยู่ในคอลัมน์แรก
+            const newNumber = document.getElementById('numb');
+            newNumber.innerText = parseInt(lastNumber) + 1;
+        } else {
+            const newNumber = document.getElementById('numb');
+            newNumber.innerText = 1; // ถ้าไม่มีข้อมูลใน Google Sheets ให้เริ่มที่ 1
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+async function getNextNumber() {
+    const url = https://script.google.com/macros/s/AKfycbwt7uMATiHcvtaTjmjrs2GeMfLWKC4lBq365gX9uri01JtVUGueeY6srpM9dvmtdkzJ/exec`; // เปลี่ยนเป็น URL ของ Web App
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        const data = await response.json(); // ข้อมูลที่รับจาก Web App ในรูปแบบ JSON
+
+        if (data && data.length > 0) {
+            const lastNumber = data[data.length - 1][0]; // สมมติว่าเลขอยู่ในคอลัมน์แรก
+            const newNumber = document.getElementById('numb');
+            newNumber.innerText = parseInt(lastNumber) + 1; // เพิ่ม 1 ไปยังเลขล่าสุด
+        } else {
+            const newNumber = document.getElementById('numb');
+            newNumber.innerText = 1; // ถ้าไม่มีข้อมูลใน Google Sheets ให้เริ่มที่ 1
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
 
 
 function printSticker() {
@@ -862,243 +1109,52 @@ function clearPage() {
 
 
 
-function loadAllCount() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-   
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            // ตรวจสอบว่ามีข้อมูลใน data.values หรือไม่
-            if (!data.values || data.values.length === 0) {
-                console.error('No data found.');
-                return;
-            }
-
-            // ประกาศตัวนับนอกลูป
-            let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l = 0;
-
-            data.values.forEach(row => {
-                const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
-
-                // นับจำนวนการเกิดของแต่ละ `barcodemethod`
-                switch (barcodemethod) {
-                    case "10":
-                        l++;
-                        break;
-                    case "11":
-                        a++;
-                        break;
-                    case "12":
-                        b++;
-                        break;
-                    case "13":
-                        c++;
-                        break;
-                    case "14":
-                        d++;
-                        break;
-                    case "15":
-                        e++;
-                        break;
-                    case "16":
-                        f++;
-                        break;
-                    case "17":
-                        g++;
-                        break;
-                    case "18":
-                        h++;
-                        break;
-                    case "19":
-                        i++;
-                        break;
-                    case "20":
-                        j++;
-                        break;
-                    case "21":
-                        k++;
-                        break;
-                    default:
-                        console.log("Unrecognized barcode method:", barcodemethod);
-                        break;
-                }
-            });
 
 
-            document.getElementById('PE').textContent = a;
-            document.getElementById('EDTA').textContent = b;
-            document.getElementById('urine').textContent = c;
-            document.getElementById('xray').textContent = d;
-            document.getElementById('ekg').textContent = e;
-            document.getElementById('ear').textContent = f;
-            document.getElementById('lung').textContent = g;
-            document.getElementById('eye').textContent = h;
-            document.getElementById('muscle').textContent = i;
-            document.getElementById('naf').textContent = j;
-            document.getElementById('clot').textContent = k;
-            document.getElementById('register').textContent = l;
 
-            clearSpecimen();
-            loadDataTable();
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
 
+function formatDateTime() {
+    const now = new Date(); // ดึงวันที่และเวลาปัจจุบัน
+
+    // ดึงค่าวัน, เดือน, ปี
+    const day = String(now.getDate()).padStart(2, '0'); // เติมเลข 0 ถ้าวันน้อยกว่า 10
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // เดือนใน JavaScript เริ่มที่ 0
+    const year = String(now.getFullYear()).slice(2); // เอาสองหลักสุดท้ายของปี
+
+    // ดึงค่า ชั่วโมงและนาที
+    const hours = String(now.getHours()).padStart(2, '0'); // เติมเลข 0 ถ้าชั่วโมงน้อยกว่า 10
+    const minutes = String(now.getMinutes()).padStart(2, '0'); // เติมเลข 0 ถ้านาทีน้อยกว่า 10
+
+    // รวมเป็นรูปแบบที่ต้องการ: dd/mm/yy, hh:mm
+    return `${day}/${month}/${year}, ${hours}:${minutes}`;
 }
 
+// แสดงวันที่และเวลาปัจจุบัน
+console.log(formatDateTime());
 
-function loadAllCountOpen() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-   
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            // ตรวจสอบว่ามีข้อมูลใน data.values หรือไม่
-            if (!data.values || data.values.length === 0) {
-                console.error('No data found.');
-                return;
-            }
-
-            // ประกาศตัวนับนอกลูป
-            let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l = 0;
-
-            data.values.forEach(row => {
-                const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
-
-                // นับจำนวนการเกิดของแต่ละ `barcodemethod`
-                switch (barcodemethod) {
-                    case "10":
-                        l++;
-                        break;
-                    case "11":
-                        a++;
-                        break;
-                    case "12":
-                        b++;
-                        break;
-                    case "13":
-                        c++;
-                        break;
-                    case "14":
-                        d++;
-                        break;
-                    case "15":
-                        e++;
-                        break;
-                    case "16":
-                        f++;
-                        break;
-                    case "17":
-                        g++;
-                        break;
-                    case "18":
-                        h++;
-                        break;
-                    case "19":
-                        i++;
-                        break;
-                    case "20":
-                        j++;
-                        break;
-                    case "21":
-                        k++;
-                        break;
-                    default:
-                        console.log("Unrecognized barcode method:", barcodemethod);
-                        break;
-                }
-            });
-
-
-            document.getElementById('PE').textContent = a;
-            document.getElementById('EDTA').textContent = b;
-            document.getElementById('urine').textContent = c;
-            document.getElementById('xray').textContent = d;
-            document.getElementById('ekg').textContent = e;
-            document.getElementById('ear').textContent = f;
-            document.getElementById('lung').textContent = g;
-            document.getElementById('eye').textContent = h;
-            document.getElementById('muscle').textContent = i;
-            document.getElementById('naf').textContent = j;
-            document.getElementById('clot').textContent = k;
-            document.getElementById('register').textContent = l;
-
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-
+function updateDateTime() {
+    const now = new Date();
+    const date = now.toLocaleDateString('th-TH');
+    const time = now.toLocaleTimeString('th-TH', { hour12: false }); // ใช้ 24 ชั่วโมง
+    document.getElementById('datetime').textContent = `${date} ${time}`;
 }
 
+// เรียกใช้ updateDateTime ทุก 1 วินาที
+setInterval(updateDateTime, 1000);
 
 
 
 
 
-function loadDataTable() {
 
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok " + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            
-            const resultDiv1 = document.getElementById('specimenresult');
-            resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
-
-            // ตรวจสอบว่ามีข้อมูลหรือไม่
-            if (!data.values || data.values.length === 0) {
-                resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
-                return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
-            }
-
-        
-            const sortedData = data.values.sort((a, b) => {
-                const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
-                const valueB = parseInt(b[0], 10);
-                return valueB - valueA; // เรียงจากมากไปน้อย
-            });
-
-            // แสดงข้อมูลใน resultDiv1
-            sortedData.forEach(row => {
-                if (row[4] !== "1ลงทะเบียน") {
-                resultDiv1.innerHTML +=
-                    `<tr>
-                 <th scope="row" class="col-3 text-center">${row[0]}</th>
-                 <td scope="col"  class="col-2 text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
-                 <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
-                 <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
-               </tr>`;
-                }
-            });
-
-         loadAllCount();
-        })
-        .catch(error => {
-            console.error("Error fetching data:", error);
-            alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
-        });
-
+function updateDate() {
+    const now = new Date();
+    const date = now.toLocaleDateString('th-TH');
+    const time = now.toLocaleTimeString('th-TH');
+    const current = `${date}`;
+    return current
 }
-
-
 function openSheet() {
     $('#sheet').css('display', 'flex');
 }
@@ -1142,103 +1198,10 @@ function closeSpecimen() {
 
 
 
-function sendBarcode() {
-
-    var barcode = document.getElementById('inputbar').value.trim();
-    var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
-
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            var records = data.values || [];
-            var foundRecord = records.find(record => record[1] === barcodeid);
-
-            var baridElement = document.getElementById('barregisterid');
-            var barnameElement = document.getElementById('barname');
-
-            baridElement.textContent = '';
-            barnameElement.textContent = '';
-
-            if (foundRecord) {
-                baridElement.textContent = foundRecord[1];
-                barnameElement.textContent = foundRecord[2];
-                setTimeout(() => {
-                    addRegistData();
-                }, 1000);
-            } else {
-                alert('ไม่พบ ID นี้ในระบบ');
-            }
-        })
-        .catch(error => {
-            console.error('Error in fetching barcode data:', error);
-            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
-        });
-
-}
-
-function displayNextNumber() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
-  
-
-    return fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok " + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const values = data.values;
-            if (values && values.length > 0) {
-                const lastNumber = values[values.length - 1][0];
-                var newNumber = document.getElementById('numb');
-                newNumber.innerText = parseInt(lastNumber) + 1;
-            } else {
-                var newNumber = document.getElementById('numb');
-                newNumber.innerText = 1;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-        });
-}
 
 
 
-function getNextNumber() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
-  
-    return fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok " + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const values = data.values;
-            if (values && values.length > 0) {
-                const lastNumber = values[values.length - 1][0];
-                var newNumber = document.getElementById('numb');
-                newNumber.innerText = parseInt(lastNumber) + 1;
-            } else {
-                var newNumber = document.getElementById('numb');
-                newNumber.innerText = 1;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            throw error; // ส่งต่อ error ไปยัง function ที่เรียกใช้
-        });
-}
+
 
 
 
@@ -1266,26 +1229,8 @@ function calculateAge() {
 }
 
 
-function loadRegister() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet4}?key=${apiKey}`;
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const registerCount = (data.values && data.values.length > 0) ? data.values.length : 0; // ตรวจสอบจำนวนข้อมูล
-            document.getElementById('register').textContent = registerCount; // นับจำนวนแถว
-        })
 
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            alert('เกิดข้อผิดพลาดในการโหลดจำนวนทะเบียน');
-        });
-}
 
 function clearSpecimen() {
 
@@ -1389,47 +1334,7 @@ function clearRegisterPage() {
     newprogram.value = '';
     newcard.value = '';
 }
-function loadAllRecordsSearch() {
 
-
-const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
- 
-fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        const resultDiv1 = document.getElementById('searchdataload');
-
-        resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
-
-        if (data.values && data.values.length > 0) { // ตรวจสอบว่ามีข้อมูลใน data.values
-            data.values.forEach(row => {
-                resultDiv1.innerHTML += `
-<tr onclick="copyId" style="cursor: pointer;">
-
-          <th class="column-5 text-center">${row[0]}</th>
-          <td class="column-6">${row[1]}</th>
-          <td class="column-5 text-center">${row[2]}</th>
-          <td class="column-5 text-center">${row[4]}</th>
-        
-</tr>
-`;
- hideLoadingSearch();
-
-                 });
-        } else {
-            resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
-        }
-    })
-    .catch(error => {
-        console.error('Error loading all records:', error);
-        alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
-    });
-}   
 
 function openSearch() {
     $(".modalsearch").css('display', 'block');
@@ -1456,99 +1361,9 @@ function copyId(element) {
 }
 
 
-function searchDataSearch(){
-   
-      const searchId = document.getElementById('datasearchid').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
-
-     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-             var resultDiv1 = document.getElementById('searchdataload');
-                resultDiv1.innerHTML = '';
-            if (data.values) {
-                data.values.forEach(row => {
-                    if (row[2] === searchId){
-                     
-                          resultDiv1.innerHTML += `
-<tr onclick="copyId"  style="cursor: pointer;">
-
-          <th class="column-5 text-center">${row[0]}</th>
-          <td class="column-6">${row[1]}</th>
-          <td id="copyid" class="column-5 text-center">${row[2]}</th>
-          <td class="column-5 text-center">${row[4]}</th>
-        
-</tr>
-`;
-
-               } });
-                 
-        } else {
-            resultDiv1.innerHTML = `<tr><td colspan="8" class="text-center">ไม่พบข้อมูล</td></tr>`;
-        }
-    })
-    .catch(error => {
-        console.error('Error loading all records:', error);
-        alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
-    });
-  
-}
 
 
 
-function filterRecords() {
-    const searchValue = document.getElementById('datasearchname').value.toLowerCase();
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet1}?key=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const resultDiv1 = document.getElementById('searchdataload');
-            resultDiv1.innerHTML = ''; // เคลียร์ข้อมูลเก่าออก
-
-            if (data.values && data.values.length > 0) {
-                let found = false; // ใช้สำหรับตรวจสอบว่ามีข้อมูลที่ตรงกับการค้นหาหรือไม่
-
-                data.values.forEach(row => {
-                    // ตรวจสอบว่า row มีข้อมูลและ row[1] มีค่า
-                    if (row && row[1] && row[1].toLowerCase().includes(searchValue)) {
-                        found = true; // พบข้อมูลที่ตรงกับการค้นหา
-                        resultDiv1.innerHTML += `
-                            <tr onclick="copyId(this)" style="cursor: pointer;">
-                                <th class="column-5 text-center">${row[0]}</th>
-                                <td class="column-6">${row[1]}</td>
-                                <td class="idCardCell column-5 text-center">${row[2]}</td>
-                                <td class="column-5 text-center">${row[4]}</td>
-                            </tr>
-                        `;
-                    }
-                });
-
-                // หากไม่พบข้อมูลที่ตรงกับการค้นหา
-                if (!found) {
-                    resultDiv1.innerHTML = `<tr><td colspan="4" class="text-center">ไม่พบข้อมูลที่ตรงกับการค้นหา</td></tr>`;
-                }
-            } else {
-                // กรณีไม่มีข้อมูลใน Google Sheets
-                resultDiv1.innerHTML = `<tr><td colspan="4" class="text-center">ไม่พบข้อมูล</td></tr>`;
-            }
-        })
-        .catch(error => {
-            console.error('Error loading records:', error);
-            alert("เกิดข้อผิดพลาดในการดึงข้อมูล");
-        });
-}
 
 
 function deleteAllFilter(){
