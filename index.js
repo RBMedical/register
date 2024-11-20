@@ -1559,32 +1559,6 @@ function deleteAllFilter(){
     search2.value = '';
 }
 
-async function fetchData() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet12}?key=${apiKey}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            const formattedData = [];
-            const headers = data.values[0];
-            for (let i = 1; i < data.values.length; i++) {
-                const row = {};
-                headers.forEach((header, index) => {
-                    row[header] = data.values[i][index];
-                });
-                formattedData.push(row);
-            }
-            return formattedData;
-        }
-
-        fetchData().then(data => {
-            $("#output").pivotUI(data, {
-                rows: ["Register ID", "ชื่อ นามสกุล"], 
-                cols: ["Specimen"],
-                vals: ["Specimen"],
-                aggregatorName: "Count",
-                rendererName: "Table"
-            });
-        });
 
 window.onload = function () {
   loadAllRecords();
