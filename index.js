@@ -459,7 +459,7 @@ function searchData() {
 async function searchDataFromId() {
     const searchId = document.getElementById('idcard').textContent.trim(); 
 
-    const url = `https://script.google.com/macros/s/AKfycbziwLwnJr7q1lh4XCnPKFNDHN3JWcvq3NyuzpLsZjSceNw1Xrl_enOxVuTia31-SDd8wA/exec`; 
+    const url = `https://script.google.com/macros/s/AKfycbyvjMitlmt9ywP_nRWzh3dQyDL-pxQ6o1VbC6-fxpCdn386x8BuFMK5G5Ni9Ncm4zmpvw/exec`; 
 
     try {
         // ส่งคำขอไปยัง Apps Script
