@@ -661,7 +661,7 @@ async function loadAllRecords() {
  <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1]}</td>
  <td scope="col" class="col-4" style="font-family: sarabun;">${row[2]}</td>
  <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[8]}</td>
- <td scope="col" class="col-3 text-center" style="font-family: sarabun;">${datetime}</td>
+ <td scope="col" class="col-3 text-center" style="font-family: sarabun;">${formatDateTime(row[9])}</td>
 </tr>
 `;
                 });
@@ -1143,7 +1143,19 @@ function updateDateTime() {
 // เรียกใช้ updateDateTime ทุก 1 วินาที
 setInterval(updateDateTime, 1000);
 
+function formatDateTime(dateTime) {
+    const date = new Date(dateTime);
 
+    // ดึงข้อมูลส่วนของวัน, เดือน, ปี, ชั่วโมง และนาที
+    const day = String(date.getDate()).padStart(2, '0'); // เติม 0 ถ้าตัวเลขน้อยกว่า 10
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0, ต้อง +1
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0'); // ชั่วโมง
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // นาที
+
+    // รวมผลลัพธ์เป็นรูปแบบที่ต้องการ
+    return `${day}/${month}/${year},${hours}:${minutes}`;
+}
 
 
 
