@@ -634,7 +634,7 @@ async function searchProgram() {
 
 
 async function loadAllRecords() {
-    const url = `https://script.google.com/macros/s/AKfycbwVBHQfFeENyWwRLTnMNd6mmgYGpZ62dSjsOyWj2VRnk9ffL_DaOk3EiBntytAM3CjCqA/exec`; // URL ของ Apps Script
+    const url = `https://script.google.com/macros/s/AKfycbyo_bf9YyMBF7k-5PejJbYC4drUKr5AjeTmuGFg5DUTS2E7mtYQLkIZoB9w0ShY5KzMoA/exec`; // URL ของ Apps Script
     const resultDiv1 = document.getElementById('registeresult');
     resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
 
