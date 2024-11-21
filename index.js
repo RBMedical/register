@@ -503,8 +503,7 @@ async function searchDataFromId() {
             age.textContent = row[5];
             birthday.textContent = birthdayFormat(row[6]);
             program.textContent = row[7];
-            desc.textContent = row[8];
-
+           
             // เรียกฟังก์ชันเพิ่มเติม
             setTimeout(() => {
                 searchProgram();
@@ -615,7 +614,7 @@ async function searchProgram() {
             // แสดงรายละเอียดโปรแกรม
             if (data.results && data.results.length > 0) {
                 data.results.forEach(detail => {
-                    programdetail.innerHTML += `<p>${row[1]}</p>`;
+                    programdetail.innerHTML += `<p>${result}</p>`;
                 });
             } else {
                 programdetail.innerHTML = `<p>ไม่พบโปรแกรมที่ต้องการ</p>`;
