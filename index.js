@@ -1030,7 +1030,7 @@ async function displayNextNumber() {
 }
 
 async function getNextNumber() {
-    const url = https://script.google.com/macros/s/AKfycbwt7uMATiHcvtaTjmjrs2GeMfLWKC4lBq365gX9uri01JtVUGueeY6srpM9dvmtdkzJ/exec`; // เปลี่ยนเป็น URL ของ Web App
+    const url = `https://script.google.com/macros/s/AKfycbwt7uMATiHcvtaTjmjrs2GeMfLWKC4lBq365gX9uri01JtVUGueeY6srpM9dvmtdkzJ/exec`; // เปลี่ยนเป็น URL ของ Web App
 
     try {
         const response = await fetch(url);
