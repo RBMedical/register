@@ -501,7 +501,7 @@ async function searchDataFromId() {
             card.textContent = row[3];
             depart.textContent = row[4];
             age.textContent = row[5];
-            birthday.textContent = row[6];
+            birthday.textContent = birthdayFormat(row[6]);
             program.textContent = row[7];
             desc.textContent = row[8];
 
@@ -572,7 +572,7 @@ async function searchDataKey() {
             card.textContent = row[3];
             depart.textContent = row[4];
             age.textContent = row[5];
-            birthday.textContent = row[6];
+            birthday.textContent = birthdayFormat(row[6]);
             program.textContent = row[7];
 
             // เรียกฟังก์ชันเพิ่มเติม
@@ -615,7 +615,7 @@ async function searchProgram() {
             // แสดงรายละเอียดโปรแกรม
             if (data.results && data.results.length > 0) {
                 data.results.forEach(detail => {
-                    programdetail.innerHTML += `<p>- ${detail}</p>`;
+                    programdetail.innerHTML += `<p>${row[1]}</p>`;
                 });
             } else {
                 programdetail.innerHTML = `<p>ไม่พบโปรแกรมที่ต้องการ</p>`;
@@ -1158,7 +1158,18 @@ function formatDateTime(dateTime) {
 }
 
 
+function birthdayFormat(dateTime) {
+    const date = new Date(dateTime);
 
+    // ดึงข้อมูลส่วนของวัน, เดือน, ปี, ชั่วโมง และนาที
+    const day = String(date.getDate()).padStart(2, '0'); // เติม 0 ถ้าตัวเลขน้อยกว่า 10
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0, ต้อง +1
+    const year = date.getFullYear();
+   
+
+    // รวมผลลัพธ์เป็นรูปแบบที่ต้องการ
+    return `${day}/${month}/${year}`;
+}
 
 
 function updateDate() {
