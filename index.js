@@ -614,7 +614,7 @@ async function searchProgram() {
             // แสดงรายละเอียดโปรแกรม
             if (data.results && data.results.length > 0) {
                 data.results.forEach(detail => {
-                    programdetail.innerHTML += `<p>${result}</p>`;
+                    programdetail.innerHTML += `<p>${row[1]}</p>`;
                 });
             } else {
                 programdetail.innerHTML = `<p>ไม่พบโปรแกรมที่ต้องการ</p>`;
