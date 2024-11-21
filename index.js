@@ -589,46 +589,7 @@ async function searchDataKey() {
 }
 
 
-async function searchProgram() {
-    const url = `https://script.google.com/macros/s/AKfycbww7KY9wr-puN-mL5JvBcaz5t5PjwkJ8tP5LXlLNwE-zBGRRiOWVLWkaqI5sXOMTf3deA/exec`; // URL ของ Apps Script
-    const programName = document.getElementById('program').textContent.trim(); // ดึงชื่อโปรแกรม
 
-    const programdetail = document.getElementById('programdetail');
-    programdetail.textContent = ""; // ล้างข้อมูลก่อนหน้า
-    showLoading();
-
-    try {
-        // ส่งคำขอไปยัง Apps Script
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'searchProgram', programName })
-        });
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-
-        if (data.success) {
-            // แสดงรายละเอียดโปรแกรม
-            if (data.results && data.results.length > 0) {
-                data.results.forEach(detail => {
-                    programdetail.innerHTML += `<p>${row[1]}</p>`;
-                });
-            } else {
-                programdetail.innerHTML = `<p>ไม่พบโปรแกรมที่ต้องการ</p>`;
-            }
-        } else {
-            programdetail.innerHTML = `<p>${data.message}</p>`;
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        programdetail.innerHTML = `<p>เกิดข้อผิดพลาดในการดึงข้อมูล</p>`;
-    } finally {
-        hideLoading();
-    }
-}
 
 
 
@@ -1052,6 +1013,50 @@ async function getNextNumber() {
     }
 }
 
+
+function searchProgram() {
+    const apiKey = 'AIzaSyCUkklmX-ewNdmcDfJCb5FImBwfN0F4wjg';
+    const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
+    const angesheet2 = 'program!A2:Z';
+
+    const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?key=${apiKey}`;
+    showLoading();
+    fetch(url1)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const programdetail = document.getElementById('programdetail');
+            const programName = document.getElementById('program').textContent;
+            programdetail.textContent = ""; // ล้างข้อมูลก่อนหน้า
+
+            let found = false; // กำหนดค่า found เป็น false เริ่มต้น
+
+            // ค้นหาโปรแกรมที่ตรงกับชื่อที่ให้มา
+            if (data.values && data.values.length > 0) { // ตรวจสอบว่ามีข้อมูลใน data.values
+                data.values.forEach(row => {
+                    if (row[0] === programName) {
+                        programdetail.innerHTML += `<p>- ${row[1]}</p>`; // แสดงรายละเอียดโปรแกรม
+                        found = true; // เปลี่ยนค่า found เป็น true ถ้าพบโปรแกรม
+                    }
+                });
+                hideLoading();
+            }
+
+            // หากไม่พบโปรแกรมที่ค้นหา
+            if (!found) {
+                programdetail.innerHTML = `<p>ไม่พบโปรแกรมที่ต้องการ</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const programdetail = document.getElementById('programdetail');
+            programdetail.innerHTML = `<p>เกิดข้อผิดพลาดในการดึงข้อมูล</p>`;
+        });
+}
 
 
 function printSticker() {
