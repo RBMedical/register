@@ -968,19 +968,20 @@ async function filterRecords() {
 
 
 async function displayNextNumber() {
-    const url = `https://script.google.com/macros/s/AKfycbwKa84I76sSFmTDSkqud8_C1yabELmATL4Hp1nhQyjiTaCdQ485ED8uMWh6vDeomBKt1g/exec`; // ใช้ URL ของ Web App
+    const url = `https://script.google.com/macros/s/AKfycbxjea3aR5AYbPn90Xfh2l670mxa0yzNo2va1RzBMRYykrgVjri37x4sBTatmztQQWPQ/exec`; // ใช้ URL ของ Web App
 
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Network response was not ok " + response.statusText);
         }
-        const data = await response.json();
+        const data = await response;
 
-        if (data && data.length > 0) {
-            const lastNumber = data[data.length - 1][0]; // สมมติว่าเลขอยู่ในคอลัมน์แรก
+        if (data > 0) {
+            const lastNumber =  Math.floor(data); // สมมติว่าเลขอยู่ในคอลัมน์แรก
             const newNumber = document.getElementById('numb');
              const nextNumber = Number(lastNumber);
+            console.log (nextNumber);
             newNumber.innerText = parseInt(nextNumber) + 1;
         } else {
             const newNumber = document.getElementById('numb');
@@ -992,19 +993,20 @@ async function displayNextNumber() {
 }
 
 async function getNextNumber() {
-    const url = `https://script.google.com/macros/s/AKfycbwt7uMATiHcvtaTjmjrs2GeMfLWKC4lBq365gX9uri01JtVUGueeY6srpM9dvmtdkzJ/exec`; // เปลี่ยนเป็น URL ของ Web App
+    const url = `https://script.google.com/macros/s/AKfycbxjea3aR5AYbPn90Xfh2l670mxa0yzNo2va1RzBMRYykrgVjri37x4sBTatmztQQWPQ/exec`; // เปลี่ยนเป็น URL ของ Web App
 
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Network response was not ok " + response.statusText);
         }
-        const data = await response.json(); // ข้อมูลที่รับจาก Web App ในรูปแบบ JSON
+        const data = await response; // ข้อมูลที่รับจาก Web App ในรูปแบบ JSON
 
         if (data && data.length > 0) {
-            const lastNumber = data[data.length - 1][0]; // สมมติว่าเลขอยู่ในคอลัมน์แรก
+            const lastNumber = Math.floor(data); ; // สมมติว่าเลขอยู่ในคอลัมน์แรก
             const newNumber = document.getElementById('numb');
             const nextNumber = Number(lastNumber);
+            console.log(nextNumber);
             newNumber.innerText = parseInt(nextNumber) + 1; // เพิ่ม 1 ไปยังเลขล่าสุด
         } else {
             const newNumber = document.getElementById('numb');
