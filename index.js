@@ -968,29 +968,28 @@ async function filterRecords() {
 
 
 async function displayNextNumber() {
-    const url = `https://script.google.com/macros/s/AKfycbxjea3aR5AYbPn90Xfh2l670mxa0yzNo2va1RzBMRYykrgVjri37x4sBTatmztQQWPQ/exec`; // ใช้ URL ของ Web App
+    const url = `https://script.google.com/macros/s/AKfycbx5iWbvWY0xXDxW6N38l2LkIM4jDrGcjpvlk9Y9UYEwJfeIDQLSH1VCZnp7hCtHmi5N/exec`; // ใส่ URL ของ Web App
 
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Network response was not ok " + response.statusText);
         }
-        const data = await response;
 
-        if (data > 0) {
-            const lastNumber =  Math.floor(data); // สมมติว่าเลขอยู่ในคอลัมน์แรก
-            const newNumber = document.getElementById('numb');
-             const nextNumber = Number(lastNumber);
-            console.log (nextNumber);
-            newNumber.innerText = parseInt(nextNumber) + 1;
-        } else {
-            const newNumber = document.getElementById('numb');
-            newNumber.innerText = 1; // ถ้าไม่มีข้อมูลใน Google Sheets ให้เริ่มที่ 1
-        }
+        const data = await response.json(); // แปลง response เป็น JSON
+        const nextNumber = data.nextNumber; // ดึงค่าที่ส่งมาจาก backend
+
+        // แสดงผลในหน้า HTML
+        const newNumberElement = document.getElementById('numb');
+        newNumberElement.innerText = nextNumber;
+
     } catch (error) {
         console.error('Error fetching data:', error);
+        const newNumberElement = document.getElementById('numb');
+        newNumberElement.innerText = "Error"; // แสดงข้อความเมื่อเกิดข้อผิดพลาด
     }
 }
+
 
 async function getNextNumber() {
     const url = `https://script.google.com/macros/s/AKfycbxjea3aR5AYbPn90Xfh2l670mxa0yzNo2va1RzBMRYykrgVjri37x4sBTatmztQQWPQ/exec`; // เปลี่ยนเป็น URL ของ Web App
@@ -1409,7 +1408,7 @@ function deleteAllFilter(){
 
 window.onload = function () {
   loadAllRecords();
-  getNextNumber(); 
+  displayNextNumber(); 
   updateDateTime();
   loadDataTable();
   loadAllCount();
