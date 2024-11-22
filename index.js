@@ -978,9 +978,10 @@ async function displayNextNumber() {
         const data = await response.json();
 
         if (data && data.length > 0) {
-            const lastNumber = data[data.length - 1]Number([0]); // สมมติว่าเลขอยู่ในคอลัมน์แรก
+            const lastNumber = data[data.length - 1][0]; // สมมติว่าเลขอยู่ในคอลัมน์แรก
             const newNumber = document.getElementById('numb');
-            newNumber.innerText = parseInt(lastNumber) + 1;
+             const nextNumber = Number(lastNumber);
+            newNumber.innerText = parseInt(nextNumber) + 1;
         } else {
             const newNumber = document.getElementById('numb');
             newNumber.innerText = 1; // ถ้าไม่มีข้อมูลใน Google Sheets ให้เริ่มที่ 1
@@ -1001,9 +1002,10 @@ async function getNextNumber() {
         const data = await response.json(); // ข้อมูลที่รับจาก Web App ในรูปแบบ JSON
 
         if (data && data.length > 0) {
-            const lastNumber = data[data.length - 1]Number([0]); // สมมติว่าเลขอยู่ในคอลัมน์แรก
+            const lastNumber = data[data.length - 1][0]; // สมมติว่าเลขอยู่ในคอลัมน์แรก
             const newNumber = document.getElementById('numb');
-            newNumber.innerText = parseInt(lastNumber) + 1; // เพิ่ม 1 ไปยังเลขล่าสุด
+            const nextNumber = Number(lastNumber);
+            newNumber.innerText = parseInt(nextNumber) + 1; // เพิ่ม 1 ไปยังเลขล่าสุด
         } else {
             const newNumber = document.getElementById('numb');
             newNumber.innerText = 1; // ถ้าไม่มีข้อมูลใน Google Sheets ให้เริ่มที่ 1
