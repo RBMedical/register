@@ -78,7 +78,7 @@ async function addRegistrationData() {
         const rowData = [[number, regisid, name, idcard, card, depart, sexage, birth, prog, date, desc]];
         console.log(rowData);
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
-        const url1 = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
+        const url1 = 'https://script.google.com/macros/s/AKfycbxmAoNewdXF1K444T3sa2qkeLoHXrRHFDLn8Pdf6sScUu8bq8LRdj29JIpvCLtoYg56/exec';
         console.log(url1);
         // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
         const postData = {
@@ -131,7 +131,7 @@ async function addRegistrationDataInner() {
         const rowData = [[numr, regisid, name, spec, type]];
 
         // URL ของ Google Apps Script Web App ที่ Deploy ไว้
-        const url2 = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
+        const url2 = 'https://script.google.com/macros/s/AKfycbxmAoNewdXF1K444T3sa2qkeLoHXrRHFDLn8Pdf6sScUu8bq8LRdj29JIpvCLtoYg56/exec';
 
         // เตรียมข้อมูลที่ต้องการส่งไปยัง Google Apps Script
         const postData = {
@@ -298,7 +298,7 @@ async function addNewData() {
         console.log(rowData);
 
         // URL ของ Google Apps Script Web App
-        const scriptURL2 = 'https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec';
+        const scriptURL2 = 'https://script.google.com/macros/s/AKfycbxmAoNewdXF1K444T3sa2qkeLoHXrRHFDLn8Pdf6sScUu8bq8LRdj29JIpvCLtoYg56/exec';
 
         
         const postData = {
@@ -350,98 +350,71 @@ async function addNewData() {
 
 
 async function addRegistData() {
-    try {
-        // รับค่าจาก input และ element ต่าง ๆ
-        var barinput = document.getElementById('inputbar').value.trim();
-        var barcodenewid = document.getElementById('barregisterid').textContent.trim();
-        var barcodename = document.getElementById('barname').textContent.trim();
-        var inputdate = document.getElementById('datetime').textContent;
-        var inputmethodbar = barinput.slice(-2); // ดึง 2 ตัวท้ายของบาร์โค้ด 
-        console.log("Method:", inputmethodbar);
+  try {
+    const barinput = document.getElementById('inputbar').value.trim();
+    const barcodenewid = document.getElementById('barregisterid').textContent.trim();
+    const barcodename = document.getElementById('barname').textContent.trim();
+    const inputdate = document.getElementById('datetime').textContent;
+    const inputmethodbar = barinput.slice(-2);
 
-        // กำหนดค่า Specimen ตาม method
-        var specimen;
-        switch (inputmethodbar) {
-            case "11":
-                specimen = "PE";
-                break;
-            case "12":
-                specimen = "EDTA";
-                break;
-            case "13":
-                specimen = "Urine";
-                break;
-            case "14":
-                specimen = "X Ray";
-                break;
-            case "15":
-                specimen = "EKG";
-                break;
-            case "20":
-                specimen = "naf";
-                break;
-            case "21":
-                specimen = "Clot";
-                break;
-            case "16":
-                specimen = "Audiogram";
-                break;
-            case "17":
-                specimen = "Lung";
-                break;
-            case "18":
-                specimen = "Eyes";
-                break;
-            case "19":
-                specimen = "Muscle";
-                break;
-            default:
-                specimen = "ไม่พบข้อมูล";
-                break;
-        }
-
-        // เตรียมข้อมูลที่จะส่งไปยัง Google Apps Script
-        var data = {
-            values: [[inputdate, barcodenewid, barcodename, inputmethodbar, specimen]]
-        };
-        console.log("Data to be sent:", data);
-
-        // URL ของ Google Apps Script
-        const url4 = `https://script.google.com/macros/s/AKfycbyXUGV1bM84mVLRy2DZNLIz0uSf5N2xgG_cDQ4nNMAqo7oVh_GJSz6yS1HkYAnAfLHW2Q/exec`;
-
-        // เตรียมข้อมูลสำหรับ POST request
-        const postData = {
-            action: 'addRegistData',
-            rowData: data
-        };
-
-        // ส่งข้อมูลด้วย fetch
-        const response = await fetch(url4, {
-            method: 'POST',
-            body: JSON.stringify(postData)
-        });
-
-        // ตรวจสอบว่า response สำเร็จหรือไม่
-        if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }
-
-        // อ่านผลลัพธ์จาก response
-        const result = await response.json();
-        console.log("Success:", result);
-
-       loadDataTable();
-
-    } catch (error) {
-        // เมื่อเกิดข้อผิดพลาดในการบันทึกข้อมูล
-        console.error('Error:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: 'ไม่สามารถเพิ่มข้อมูลได้'
-        });
+    let specimen;
+    switch (inputmethodbar) {
+      case "11": specimen = "PE"; break;
+      case "12": specimen = "EDTA"; break;
+      case "13": specimen = "Urine"; break;
+      case "14": specimen = "X Ray"; break;
+      case "15": specimen = "EKG"; break;
+      case "20": specimen = "naf"; break;
+      case "21": specimen = "Clot"; break;
+      case "16": specimen = "Audiogram"; break;
+      case "17": specimen = "Lung"; break;
+      case "18": specimen = "Eyes"; break;
+      case "19": specimen = "Muscle"; break;
+      default: specimen = "ไม่พบข้อมูล"; break;
     }
+
+    const data = {
+      values: [[inputdate, barcodenewid, barcodename, inputmethodbar, specimen]] // ใช้ key `values`
+    };
+
+    const url4 = `https://script.google.com/macros/s/AKfycbwegrXKz4ht2rWj9IKKRohAp3aCwrbJUoOrcg5WkD_DWND5dxONxKtywEYwBiK5BQg2tg/exec`;
+
+    const response = await fetch(url4, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'addRegistData',
+        values: data.values // ใช้ key `values`
+      }),
+     
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok: ' + response.statusText);
+    }
+
+    const result = await response.json();
+    console.log("Success:", result);
+
+    if (result.success) {
+      Swal.fire({
+        icon: 'success',
+        title: 'สำเร็จ',
+        text: 'ข้อมูลถูกเพิ่มสำเร็จ'
+      });
+      loadDataTable();
+    } else {
+      throw new Error(result.error || 'Unknown error');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'เกิดข้อผิดพลาด',
+      text: error.message || 'ไม่สามารถเพิ่มข้อมูลได้'
+    });
+  }
 }
+
 
 
 
@@ -750,7 +723,7 @@ async function loadAllCount() {
 
 
 async function loadDataTable() {
-    const url = `https://script.google.com/macros/s/AKfycbzHTHNmxWOXrgnvIFrEjC05J0BBh8QQOtOb-nKiAqwM4joaqw_biTqU_Ew2t0UkY2dp1A/exec`; // URL ของ Apps Script
+    const url = `https://script.google.com/macros/s/AKfycbwAT9MnyXkMsXiyWVdddoYACax93IWmmUkgKrxZABLg5txTSPwQmf-n_sbweLYbkgu_Lw/exec`; // URL ของ Apps Script
 
     try {
         // ส่งคำขอไปยัง Apps Script
