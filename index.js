@@ -801,9 +801,9 @@ async function loadDataTable() {
 
 
 function sendBarcode() {
-    const barcode = document.getElementById('inputbar').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
+    const code = document.getElementById('inputbar').value.trim(); // ดึงค่าจาก input และลบช่องว่าง
     const scriptURL = "https://script.google.com/macros/s/AKfycbzhaijq29CYZzzoq9haj3hzwZc6Qwv1Eupu_4Oa7C0zZscb3E0ABg20ZlJVgIn1nL4MPg/exec"; // URL ของ Apps Script Web App
-
+    const barcode = Number(code);
     // ส่งคำขอ POST ไปยัง Apps Script
     fetch(scriptURL, {
         method: 'POST',
