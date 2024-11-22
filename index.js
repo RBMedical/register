@@ -641,7 +641,7 @@ async function loadAllRecords() {
 
 
 async function searchPrint() {
-    const url = `https://script.google.com/macros/s/AKfycby9NvpwxMa9lPbZmrelb3Awxb2LWNVUVyGSRFXlxoterdGTWFX074u72uthHCEv6ZGDbw/exec`; // URL ของ Apps Script
+    const url = `https://script.google.com/macros/s/AKfycbxjGhKa8ELJCe1Bb4QJ6thawbNxrRGTHUpL4CRW7L4bJgRakrEvyfwNxH0S76z_Z5K8bQ/exec`; // URL ของ Apps Script
     const sticker = document.getElementById('sticker');
     const number = document.getElementById('numb').textContent.trim(); // ลบช่องว่าง
     const searchKey = document.getElementById('registernumber').textContent.trim();
@@ -666,7 +666,7 @@ async function searchPrint() {
 
         if (data.success && data.values.length > 0) {
             data.values.forEach((row, index) => {
-                if (row[0] === searchKey) {
+                if (String(row[0]) === String(searchKey)) {
                     found = true; // พบข้อมูล
                     const uniqueId = `barcode-${index}`; // ID ที่ไม่ซ้ำกัน
 
