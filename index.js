@@ -1,5 +1,3 @@
- const apiKey = 'AIzaSyCUkklmX-ewNdmcDfJCb5FImBwfN0F4wjg';
- const spreadsheetId = '1_aUWV9uDvVn_WBs25ZsHtVLilUYB9iNP87yadjSbHsw';
 
 function showLoading() {
     document.getElementById('loadingIcon').style.display = 'block';
@@ -977,8 +975,7 @@ async function getNextNumber() {
 
 function searchProgram() {
    
-    const angesheet2 = 'program!A2:Z';
-
+   
     const url1 = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet2}?key=${apiKey}`;
     showLoading();
     fetch(url1)
@@ -1019,7 +1016,7 @@ function searchProgram() {
 }
 
 function sendBarcode() {
-    const rangsheet3 = 'register!A2:Z';
+    
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
