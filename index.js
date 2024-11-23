@@ -886,7 +886,8 @@ function loadAllData() {
 
          // แสดงข้อมูลใน resultDiv1
          sortedData.forEach(row => {
-             if (data.value !== "1ลงทะเบียน") {
+             var dataValue = row[4].value;
+             if (dataValue !== "1ลงทะเบียน") {
              resultDiv1.innerHTML += 
                `<tr>
                  <th scope="row" class="col-2 text-center">${row[0]}</th>
