@@ -1066,7 +1066,7 @@ function sendBarcode() {
             barnameElement.textContent = '';
 
             const rows = Data.values || [];
-            const isDuplicate = rows.some(row => row[5] === fullbarcode)
+            const isDuplicate = rows.some(row => row[5] === fullbarcode);
 
             if (isDuplicate) {
              
