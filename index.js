@@ -401,7 +401,7 @@ async function addRegistData() {
         title: 'สำเร็จ',
         text: 'ข้อมูลถูกเพิ่มสำเร็จ'
       });
-      loadDataTable();
+      loadAllData();
     } else {
       throw new Error(result.error || 'Unknown error');
     }
