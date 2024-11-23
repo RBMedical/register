@@ -800,6 +800,7 @@ async function addRegistData() {
     const barcodename = document.getElementById('barname').textContent.trim();
     const inputdate = document.getElementById('datetime').textContent;
     const inputmethodbar = barinput.slice(-2);
+    const fullbarcode = document.getElementById('inputbar').value;  
 
     let specimen;
     switch (inputmethodbar) {
@@ -818,7 +819,7 @@ async function addRegistData() {
     }
 
     const data = {
-      values: [[inputdate, barcodenewid, barcodename, inputmethodbar, specimen]] // ใช้ key `values`
+      values: [[inputdate, barcodenewid, barcodename, inputmethodbar, specimen, fullbarcode]] // ใช้ key `values`
     };
 
     const url4 = `https://script.google.com/macros/s/AKfycbwegrXKz4ht2rWj9IKKRohAp3aCwrbJUoOrcg5WkD_DWND5dxONxKtywEYwBiK5BQg2tg/exec`;
@@ -1064,9 +1065,20 @@ function sendBarcode() {
             baridElement.textContent = '';
             barnameElement.textContent = '';
 
-            if (foundRecord) {
-                baridElement.textContent = foundRecord[1];
-                barnameElement.textContent = foundRecord[2];
+            const rows = Data.values || [];
+            const isDuplicate = rows.some(row => row[5] === fullbarcode;
+
+            if (isDuplicate) {
+             
+             Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'ID นี้ลงทะเบียนแล้ว!'
+            });
+            return;
+        };
+     
+                
                 setTimeout(() => {
                     addRegistData();
                 }, 1000);
@@ -1239,19 +1251,6 @@ function openSpecimen() {
 function closeSpecimen() {
     $('.modalspecimen').css('display', 'none');
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function calculateAge() {
     var birthdate = document.getElementById('birthdate').value;
