@@ -890,7 +890,7 @@ function loadAllData() {
              if (dataValue !== "1ลงทะเบียน") {
              resultDiv1.innerHTML += 
                `<tr>
-                 <th scope="row" class="col-2 text-center">${row[0]}</th>
+                 <th scope="row" class="col-3 text-center">${row[0]}</th>
                  <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
                  <td scope="col" class="col-4 text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
                  <td scope="col" class="col-1 text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
