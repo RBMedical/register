@@ -926,44 +926,44 @@ checkAndRefreshToken();
          let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l = 0;
 
          data.values.forEach(row => {
-             const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
+             const barcodemethod = Number(row[3]); 
 
              // นับจำนวนการเกิดของแต่ละ `barcodemethod`
              switch (barcodemethod) {
-                 case "11":
+                 case 11:
                      a++; 
                      break;
-                 case "12":
+                 case 12:
                      b++; 
                      break;
-                 case "10":
+                 case 10:
                      l++; 
                      break;   
-                 case "13":
+                 case 13:
                      c++; 
                      break;
-                 case "14":
+                 case 14:
                      d++; 
                      break;
-                 case "15":
+                 case 15:
                      e++; 
                      break;
-                 case "16":
+                 case 16:
                      f++; 
                      break;
-                 case "17":
+                 case 17:
                      g++; 
                      break;
-                 case "18":
+                 case 18:
                      h++; 
                      break;
-                 case "19":
+                 case 19:
                      i++; 
                      break;
-                 case "20":
+                 case 20:
                      j++; 
                      break;
-                 case "21":
+                 case 21:
                      k++; 
                      break;
                  default:
