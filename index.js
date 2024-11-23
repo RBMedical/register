@@ -1428,7 +1428,7 @@ window.onload = function () {
   loadAllRecords();
   displayNextNumber(); 
   updateDateTime();
-  loadDataTable();
+  loadAllData();
   loadAllCount();
 
 }
