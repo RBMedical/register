@@ -1042,7 +1042,6 @@ function searchProgram() {
 }
 
 function sendBarcode() {
-    
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
@@ -1062,27 +1061,33 @@ function sendBarcode() {
             var baridElement = document.getElementById('barregisterid');
             var barnameElement = document.getElementById('barname');
 
+            // เคลียร์ค่าข้อมูลเดิม
             baridElement.textContent = '';
             barnameElement.textContent = '';
 
-            const rows = Data.values || [];
-            const isDuplicate = rows.some(row => row[5] === fullbarcode);
+            if (foundRecord) {
+                // ตรวจสอบว่าบาร์โค้ดซ้ำหรือไม่
+                var isDuplicate = records.some(record => record[5] === barcode);
 
-            if (isDuplicate) {
-             
-             Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'ID นี้ลงทะเบียนแล้ว!'
-            });
-            return;
-        };
-     
-                
+                if (isDuplicate) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'ID นี้ลงทะเบียนแล้ว!'
+                    });
+                    return;
+                }
+
+                // ตั้งค่าข้อมูลใหม่
+                baridElement.textContent = foundRecord[1];
+                barnameElement.textContent = foundRecord[2];
+
+                // เรียกฟังก์ชันเพิ่มข้อมูลลงทะเบียน
                 setTimeout(() => {
                     addRegistData();
                 }, 1000);
             } else {
+                // แจ้งเตือนหากไม่พบข้อมูล
                 alert('ไม่พบ ID นี้ในระบบ');
             }
         })
@@ -1090,7 +1095,6 @@ function sendBarcode() {
             console.error('Error in fetching barcode data:', error);
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
-
 }
 
 function printSticker() {
