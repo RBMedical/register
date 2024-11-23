@@ -965,16 +965,8 @@ function loadAllData() {
                 resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
                 return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
             }
-
-            // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
-            const sortedData = data.values.sort((a, b) => {
-                const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
-                const valueB = parseInt(b[0], 10);
-                return valueB - valueA; // เรียงจากมากไปน้อย
-            });
-
-            // แสดงข้อมูลใน resultDiv1
-            sortedData.forEach(row => {
+       
+            data.forEach(row => {
                 if (row[4] !== "1ลงทะเบียน") {
                     resultDiv1.innerHTML +=
                         `<tr>
