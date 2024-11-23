@@ -613,98 +613,10 @@ async function searchPrint() {
     }
 }
 
-async function loadAllCount() {
-    const url = `https://script.google.com/macros/s/AKfycbwmG0sP6B0HBL_y_yI0BP-TSPL77b-a5YhQ5IIk4MyjAdFBv4nH34WmF-TsZPVRb7bOXQ/exec`; // URL ของ Apps Script
-
-    try {
-        // ส่งคำขอไปยัง Apps Script
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'loadAllCount',
-            }),
-        });
-
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-
-        if (data.success) {
-            const counts = data.counts;
-
-            document.getElementById('PE').textContent = counts.a || 0;
-            document.getElementById('EDTA').textContent = counts.b || 0;
-            document.getElementById('urine').textContent = counts.c || 0;
-            document.getElementById('xray').textContent = counts.d || 0;
-            document.getElementById('ekg').textContent = counts.e || 0;
-            document.getElementById('ear').textContent = counts.f || 0;
-            document.getElementById('lung').textContent = counts.g || 0;
-            document.getElementById('eye').textContent = counts.h || 0;
-            document.getElementById('muscle').textContent = counts.i || 0;
-            document.getElementById('naf').textContent = counts.j || 0;
-            document.getElementById('clot').textContent = counts.k || 0;
-            document.getElementById('register').textContent = counts.l || 0;
-
-            clearSpecimen();
-            loadDataTable();
-        } else {
-            console.error('Failed to load counts:', data.message);
-        }
-    } catch (error) {
-        console.error('Error fetching counts:', error);
-    }
-}
 
 
-async function loadDataTable() {
-    const url = `https://script.google.com/macros/s/AKfycbwAT9MnyXkMsXiyWVdddoYACax93IWmmUkgKrxZABLg5txTSPwQmf-n_sbweLYbkgu_Lw/exec`; // URL ของ Apps Script
 
-    try {
-        // ส่งคำขอไปยัง Apps Script
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'loadDataTable',
-            }),
-        });
 
-        if (!response.ok) {
-            throw new Error("Network response was not ok: " + response.statusText);
-        }
-
-        const data = await response.json();
-
-        const resultDiv1 = document.getElementById('specimenresult');
-        resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
-
-        if (data.success && data.records.length > 0) {
-            const sortedData = data.records.sort((a, b) => {
-                return parseInt(b[0], 10) - parseInt(a[0], 10); // เรียงลำดับข้อมูล
-            });
-
-            sortedData.forEach(row => {
-                if (row[4] !== "1ลงทะเบียน") {
-                    resultDiv1.innerHTML += `
-                        <tr>
-                            <th scope="row" class="col-3 text-center">${row[0]}</th>
-                            <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
-                            <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
-                            <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
-                        </tr>`;
-                }
-            });
-        } else {
-            resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
-        }
-
-        loadAllCount(); // เรียกฟังก์ชัน loadAllCount หลังจากโหลดข้อมูลเสร็จ
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
-    }
-}
 
 
 
@@ -992,7 +904,94 @@ function loadAllData() {
      });
 }
 
+function loadAllCount() {
+ const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+checkAndRefreshToken();
 
+ fetch(url)
+     .then(response => {
+         if (!response.ok) {
+             throw new Error("Network response was not ok");
+         }
+         return response.json();
+     })
+     .then(data => {
+         // ตรวจสอบว่ามีข้อมูลใน data.values หรือไม่
+         if (!data.values || data.values.length === 0) {
+             console.error('No data found.');
+             return;
+         }
+
+         // ประกาศตัวนับนอกลูป
+         let a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l = 0;
+
+         data.values.forEach(row => {
+             const barcodemethod = row[3]; // ตรวจสอบข้อมูลใน index 3
+
+             // นับจำนวนการเกิดของแต่ละ `barcodemethod`
+             switch (barcodemethod) {
+                 case "11":
+                     a++; 
+                     break;
+                 case "12":
+                     b++; 
+                     break;
+                 case "10":
+                     l++; 
+                     break;   
+                 case "13":
+                     c++; 
+                     break;
+                 case "14":
+                     d++; 
+                     break;
+                 case "15":
+                     e++; 
+                     break;
+                 case "16":
+                     f++; 
+                     break;
+                 case "17":
+                     g++; 
+                     break;
+                 case "18":
+                     h++; 
+                     break;
+                 case "19":
+                     i++; 
+                     break;
+                 case "20":
+                     j++; 
+                     break;
+                 case "21":
+                     k++; 
+                     break;
+                 default:
+                     console.log("Unrecognized barcode method:", barcodemethod);
+                     break;
+             }
+         });
+
+         // อัปเดตค่าใน HTML หลังจากประมวลผลเสร็จสิ้น
+         document.getElementById('PE').textContent = a;      // พบแพทย์
+         document.getElementById('EDTA').textContent = b;    // เจาะเลือด
+         document.getElementById('urine').textContent = c;   // ปัสสาวะ
+         document.getElementById('xray').textContent = d;    // X Ray
+         document.getElementById('ekg').textContent = e;     // EKG
+         document.getElementById('ear').textContent = f;     // Audiogram
+         document.getElementById('lung').textContent = g;    // เป่าปอด
+         document.getElementById('eye').textContent = h;     // ตา(ชีวอนามัย)
+         document.getElementById('muscle').textContent = i;  // กล้ามเนื้อ
+         document.getElementById('naf').textContent = j;     // NAF
+         document.getElementById('clot').textContent = k;    // Clot
+     })
+     .catch(error => {
+         console.error('Error fetching data:', error);
+     });
+
+ 
+ clearSpecimen();  
+}
 
 
 function searchProgram() {
