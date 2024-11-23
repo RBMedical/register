@@ -1057,7 +1057,58 @@ function printResult() {
 }
 
 
+function loadAllData() {
 
+
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok " + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const resultDiv1 = document.getElementById('specimenresult');
+            resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
+
+            // ตรวจสอบว่ามีข้อมูลหรือไม่
+            if (!data.values || data.values.length === 0) {
+                resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
+                return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
+            }
+
+            // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
+            const sortedData = data.values.sort((a, b) => {
+                const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
+                const valueB = parseInt(b[0], 10);
+                return valueB - valueA; // เรียงจากมากไปน้อย
+            });
+
+            // แสดงข้อมูลใน resultDiv1
+            sortedData.forEach(row => {
+                if (row[4] !== "1ลงทะเบียน") {
+                    resultDiv1.innerHTML +=
+                        `<tr>
+                 <th scope="row" class="col-3 text-center">${row[0]}</th>
+                 <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
+                 <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
+                 <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
+               </tr>`;
+                }
+            });
+
+            // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
+            loadAllCount();
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+        });
+
+
+}
 
 
 function clearPage() {
