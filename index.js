@@ -984,6 +984,7 @@ checkAndRefreshToken();
          document.getElementById('muscle').textContent = i;  // กล้ามเนื้อ
          document.getElementById('naf').textContent = j;     // NAF
          document.getElementById('clot').textContent = k;    // Clot
+         document.getElementById('register').textContent = l;
      })
      .catch(error => {
          console.error('Error fetching data:', error);
