@@ -886,6 +886,7 @@ function loadAllData() {
 
          // แสดงข้อมูลใน resultDiv1
          sortedData.forEach(row => {
+             if (data.value !== "1ลงทะเบียน") {
              resultDiv1.innerHTML += 
                `<tr>
                  <th scope="row" class="col-1 text-center">${row[0]}</th>
@@ -893,6 +894,7 @@ function loadAllData() {
                  <td scope="col" class="col-4 text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
                  <td scope="col" class="col-3 text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
                </tr>`;
+             }
          });
 
          // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
