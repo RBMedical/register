@@ -349,71 +349,7 @@ async function addNewData() {
 }
 
 
-async function addRegistData() {
-  try {
-    const barinput = document.getElementById('inputbar').value.trim();
-    const barcodenewid = document.getElementById('barregisterid').textContent.trim();
-    const barcodename = document.getElementById('barname').textContent.trim();
-    const inputdate = document.getElementById('datetime').textContent;
-    const inputmethodbar = barinput.slice(-2);
 
-    let specimen;
-    switch (inputmethodbar) {
-      case "11": specimen = "PE"; break;
-      case "12": specimen = "EDTA"; break;
-      case "13": specimen = "Urine"; break;
-      case "14": specimen = "X Ray"; break;
-      case "15": specimen = "EKG"; break;
-      case "20": specimen = "naf"; break;
-      case "21": specimen = "Clot"; break;
-      case "16": specimen = "Audiogram"; break;
-      case "17": specimen = "Lung"; break;
-      case "18": specimen = "Eyes"; break;
-      case "19": specimen = "Muscle"; break;
-      default: specimen = "ไม่พบข้อมูล"; break;
-    }
-
-    const data = {
-      values: [[inputdate, barcodenewid, barcodename, inputmethodbar, specimen]] // ใช้ key `values`
-    };
-
-    const url4 = `https://script.google.com/macros/s/AKfycbwegrXKz4ht2rWj9IKKRohAp3aCwrbJUoOrcg5WkD_DWND5dxONxKtywEYwBiK5BQg2tg/exec`;
-
-    const response = await fetch(url4, {
-      method: 'POST',
-      body: JSON.stringify({
-        action: 'addRegistData',
-        values: data.values // ใช้ key `values`
-      }),
-     
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok: ' + response.statusText);
-    }
-
-    const result = await response.json();
-    console.log("Success:", result);
-
-    if (result.success) {
-      Swal.fire({
-        icon: 'success',
-        title: 'สำเร็จ',
-        text: 'ข้อมูลถูกเพิ่มสำเร็จ'
-      });
-      loadAllData();
-    } else {
-      throw new Error(result.error || 'Unknown error');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'เกิดข้อผิดพลาด',
-      text: error.message || 'ไม่สามารถเพิ่มข้อมูลได้'
-    });
-  }
-}
 
 
 
@@ -945,6 +881,123 @@ async function getNextNumber() {
     }
 }
 
+async function addRegistData() {
+  try {
+    const barinput = document.getElementById('inputbar').value.trim();
+    const barcodenewid = document.getElementById('barregisterid').textContent.trim();
+    const barcodename = document.getElementById('barname').textContent.trim();
+    const inputdate = document.getElementById('datetime').textContent;
+    const inputmethodbar = barinput.slice(-2);
+
+    let specimen;
+    switch (inputmethodbar) {
+      case "11": specimen = "PE"; break;
+      case "12": specimen = "EDTA"; break;
+      case "13": specimen = "Urine"; break;
+      case "14": specimen = "X Ray"; break;
+      case "15": specimen = "EKG"; break;
+      case "20": specimen = "naf"; break;
+      case "21": specimen = "Clot"; break;
+      case "16": specimen = "Audiogram"; break;
+      case "17": specimen = "Lung"; break;
+      case "18": specimen = "Eyes"; break;
+      case "19": specimen = "Muscle"; break;
+      default: specimen = "ไม่พบข้อมูล"; break;
+    }
+
+    const data = {
+      values: [[inputdate, barcodenewid, barcodename, inputmethodbar, specimen]] // ใช้ key `values`
+    };
+
+    const url4 = `https://script.google.com/macros/s/AKfycbwegrXKz4ht2rWj9IKKRohAp3aCwrbJUoOrcg5WkD_DWND5dxONxKtywEYwBiK5BQg2tg/exec`;
+
+    const response = await fetch(url4, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'addRegistData',
+        values: data.values // ใช้ key `values`
+      }),
+     
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok: ' + response.statusText);
+    }
+
+    const result = await response.json();
+    console.log("Success:", result);
+
+    if (result.success) {
+            loadAllData();
+    } else {
+      throw new Error(result.error || 'Unknown error');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'เกิดข้อผิดพลาด',
+      text: error.message || 'ไม่สามารถเพิ่มข้อมูลได้'
+    });
+  }
+}
+
+
+
+function loadAllData() {
+
+
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok " + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const resultDiv1 = document.getElementById('specimenresult');
+            resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
+
+            // ตรวจสอบว่ามีข้อมูลหรือไม่
+            if (!data.values || data.values.length === 0) {
+                resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
+                return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
+            }
+
+            // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
+            const sortedData = data.values.sort((a, b) => {
+                const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
+                const valueB = parseInt(b[0], 10);
+                return valueB - valueA; // เรียงจากมากไปน้อย
+            });
+
+            // แสดงข้อมูลใน resultDiv1
+            sortedData.forEach(row => {
+                if (row[4] !== "1ลงทะเบียน") {
+                    resultDiv1.innerHTML +=
+                        `<tr>
+                 <th scope="row" class="col-3 text-center">${row[0]}</th>
+                 <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
+                 <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
+                 <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
+               </tr>`;
+                }
+            });
+
+            // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
+            loadAllCount();
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+        });
+
+
+}
+
+
 
 function searchProgram() {
    
@@ -1056,59 +1109,6 @@ function printResult() {
     document.body.innerHTML = originalContent;
 }
 
-
-function loadAllData() {
-
-
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok " + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const resultDiv1 = document.getElementById('specimenresult');
-            resultDiv1.innerHTML = ''; // เคลียร์ผลลัพธ์ก่อนแสดงใหม่
-
-            // ตรวจสอบว่ามีข้อมูลหรือไม่
-            if (!data.values || data.values.length === 0) {
-                resultDiv1.innerHTML = "<tr><td colspan='8' class='text-center'>ไม่พบข้อมูล</td></tr>";
-                return; // ออกจากฟังก์ชันถ้าไม่มีข้อมูล
-            }
-
-            // เรียงลำดับข้อมูลจากคอลัมน์ [0] จากมากไปน้อย
-            const sortedData = data.values.sort((a, b) => {
-                const valueA = parseInt(a[0], 10); // แปลงค่าเป็นตัวเลข
-                const valueB = parseInt(b[0], 10);
-                return valueB - valueA; // เรียงจากมากไปน้อย
-            });
-
-            // แสดงข้อมูลใน resultDiv1
-            sortedData.forEach(row => {
-                if (row[4] !== "1ลงทะเบียน") {
-                    resultDiv1.innerHTML +=
-                        `<tr>
-                 <th scope="row" class="col-3 text-center">${row[0]}</th>
-                 <td scope="col" class="col-2 text-center" style="font-family: sarabun;">${row[1] || 'N/A'}</td>
-                 <td scope="col" colspan="6" class="text-align-start" style="font-family: sarabun;">${row[2] || 'N/A'}</td>
-                 <td scope="col" class="text-center" style="font-family: sarabun;">${row[4] || 'N/A'}</td>
-               </tr>`;
-                }
-            });
-
-            // เรียกใช้ loadAllCount() หลังจากแสดงผลข้อมูล
-            loadAllCount();
-        })
-        .catch(error => {
-            console.error("Error fetching data:", error);
-            alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
-        });
-
-
-}
 
 
 function clearPage() {
