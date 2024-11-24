@@ -1059,7 +1059,7 @@ function sendBarcode() {
         })
         .then(data => {
              const bar = Number(barcode);
-             const rows = sheetData.values || [];
+             const rows = data.values || [];
              const isDuplicate = rows.some(row => row[5] === bar); 
 
         if (isDuplicate) {
