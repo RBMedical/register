@@ -1067,7 +1067,7 @@ function sendBarcode() {
 
             if (foundRecord) {
                 // ตรวจสอบว่าบาร์โค้ดซ้ำหรือไม่
-                var isDuplicate = records.some(record => record[5] === barcode);
+                var isDuplicate = records.some(record =>Number(record[5]) ===Number(barcode));
 
                 if (isDuplicate) {
                     Swal.fire({
