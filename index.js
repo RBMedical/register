@@ -1041,6 +1041,8 @@ function searchProgram() {
         });
 }
 
+
+
 function sendBarcode() {
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
@@ -1060,29 +1062,36 @@ function sendBarcode() {
 
             var baridElement = document.getElementById('barregisterid');
             var barnameElement = document.getElementById('barname');
+            var barInputElement = document.getElementById('inputbar');
 
             // เคลียร์ค่าข้อมูลเดิม
             baridElement.textContent = '';
             barnameElement.textContent = '';
 
             if (foundRecord) {
-                var records = Number(records[5]);
-                var barcodes = Number(barcode);
-                 if (records === barcodes) {
+                // ตรวจสอบว่าบาร์โค้ดตรงกับ record[5] หรือไม่
+                var isDuplicate = foundRecord[5] === barcode;
+
+                if (isDuplicate) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'ID ซ้ำ!'
+                        text: 'Specimen ซ้ำ!'
                     });
+
+                    // เคลียร์ค่า inputbar และออกจากฟังก์ชัน
+                    barInputElement.value = '';
                     return;
-                } else {          
+                }
+
+                // ตั้งค่าข้อมูลใหม่
                 baridElement.textContent = foundRecord[1];
                 barnameElement.textContent = foundRecord[2];
-           
+
+                // เรียกฟังก์ชันเพิ่มข้อมูลลงทะเบียน
                 setTimeout(() => {
                     addRegistData();
                 }, 1000);
-            } 
             } else {
                 // แจ้งเตือนหากไม่พบข้อมูล
                 alert('ไม่พบ ID นี้ในระบบ');
@@ -1093,6 +1102,9 @@ function sendBarcode() {
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
 }
+
+
+
 
 function printSticker() {
     
