@@ -1058,30 +1058,42 @@ function sendBarcode() {
         })
         .then(data => {
             var records = data.values || [];
-            var foundRecord = records.find(record => record[1] === barcodeid);
-
+            var barInputElement = document.getElementById('inputbar');
             var baridElement = document.getElementById('barregisterid');
             var barnameElement = document.getElementById('barname');
-            var barInputElement = document.getElementById('inputbar');
 
             // เคลียร์ค่าข้อมูลเดิม
             baridElement.textContent = '';
             barnameElement.textContent = '';
 
-            if (foundRecord) {
-                var barcodes = Number(barcode);
-                var records = Number(foundRecord[5]);
-                if (barcodes === records) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Specimen ซ้ำ!'
-                    });
+            // ตรวจสอบว่ามี record[5] ตรงกับ barcode หรือไม่
+            var isDuplicate = records.some(record => {
+                var recordBarcode = Number(record[5]);
+                var inputBarcode = Number(barcode);
+                return recordBarcode === inputBarcode;
+            });
 
-                   barInputElement.value = '';
-                    return;
-                }
-           
+            if (isDuplicate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Specimen ซ้ำ!'
+                });
+
+                // เคลียร์ค่า inputbar และออกจากฟังก์ชัน
+                barInputElement.value = '';
+                return;
+            }
+
+            // หากไม่ซ้ำ ค้นหาค่า record[1] ที่ตรงกับ barcodeid
+            var foundRecord = records.find(record => record[1] === barcodeid);
+
+            if (foundRecord) {
+                // แสดงค่าใน baridElement และ barnameElement
+                baridElement.textContent = foundRecord[1];
+                barnameElement.textContent = foundRecord[2];
+
+                // รันฟังก์ชัน addRegistData()
                 setTimeout(() => {
                     addRegistData();
                 }, 1000);
@@ -1095,7 +1107,6 @@ function sendBarcode() {
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
 }
-
 
 
 
