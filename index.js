@@ -1041,13 +1041,53 @@ function searchProgram() {
         });
 }
 
+function getDetail(){
+     var barcode = document.getElementById('inputbar').value.trim();
+    var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => { 
+            const foundRecord = rows.find(record => record[1] === barcodeid);
+            var baridElement = document.getElementById('barregisterid');
+            var barnameElement = document.getElementById('barname');
+
+            // เคลียร์ค่าก่อนแสดงใหม่
+            baridElement.textContent = '';
+            barnameElement.textContent = '';
+
+            if (foundRecord) {
+                // แสดงค่าที่ค้นพบ
+                baridElement.textContent = foundRecord[1];
+                barnameElement.textContent = foundRecord[2];
+
+                // เรียกฟังก์ชัน addRegistData
+                setTimeout(() => {
+                    addRegistData();
+                }, 1000);
+            } else {
+                // แจ้งเตือนหากไม่พบข้อมูล
+                alert('ไม่พบ ID นี้ในระบบ');
+            }
+        })
+        .catch(error => {
+            console.error('Error in fetching barcode data:', error);
+            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
+        });
+}
 
 function sendBarcode() {
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
-    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
+    var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet6}?key=${apiKey}`;
 
     fetch(url)
         .then(response => {
@@ -1078,37 +1118,10 @@ function sendBarcode() {
                 // รีเซ็ตค่า inputbar และออกจากฟังก์ชัน
                 document.getElementById('inputbar').value = '';
                 return;
-            }
-
-            // ค้นหา record[1] ที่ตรงกับ barcodeid
-            const foundRecord = rows.find(record => record[1] === barcodeid);
-
-            var baridElement = document.getElementById('barregisterid');
-            var barnameElement = document.getElementById('barname');
-
-            // เคลียร์ค่าก่อนแสดงใหม่
-            baridElement.textContent = '';
-            barnameElement.textContent = '';
-
-            if (foundRecord) {
-                // แสดงค่าที่ค้นพบ
-                baridElement.textContent = foundRecord[1];
-                barnameElement.textContent = foundRecord[2];
-
-                // เรียกฟังก์ชัน addRegistData
-                setTimeout(() => {
-                    addRegistData();
-                }, 1000);
             } else {
-                // แจ้งเตือนหากไม่พบข้อมูล
-                alert('ไม่พบ ID นี้ในระบบ');
+                 getDetail();
             }
-        })
-        .catch(error => {
-            console.error('Error in fetching barcode data:', error);
-            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
-        });
-}
+        }
 
 
 
