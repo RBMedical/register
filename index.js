@@ -1044,6 +1044,7 @@ function searchProgram() {
 
 
 function sendBarcode() {
+
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
@@ -1057,32 +1058,35 @@ function sendBarcode() {
             return response.json();
         })
         .then(data => {
+             const bar = Number(barcode);
+             const rows = sheetData.values || [];
+             const isDuplicate = rows.some(row => row[5] === bar); 
+
+        if (isDuplicate) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'specimen ซ้ำ!'
+            });
+            return;
+        }
+            
             var records = data.values || [];
-            var barInputElement = document.getElementById('inputbar');
+            var foundRecord = records.find(record => record[1] === barcodeid);
+
             var baridElement = document.getElementById('barregisterid');
             var barnameElement = document.getElementById('barname');
 
-            // เคลียร์ค่าข้อมูลเดิม
             baridElement.textContent = '';
             barnameElement.textContent = '';
 
-           
-            }
-
-            // หากไม่ซ้ำ ค้นหาค่า record[1] ที่ตรงกับ barcodeid
-            var foundRecord = records.find(record => record[1] === barcodeid);
-
             if (foundRecord) {
-                // แสดงค่าใน baridElement และ barnameElement
                 baridElement.textContent = foundRecord[1];
                 barnameElement.textContent = foundRecord[2];
-
-                // รันฟังก์ชัน addRegistData()
                 setTimeout(() => {
                     addRegistData();
                 }, 1000);
             } else {
-                // แจ้งเตือนหากไม่พบข้อมูล
                 alert('ไม่พบ ID นี้ในระบบ');
             }
         })
@@ -1090,8 +1094,8 @@ function sendBarcode() {
             console.error('Error in fetching barcode data:', error);
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
-}
 
+}
 
 
 function printSticker() {
