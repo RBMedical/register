@@ -1066,23 +1066,7 @@ function sendBarcode() {
             baridElement.textContent = '';
             barnameElement.textContent = '';
 
-            // ตรวจสอบว่ามี record[5] ตรงกับ barcode หรือไม่
-            var isDuplicate = records.some(record => {
-                var recordBarcode = Number(record[5]);
-                var inputBarcode = Number(barcode);
-                return recordBarcode === inputBarcode;
-            });
-
-            if (isDuplicate) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Specimen ซ้ำ!'
-                });
-
-                // เคลียร์ค่า inputbar และออกจากฟังก์ชัน
-                barInputElement.value = '';
-                return;
+           
             }
 
             // หากไม่ซ้ำ ค้นหาค่า record[1] ที่ตรงกับ barcodeid
