@@ -1070,25 +1070,18 @@ function sendBarcode() {
 
             if (foundRecord) {
                 var barcodes = Number(barcode);
-                var isDuplicate = (foundRecord[5] === barcods);
-
-                if (isDuplicate) {
+                var records = Number(foundRecord[5]);
+                if (barcodes === records) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Specimen ซ้ำ!'
                     });
 
-                    // เคลียร์ค่า inputbar และออกจากฟังก์ชัน
-                    barInputElement.value = '';
+                   barInputElement.value = '';
                     return;
                 }
-
-                // ตั้งค่าข้อมูลใหม่
-                baridElement.textContent = foundRecord[1];
-                barnameElement.textContent = foundRecord[2];
-
-                // เรียกฟังก์ชันเพิ่มข้อมูลลงทะเบียน
+           
                 setTimeout(() => {
                     addRegistData();
                 }, 1000);
