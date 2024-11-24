@@ -1058,11 +1058,11 @@ function sendBarcode() {
         })
         .then(data => {
             // แปลงค่าบาร์โค้ดเป็นตัวเลข
-            const bar = Number(barcode);
+            const bar = String(barcode);
             const rows = data.values || [];
 
             // ตรวจสอบค่าซ้ำใน column[5]
-            const isDuplicate = rows.some(row => Number(row[5]) === bar);
+            const isDuplicate = rows.some(row => String(row[5]) === bar);
 
             if (isDuplicate) {
                 // แจ้งเตือนค่าซ้ำ
