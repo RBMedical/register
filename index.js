@@ -1060,7 +1060,8 @@ function sendBarcode() {
         .then(data => {
              const bar = Number(barcode);
              const rows = data.values || [];
-             const isDuplicate = rows.some(row => row[5] === bar); 
+             
+             const isDuplicate = rows.some(row => Number(row[5]) === bar); 
 
         if (isDuplicate) {
             Swal.fire({
