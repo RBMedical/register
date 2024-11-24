@@ -1073,7 +1073,7 @@ function sendBarcode() {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'ID นี้ลงทะเบียนแล้ว!'
+                        text: 'ID ซ้ำ!'
                     });
                     return;
                 }
