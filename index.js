@@ -1044,7 +1044,6 @@ function searchProgram() {
 
 
 function sendBarcode() {
-
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
@@ -1058,45 +1057,54 @@ function sendBarcode() {
             return response.json();
         })
         .then(data => {
-             const bar = Number(barcode);
-             const rows = data.values || [];
-             
-             const isDuplicate = rows.some(row => Number(row[5]) === bar); 
+            // แปลงค่าบาร์โค้ดเป็นตัวเลข
+            const bar = Number(barcode);
+            const rows = data.values || [];
 
-        if (isDuplicate) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'specimen ซ้ำ!'
-            });
-            return;
-        } else {
-            
-            var records = data.values || [];
-            var foundRecord = records.find(record => record[1] === barcodeid);
+            // ตรวจสอบค่าซ้ำใน column[5]
+            const isDuplicate = rows.some(row => Number(row[5]) === bar);
 
-            var baridElement = document.getElementById('barregisterid');
-            var barnameElement = document.getElementById('barname');
+            if (isDuplicate) {
+                // แจ้งเตือนค่าซ้ำ
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'specimen ซ้ำ!'
+                });
 
-            baridElement.textContent = '';
-            barnameElement.textContent = '';
-
-            if (foundRecord) {
-                baridElement.textContent = foundRecord[1];
-                barnameElement.textContent = foundRecord[2];
-                setTimeout(() => {
-                    addRegistData();
-                }, 1000);
+                // รีเซ็ตค่า inputbar และออกจากฟังก์ชัน
+                document.getElementById('inputbar').value = '';
+                return;
             } else {
-                alert('ไม่พบ ID นี้ในระบบ');
-            };
-        });
-        }
+                // ค้นหา record[1] ที่ตรงกับ barcodeid
+                const foundRecord = rows.find(record => record[1] === barcodeid);
+
+                var baridElement = document.getElementById('barregisterid');
+                var barnameElement = document.getElementById('barname');
+
+                // เคลียร์ค่าก่อนแสดงใหม่
+                baridElement.textContent = '';
+                barnameElement.textContent = '';
+
+                if (foundRecord) {
+                    // แสดงค่าที่ค้นพบ
+                    baridElement.textContent = foundRecord[1];
+                    barnameElement.textContent = foundRecord[2];
+
+                    // เรียกฟังก์ชัน addRegistData
+                    setTimeout(() => {
+                        addRegistData();
+                    }, 1000);
+                } else {
+                    // แจ้งเตือนหากไม่พบข้อมูล
+                    alert('ไม่พบ ID นี้ในระบบ');
+                }
+            }
+        })
         .catch(error => {
             console.error('Error in fetching barcode data:', error);
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
-
 }
 
 
