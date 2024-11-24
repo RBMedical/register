@@ -1070,7 +1070,7 @@ function sendBarcode() {
                 text: 'specimen ซ้ำ!'
             });
             return;
-        }
+        } else {
             
             var records = data.values || [];
             var foundRecord = records.find(record => record[1] === barcodeid);
@@ -1089,8 +1089,9 @@ function sendBarcode() {
                 }, 1000);
             } else {
                 alert('ไม่พบ ID นี้ในระบบ');
-            }
-        })
+            };
+        });
+        }
         .catch(error => {
             console.error('Error in fetching barcode data:', error);
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
