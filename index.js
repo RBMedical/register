@@ -1070,7 +1070,7 @@ function sendBarcode() {
 
             if (foundRecord) {
                 var barcodes = Number(barcode);
-                var isDuplicate = foundRecord[5] === barcods);
+                var isDuplicate = (foundRecord[5] === barcods);
 
                 if (isDuplicate) {
                     Swal.fire({
