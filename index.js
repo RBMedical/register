@@ -1138,7 +1138,6 @@ function sendBarcode() {
 
 
 
-
 function printSticker() {
     
     $(".modalrecieve").css('display', 'block');
