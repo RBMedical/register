@@ -1041,8 +1041,8 @@ function searchProgram() {
         });
 }
 
-function getDetail(){
-     var barcode = document.getElementById('inputbar').value.trim();
+function getDetail() {
+    var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
 
     var url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangesheet3}?key=${apiKey}`;
@@ -1054,8 +1054,14 @@ function getDetail(){
             }
             return response.json();
         })
-        .then(data => { 
+        .then(data => {
+            // ตรวจสอบข้อมูลใน Google Sheets
+            const rows = data.values || []; // ใช้ data.values เพื่อดึงข้อมูลแถวทั้งหมดจาก Sheets
+
+            // ค้นหา record[1] ที่ตรงกับ barcodeid
             const foundRecord = rows.find(record => record[1] === barcodeid);
+
+            // กำหนด DOM สำหรับแสดงผล
             var baridElement = document.getElementById('barregisterid');
             var barnameElement = document.getElementById('barname');
 
@@ -1083,6 +1089,7 @@ function getDetail(){
         });
 }
 
+
 function sendBarcode() {
     var barcode = document.getElementById('inputbar').value.trim();
     var barcodeid = barcode.substring(0, 6); // เอา 6 ตัวแรกของบาร์โค้ดมา
@@ -1097,7 +1104,7 @@ function sendBarcode() {
             return response.json();
         })
         .then(data => {
-            const bar = String(barcode); // เปลี่ยนบาร์โค้ดเป็นข้อความ
+            const bar = String(barcode).trim(); // เปลี่ยนบาร์โค้ดเป็นข้อความ
             const rows = data.values || [];
 
             // Debug: แสดงข้อมูลทั้งหมดใน console
@@ -1119,9 +1126,16 @@ function sendBarcode() {
                 document.getElementById('inputbar').value = '';
                 return;
             } else {
-                 getDetail();
+                // ถ้าไม่ซ้ำ เรียก getDetail() เพื่อดำเนินการต่อ
+                getDetail();
             }
-        }
+        })
+        .catch(error => {
+            console.error('Error in fetching barcode data:', error);
+            alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
+        });
+}
+
 
 
 
