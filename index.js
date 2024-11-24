@@ -1069,8 +1069,8 @@ function sendBarcode() {
             barnameElement.textContent = '';
 
             if (foundRecord) {
-                // ตรวจสอบว่าบาร์โค้ดตรงกับ record[5] หรือไม่
-                var isDuplicate = foundRecord[5] === barcode;
+                var barcodes = Number(barcode);
+                var isDuplicate = foundRecord[5] === barcods);
 
                 if (isDuplicate) {
                     Swal.fire({
