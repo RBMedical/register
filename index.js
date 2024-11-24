@@ -1066,26 +1066,23 @@ function sendBarcode() {
             barnameElement.textContent = '';
 
             if (foundRecord) {
-                // ตรวจสอบว่าบาร์โค้ดซ้ำหรือไม่
-                var isDuplicate = records.some(record =>record[5] ===Number(barcode));
-
-                if (isDuplicate) {
+                var records = Number(records[5]);
+                var barcodes = Number(barcode);
+                 if (records === barcodes) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'ID ซ้ำ!'
                     });
                     return;
-                }
-
-                // ตั้งค่าข้อมูลใหม่
+                } else {          
                 baridElement.textContent = foundRecord[1];
                 barnameElement.textContent = foundRecord[2];
-
-                // เรียกฟังก์ชันเพิ่มข้อมูลลงทะเบียน
+           
                 setTimeout(() => {
                     addRegistData();
                 }, 1000);
+            } 
             } else {
                 // แจ้งเตือนหากไม่พบข้อมูล
                 alert('ไม่พบ ID นี้ในระบบ');
