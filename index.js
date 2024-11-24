@@ -1057,12 +1057,15 @@ function sendBarcode() {
             return response.json();
         })
         .then(data => {
-            // แปลงค่าบาร์โค้ดเป็นตัวเลข
-            const bar = String(barcode);
+            const bar = String(barcode); // เปลี่ยนบาร์โค้ดเป็นข้อความ
             const rows = data.values || [];
 
+            // Debug: แสดงข้อมูลทั้งหมดใน console
+            console.log("Rows fetched from Google Sheets:", rows);
+            console.log("Barcode entered:", bar);
+
             // ตรวจสอบค่าซ้ำใน column[5]
-            const isDuplicate = rows.some(row => String(row[5]) === bar);
+            const isDuplicate = rows.some(row => String(row[5]).trim() === bar);
 
             if (isDuplicate) {
                 // แจ้งเตือนค่าซ้ำ
@@ -1075,30 +1078,30 @@ function sendBarcode() {
                 // รีเซ็ตค่า inputbar และออกจากฟังก์ชัน
                 document.getElementById('inputbar').value = '';
                 return;
+            }
+
+            // ค้นหา record[1] ที่ตรงกับ barcodeid
+            const foundRecord = rows.find(record => record[1] === barcodeid);
+
+            var baridElement = document.getElementById('barregisterid');
+            var barnameElement = document.getElementById('barname');
+
+            // เคลียร์ค่าก่อนแสดงใหม่
+            baridElement.textContent = '';
+            barnameElement.textContent = '';
+
+            if (foundRecord) {
+                // แสดงค่าที่ค้นพบ
+                baridElement.textContent = foundRecord[1];
+                barnameElement.textContent = foundRecord[2];
+
+                // เรียกฟังก์ชัน addRegistData
+                setTimeout(() => {
+                    addRegistData();
+                }, 1000);
             } else {
-                // ค้นหา record[1] ที่ตรงกับ barcodeid
-                const foundRecord = rows.find(record => record[1] === barcodeid);
-
-                var baridElement = document.getElementById('barregisterid');
-                var barnameElement = document.getElementById('barname');
-
-                // เคลียร์ค่าก่อนแสดงใหม่
-                baridElement.textContent = '';
-                barnameElement.textContent = '';
-
-                if (foundRecord) {
-                    // แสดงค่าที่ค้นพบ
-                    baridElement.textContent = foundRecord[1];
-                    barnameElement.textContent = foundRecord[2];
-
-                    // เรียกฟังก์ชัน addRegistData
-                    setTimeout(() => {
-                        addRegistData();
-                    }, 1000);
-                } else {
-                    // แจ้งเตือนหากไม่พบข้อมูล
-                    alert('ไม่พบ ID นี้ในระบบ');
-                }
+                // แจ้งเตือนหากไม่พบข้อมูล
+                alert('ไม่พบ ID นี้ในระบบ');
             }
         })
         .catch(error => {
@@ -1106,6 +1109,7 @@ function sendBarcode() {
             alert('เกิดข้อผิดพลาดในการค้นหาข้อมูล');
         });
 }
+
 
 
 function printSticker() {
