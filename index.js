@@ -282,7 +282,7 @@ async function addNewData() {
         const newdepart = document.getElementById('newdepart').value.trim();
         const newage = document.getElementById('newage').textContent.trim();
         const newprogram = document.getElementById('newprogram').value.trim();
-
+        const desc = "เพิ่มชื่อ";
         // ตรวจสอบข้อมูลว่าครบถ้วนหรือไม่
         if (!newid || !newname || !newidcard || !birthdate || !newcard || !newdepart || !newage || !newprogram) {
             Swal.fire({
@@ -294,7 +294,7 @@ async function addNewData() {
         }
 
         // เตรียมข้อมูลที่ต้องการเพิ่ม
-        const rowData = [[newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram]];
+        const rowData = [[newid, newname, newidcard, newcard, newdepart, newage, birthdate, newprogram, desc]];
         console.log(rowData);
 
         // URL ของ Google Apps Script Web App
