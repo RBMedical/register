@@ -1301,9 +1301,14 @@ function calculateAge() {
     var birthdate = document.getElementById('birthdate').value;
 
     if (birthdate) {
-        // แปลงวันที่เป็น Date object
+        // แปลงวันที่เป็น Date object (สมมติว่า input เป็น พ.ศ.)
         var birthDateObj = new Date(birthdate);
-        var today = new Date(); // วันที่ปัจจุบัน
+        var today = new Date();
+
+        // แปลงปี พ.ศ. เป็น ค.ศ. (ปี - 543)
+        var birthYear = birthDateObj.getFullYear() - 543;
+        birthDateObj.setFullYear(birthYear);
+
         var age = today.getFullYear() - birthDateObj.getFullYear(); // คำนวณอายุคร่าว ๆ
 
         // ตรวจสอบเดือนและวัน เพื่อให้แน่ใจว่าคำนวณอายุถูกต้อง (เผื่อยังไม่ถึงวันเกิดปีนี้)
@@ -1312,13 +1317,17 @@ function calculateAge() {
             age--; // ถ้าเดือนนี้ยังไม่ถึงวันเกิด ให้ลบอายุออก 1 ปี
         }
 
+        // แปลงผลลัพธ์กลับเป็น พ.ศ.
+        var ageInBuddhist = age + 543;
+
         // แสดงผลใน <span> ที่มี id="newage"
-        document.getElementById('newage').textContent = age;
+        document.getElementById('newage').textContent = ageInBuddhist;
     } else {
         // ถ้าไม่มีวันเดือนปีเกิด ให้ล้างค่าใน <span>
         document.getElementById('newage').textContent = '';
     }
 }
+
 
 
 
